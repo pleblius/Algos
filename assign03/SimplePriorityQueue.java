@@ -8,6 +8,7 @@ public class SimplePriorityQueue<E> implements PriorityQueue {
 	private E[] queue;
 	private int size;
 	private Comparator<? super E> cmp;
+	private boolean isComparable;
 	
 	/**
 	 * Creates a new simple priority queue for elements of generic type E.
@@ -20,6 +21,7 @@ public class SimplePriorityQueue<E> implements PriorityQueue {
 	public SimplePriorityQueue () {
 		size = 0;
 		queue = (E[]) new Object[16];
+		isComparable = true;		
 	}
 	
 	/**
@@ -34,6 +36,7 @@ public class SimplePriorityQueue<E> implements PriorityQueue {
 		size = 0;
 		queue = (E[]) new Object[16];
 		this.cmp = cmp;
+		isComparable = false;
 	}
 	
 	/**
@@ -51,9 +54,35 @@ public class SimplePriorityQueue<E> implements PriorityQueue {
 	}
 	
 	/**
-	 * Searches through the queue to find the corresponding location
+	 * Searches through the queue to find the index of itemToCompare
 	 */
-	private E binarySearch(E itemToCompare) {
+	@SuppressWarnings("unchecked")
+	private int binarySearch(E itemToCompare) {
+		
+		int begin = 0;
+		int end = size - 1;
+		int middle = (begin + size) / 2;
+		
+		// Once we start repeating values, exit the loop
+		while(middle != begin && middle != end) 
+		{
+			
+			if (isComparable) {
+				int compared = ((Comparable<? super E>)itemToCompare).compareTo(queue[middle]);
+				if (compared == 0)
+					return middle;
+				else if (compared < 0)
+					end = middle;
+				else
+					begin = middle;
+			}
+			
+			middle = (begin + size) / 2;
+		}
+
+		
+		
+		
 		return null; // Stub
 	}
 	
@@ -95,17 +124,31 @@ public class SimplePriorityQueue<E> implements PriorityQueue {
 	
 	@Override
 	public void insert(E item) {
-		// Use binary search to compare passed item to items int he arry until we find its correct spot
+		// Use binary search to compare passed item to items in the array until we find its correct spot
+		
+		// Check if size needs to be doubled
+		
+		// Find the index of item above
+		// Make a new array, 
+		// insert item
+		// add the rest of the array
+		
 		
 	}
 	
 	@Override
 	public void insertAll(Collection<? extends E> coll) {
 		
+		// inserts each item in coll
+		
 	}
 	
 	@Override
 	public boolean contains(E item) {
+		
+		// Use binary search to find index of item
+		
+		
 		return false; // Stub
 	}
 	
