@@ -23,7 +23,7 @@ public class SimplePriorityQueue<E> implements PriorityQueue<E> {
 	 * For this constructor, E must implement the Comparable interface.
 	 * 
 	 * Queues created using this constructor order elements based on the natural ordering
-	 * specificed by their compareTo() implementation.
+	 * specified by their compareTo() implementation.
 	 */
 	@SuppressWarnings("unchecked")
 	public SimplePriorityQueue () {
@@ -196,7 +196,7 @@ public class SimplePriorityQueue<E> implements PriorityQueue<E> {
 	 * or a Comparator compare() method denotes two objects as equal if they have the same
 	 * priority.
 	 * 
-	 * Behavior is not guaranted if item.compares() == 0 is not the same as item.equals()
+	 * Behavior is not guaranteed if item.compares() == 0 is not the same as item.equals()
 	 * 
 	 * @param item
 	 * @return true if item is in the queue
