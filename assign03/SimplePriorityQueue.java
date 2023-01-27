@@ -61,9 +61,11 @@ public class SimplePriorityQueue<E> implements PriorityQueue<E> {
 	 */
 	@SuppressWarnings("unchecked")
 	private int binarySearch(E itemToCompare) {
+		if (isEmpty())
+			return 0;
 		
 		int begin = 0;
-		int end = size - 1;
+		int end = size;
 		int middle = (begin + end) / 2;
 		int compared;
 		
@@ -155,13 +157,12 @@ public class SimplePriorityQueue<E> implements PriorityQueue<E> {
 		}
 		
 		// Shift all items above index to the right
-		for (int i = size - 1; i > index; i--) {
-			queue[i + 1] = queue[i];
+		for (int i = size; i > index; i--) {
+			queue[i] = queue[i-1];
 		}
 	
 		// insert item
 		queue[index] = item;		
-		
 		size++;
 	}
 	
@@ -222,10 +223,12 @@ public class SimplePriorityQueue<E> implements PriorityQueue<E> {
 	}
 	
 	/**
-	 * Deletes all elements from the queue 
+	 * Deletes all elements from the queue.
 	 */
 	@Override
+	@SuppressWarnings("unchecked")
 	public void clear() {
-		
+		queue = (E[]) new Object[16];
+		size = 0;
 	}
 }
