@@ -170,6 +170,19 @@ class SimplePriorityQueueTest {
 		assertFalse(comparatorQueue.contains(new Point(2,3)));
 		comparatorQueue.insert(new Point(2, 3));
 		assertTrue(comparatorQueue.contains(new Point(2,3)));
+		
+		// If we are assuming same priority is same object, then this is true
+		assertTrue(comparatorQueue.contains(new Point(5, 3)));		
+		
+		// Testing items around edges of queue
+		for (int i = 6; i < 10; i++) {
+			intQueue.insert(i);
+		}
+		
+		assertTrue(intQueue.contains(9));
+		assertFalse(intQueue.contains(10));
+		assertTrue(intQueue.contains(5));
+		assertFalse(intQueue.contains(4));
 	}
 	
 	@Test

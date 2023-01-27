@@ -194,26 +194,40 @@ public class SimplePriorityQueue<E> implements PriorityQueue<E> {
 	}
 	
 	/**
-	 * This method searches the queue to find if the given object is contained within the queue.
+	 * This method searches the queue to find if an object with the same priority
+	 *  is contained within the queue.
 	 * 
 	 * This method assumes that the comparison based by a Comparable compareTo() method
 	 * or a Comparator compare() method denotes two objects as equal if they have the same
 	 * priority.
 	 * 
-	 * Behavior is not guaranteed if item.compares() == 0 is not the same as item.equals()
-	 * 
 	 * @param item
 	 * @return true if item is in the queue
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean contains(E item) {
 		if (this.isEmpty())
 			return false;
 		
-		if (queue[binarySearch(item)].equals(item))
-			return true;
-		else
+		int index = binarySearch(item);
+		if (queue[index] == null)
 			return false;
+		
+		if(this.isComparable) {
+			if (((Comparable<? super E>)queue[index]).compareTo(item) == 0)
+				return true;
+			else
+				return false;
+		}
+		
+		else {
+			if (cmp.compare(queue[index], item) == 0)
+				return true;
+			else
+				return false;
+		}
+
 	}
 
 	/**
