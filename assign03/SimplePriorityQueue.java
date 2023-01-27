@@ -54,7 +54,10 @@ public class SimplePriorityQueue<E> implements PriorityQueue<E> {
 	}
 	
 	/**
-	 * Searches through the queue to find the index of itemToCompare
+	 * Searches through the queue to find the index of itemToCompare by priority
+	 * 
+	 * @param itemToCompare is the item that gets compared in the queue
+	 * @return integer index by itemToCompare's priority
 	 */
 	@SuppressWarnings("unchecked")
 	private int binarySearch(E itemToCompare) {
@@ -134,24 +137,46 @@ public class SimplePriorityQueue<E> implements PriorityQueue<E> {
 		return tempItem;
 	}
 	
+	/**
+	 * Inserts item into correct place in queue by priority
+	 * 
+	 * @param item of type E to be inserted
+	 */	
 	@Override
 	public void insert(E item) {
+		
 		// Use binary search to compare passed item to items in the array until we find its correct spot
+		int index = binarySearch(item);
 		
 		// Check if size needs to be doubled
+		if (queue.length == size)
+		{
+			this.doubleArraySize();
+		}
 		
-		
-		// Make a new array, 
+		// Shift all items above index to the right
+		for (int i = size - 1; i > index; i--) {
+			queue[i + 1] = queue[i];
+		}
+	
 		// insert item
-		// add the rest of the array
+		queue[index] = item;		
 		
-		
+		size++;
 	}
 	
+	/**
+	 * Inserts a collection of items into their correct places in queue by priority
+	 * 
+	 * @param collection of items of type E to be inserted
+	 */	
 	@Override
 	public void insertAll(Collection<? extends E> coll) {
 		
-		// inserts each item in coll into the queue
+		for (E item : coll)
+		{
+			insert(item);
+		}
 		
 	}
 	
@@ -174,17 +199,31 @@ public class SimplePriorityQueue<E> implements PriorityQueue<E> {
 		else
 			return false;
 	}
-	
+
+	/**
+	 * Returns the number of the filled elements in the queue
+	 * @return integer number of filled elements in the queue 
+	 */
 	@Override
 	public int size() {
-		return 0; // Stub
+		return size; 
 	}
 	
+	/**
+	 * Returns a boolean saying if the array is empty
+	 * @return true if queue is empty, false if not
+	 */
 	@Override
 	public boolean isEmpty() {
-		return false; // Stub
+		if (size == 0)
+			return true; // Stub
+		else
+			return false;
 	}
 	
+	/**
+	 * Deletes all elements from the queue 
+	 */
 	@Override
 	public void clear() {
 		
