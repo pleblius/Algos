@@ -63,14 +63,14 @@ public class SimplePriorityQueue<E> implements PriorityQueue<E> {
 	
 	/**
 	 * Searches through the queue to find the index of itemToCompare related to its priority.
-	 * Returns an index of 0 if the queue is empty or if the item to compare is null.
+	 * Returns an index of 0 if the queue is empty.
 	 * 
 	 * @param itemToCompare is the item that gets compared in the queue
 	 * @return integer index by itemToCompare's priority
 	 */
 	@SuppressWarnings("unchecked")
 	private int binarySearch(E itemToCompare) {
-		if (isEmpty() || itemToCompare == null)
+		if (isEmpty())
 			return 0;
 		
 		int begin = 0;
@@ -149,12 +149,14 @@ public class SimplePriorityQueue<E> implements PriorityQueue<E> {
 	}
 	
 	/**
-	 * Inserts item into correct place in queue by priority
+	 * Inserts item into correct place in queue by priority.
+	 * If the item is null, this method has no effect.
 	 * 
 	 * @param item of type E to be inserted
 	 */	
 	@Override
 	public void insert(E item) {
+		if (item == null) return;
 		
 		// Use binary search to compare passed item to items in the array until we find its correct spot
 		int index = binarySearch(item);
@@ -176,7 +178,8 @@ public class SimplePriorityQueue<E> implements PriorityQueue<E> {
 	}
 	
 	/**
-	 * Inserts a collection of items into their correct places in queue by priority
+	 * Inserts a collection of items into their correct places in queue by priority.
+	 * All null objects in the list are ignored.
 	 * 
 	 * @param collection of items of type E to be inserted
 	 */	

@@ -48,11 +48,15 @@ class SimplePriorityQueueTest {
 		}
 		for (int i = 0; i < 100; i++) {
 			largeQueue.insert(null);
+			
+			assertEquals(100, largeQueue.size());
 		}
 		
 		for (int i = 99; i >= 0; i--) {
 			assertEquals(i, largeQueue.deleteMax());
 		}
+		
+		assertFalse(largeQueue.contains(null));
 	}
 	
 	@Test
