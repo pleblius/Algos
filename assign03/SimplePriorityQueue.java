@@ -4,6 +4,14 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.NoSuchElementException;
 
+
+/**
+ * Class representing a generic queue of objects sorted by priority
+ * and only allows access to the highest priority object
+ * 
+ * @author Andrew Tolton & Tyler Wilcox
+ * @version Jan 26th, 2023
+ */
 public class SimplePriorityQueue<E> implements PriorityQueue<E> {
 	private E[] queue;
 	private int size;
@@ -112,7 +120,7 @@ public class SimplePriorityQueue<E> implements PriorityQueue<E> {
 	 */
 	@Override
 	public E findMax() throws NoSuchElementException {
-		if (queue[size - 1] == null) {
+		if (this.isEmpty() || queue[size - 1] == null) {
 			throw new NoSuchElementException("There are no items in the queue.");
 		}
 		return queue[size - 1];
@@ -127,7 +135,7 @@ public class SimplePriorityQueue<E> implements PriorityQueue<E> {
 	 */
 	@Override
 	public E deleteMax() throws NoSuchElementException {
-		if (queue[size - 1] == null) {
+		if (this.isEmpty() || queue[size - 1] == null) {
 			throw new NoSuchElementException("There are no items in the queue.");
 		}
 		
@@ -195,6 +203,9 @@ public class SimplePriorityQueue<E> implements PriorityQueue<E> {
 	 */
 	@Override
 	public boolean contains(E item) {
+		if (this.isEmpty())
+			return false;
+		
 		if (queue[binarySearch(item)].equals(item))
 			return true;
 		else
