@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.NoSuchElementException;
 
-public class SimplePriorityQueue<E> implements PriorityQueue {
+public class SimplePriorityQueue<E> implements PriorityQueue<E> {
 	private E[] queue;
 	private int size;
 	private Comparator<? super E> cmp;
@@ -61,29 +61,41 @@ public class SimplePriorityQueue<E> implements PriorityQueue {
 		
 		int begin = 0;
 		int end = size - 1;
-		int middle = (begin + size) / 2;
+		int middle = (begin + end) / 2;
+		int compared;
 		
 		// Once we start repeating values, exit the loop
-		while(middle != begin && middle != end) 
+		while(middle != begin) 
 		{
-			
 			if (isComparable) {
-				int compared = ((Comparable<? super E>)itemToCompare).compareTo(queue[middle]);
-				if (compared == 0)
-					return middle;
-				else if (compared < 0)
-					end = middle;
-				else
-					begin = middle;
+				compared = ((Comparable<? super E>)itemToCompare).compareTo(queue[middle]);
 			}
+			else {
+				compared = cmp.compare(itemToCompare, queue[middle]);
+			}
+			if (compared == 0)
+				return middle;
+			else if (compared < 0)
+				end = middle;
+			else
+				begin = middle;
 			
-			middle = (begin + size) / 2;
+			middle = (begin + end) / 2;
 		}
-
 		
+		// Check if the item comparison is larger than the current index
 		
+		if (isComparable) {
+			compared = ((Comparable<? super E>)itemToCompare).compareTo(queue[middle]);
+		}
+		else {
+			compared = cmp.compare(itemToCompare, queue[middle]);
+		}
 		
-		return null; // Stub
+		if (compared > 0)
+			return end;
+		else
+			return begin;
 	}
 	
 	/**
@@ -128,7 +140,7 @@ public class SimplePriorityQueue<E> implements PriorityQueue {
 		
 		// Check if size needs to be doubled
 		
-		// Find the index of item above
+		
 		// Make a new array, 
 		// insert item
 		// add the rest of the array
@@ -139,17 +151,28 @@ public class SimplePriorityQueue<E> implements PriorityQueue {
 	@Override
 	public void insertAll(Collection<? extends E> coll) {
 		
-		// inserts each item in coll
+		// inserts each item in coll into the queue
 		
 	}
 	
+	/**
+	 * This method searches the queue to find if the given object is contained within the queue.
+	 * 
+	 * This method assumes that the comparison based by a Comparable compareTo() method
+	 * or a Comparator compare() method denotes two objects as equal if they have the same
+	 * priority.
+	 * 
+	 * Behavior is not guaranted if item.compares() == 0 is not the same as item.equals()
+	 * 
+	 * @param item
+	 * @return true if item is in the queue
+	 */
 	@Override
 	public boolean contains(E item) {
-		
-		// Use binary search to find index of item
-		
-		
-		return false; // Stub
+		if (queue[binarySearch(item)].equals(item))
+			return true;
+		else
+			return false;
 	}
 	
 	@Override
