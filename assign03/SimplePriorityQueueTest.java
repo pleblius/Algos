@@ -11,6 +11,12 @@ import java.util.NoSuchElementException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * A suite of tests for the SimplePriorityQueue class
+ * 
+ * @author Andrew Tolton & Tyler Wilcox
+ * @version 26 Jan 2023
+ */
 class SimplePriorityQueueTest {
 	
 	SimplePriorityQueue<Integer> intQueue;
@@ -33,6 +39,20 @@ class SimplePriorityQueueTest {
 		
 		stringQueue.insert("This is a string");
 		assertFalse(intQueue.isEmpty());
+	}
+	
+	@Test
+	void nullTests() {
+		for (int i = 0; i < 100; i++) {
+			largeQueue.insert(i);
+		}
+		for (int i = 0; i < 100; i++) {
+			largeQueue.insert(null);
+		}
+		
+		for (int i = 99; i >= 0; i--) {
+			assertEquals(i, largeQueue.deleteMax());
+		}
 	}
 	
 	@Test
@@ -106,7 +126,7 @@ class SimplePriorityQueueTest {
 		
 		List<Integer> intArray2 = Arrays.asList(-4, 8);
 		largeQueue.insertAll(intArray2);
-		
+
 		assertEquals(9, largeQueue.deleteMax());
 		assertEquals(8, largeQueue.deleteMax());
 		assertEquals(8, largeQueue.deleteMax());

@@ -62,14 +62,15 @@ public class SimplePriorityQueue<E> implements PriorityQueue<E> {
 	}
 	
 	/**
-	 * Searches through the queue to find the index of itemToCompare by priority
+	 * Searches through the queue to find the index of itemToCompare related to its priority.
+	 * Returns an index of 0 if the queue is empty or if the item to compare is null.
 	 * 
 	 * @param itemToCompare is the item that gets compared in the queue
 	 * @return integer index by itemToCompare's priority
 	 */
 	@SuppressWarnings("unchecked")
 	private int binarySearch(E itemToCompare) {
-		if (isEmpty())
+		if (isEmpty() || itemToCompare == null)
 			return 0;
 		
 		int begin = 0;
@@ -196,7 +197,7 @@ public class SimplePriorityQueue<E> implements PriorityQueue<E> {
 	 * or a Comparator compare() method denotes two objects as equal if they have the same
 	 * priority.
 	 * 
-	 * Behavior is not guaranted if item.compares() == 0 is not the same as item.equals()
+	 * Behavior is not guaranteed if item.compares() == 0 is not the same as item.equals()
 	 * 
 	 * @param item
 	 * @return true if item is in the queue
