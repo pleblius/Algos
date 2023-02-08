@@ -26,14 +26,19 @@ public class LargestNumberSolver {
 	
 	
 	public static BigInteger findLargestNumber(Integer[] arr) {
+		if (arr.length == 0)
+			return new BigInteger("0");
 		
 		Comparator<Integer> intCmp = (LHS, RHS) -> {
 			
-			StringBuilder stringLHS = new StringBuilder(LHS);
-			StringBuilder stringRHS = new StringBuilder(RHS);
+			StringBuilder stringLHS = new StringBuilder(LHS.toString());
+			StringBuilder stringRHS = new StringBuilder(RHS.toString());
 			
-			StringBuilder XY = stringLHS.append(stringRHS);
-			StringBuilder YX = stringRHS.append(stringLHS);
+			StringBuilder XY = new StringBuilder(stringLHS);
+			StringBuilder YX = new StringBuilder(stringRHS);
+			
+			XY.append(stringRHS);
+			YX.append(stringLHS);
 			
 			return -XY.compareTo(YX);
 		};
@@ -53,7 +58,6 @@ public class LargestNumberSolver {
 	
 	public static int findLargestInt(Integer[] arr) throws OutOfRangeException {
 		
-		// Call BigInt version
 		
 		return  5;
 	}
@@ -64,11 +68,17 @@ public class LargestNumberSolver {
 	}
 	
 	public static BigInteger sum(List<Integer[]> list) {
+		BigInteger total = BigInteger.ZERO;
 		
+		for (Integer[] i : list) {
+			total = total.add(findLargestNumber(i));
+		}
+		
+		return total;
 	}
 
 	public static Integer[] findKthLargest(List<Integer[]> list, int k) throws IllegalArgumentException {
-		
+		return null; // stub
 	}
 	
 	public static List<Integer[]> readFile(String filename) {
