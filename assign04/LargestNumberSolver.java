@@ -132,7 +132,8 @@ public class LargestNumberSolver {
 
 	/**
 	 * Finds the kth largest biggest number of the Integer[] arrays contained in the provided list.
-	 * Throws an IllegalArgumentException if k is out of bounds of the size of the provide dlist.
+	 * Throws an IllegalArgumentException if k is out of bounds of the size of the provided list.
+	 * 
 	 * @param list The list of Integer[] arrays to be evaluated
 	 * @param k The order of the largest number to be returned
 	 * @return Integer[]
