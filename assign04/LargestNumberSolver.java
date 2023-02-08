@@ -4,13 +4,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
 public class LargestNumberSolver {
-	
-	Comparator intCmp;
 	
 	public static <T> void insertionSort(T[] arr, Comparator<? super T> cmp) {
 		T temp;
@@ -25,14 +24,31 @@ public class LargestNumberSolver {
 		}
 	}
 	
-	protected static <T> int compare(T lhs, T rhs) {
-		
-		return 0;
-	}
 	
 	public static BigInteger findLargestNumber(Integer[] arr) {
 		
-		return null;
+		Comparator<Integer> intCmp = (LHS, RHS) -> {
+			
+			StringBuilder stringLHS = new StringBuilder(LHS);
+			StringBuilder stringRHS = new StringBuilder(RHS);
+			
+			StringBuilder XY = stringLHS.append(stringRHS);
+			StringBuilder YX = stringRHS.append(stringLHS);
+			
+			return -XY.compareTo(YX);
+		};
+		
+		Integer[] sortedArr = Arrays.copyOf(arr, arr.length);
+		insertionSort(sortedArr, intCmp);
+		
+		StringBuilder big = new StringBuilder();
+		
+		for (Integer num : sortedArr) {
+			big.append(num);
+		}
+		
+		
+		return new BigInteger(big.toString());
 	}
 	
 	public static int findLargestInt(Integer[] arr) throws OutOfRangeException {
