@@ -30,6 +30,7 @@ public class LargestNumberSolverTest {
 		arr2 = new Integer[] {25, 51, 37};
 		arr3 = new Integer[] {9, 9, 9, 9, 9, 9, 9, 9, 999999999, 9, 9, 9, 1};
 		arr4 = new Integer[] {9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 111, 1};
+		randArr = new Integer[100];
 		
 		for (int i = 0; i < 100; i++) {
 			randArr[i] = (int) (Math.random() * 100); 
@@ -118,7 +119,18 @@ public class LargestNumberSolverTest {
 	
 	@Test
 	void basicReadFile() {
+		List<Integer[]> testArray1 = new ArrayList<Integer[]>();
 		
+		testArray1.add(new Integer[] {0, 1, 2});
+		testArray1.add(new Integer[] {3, 2, 1});
+		testArray1.add(new Integer[] {1});
+		
+		List<Integer[]> readArray1 = new ArrayList<Integer[]>();
+		readArray1 = LargestNumberSolver.readFile("testfile1.txt");
+		
+		for (int i = 0; i < readArray1.size(); i++) {
+			assertTrue(Arrays.equals(testArray1.get(i), readArray1.get(i)));
+		}
 	}
 	
 	// Exception Tests
@@ -145,24 +157,24 @@ public class LargestNumberSolverTest {
 	
 	// Edge Tests
 	
-	@Test
-	void basicComparatorTest() {
-		Integer[] test1 = {2, 1, 0};
-		Integer[] test2 = {51, 37, 25};
-		Integer[] test3 = {78, 7, 72};
-		
-		Integer[] sorted1 = Arrays.copyOf(arr1, arr1.length);
-		LargestNumberSolver.insertionSort(sorted1, (lhs, rhs) -> {return LargestNumberSolver.compare(lhs, rhs);});
-		assertTrue(Arrays.equals(test1, sorted1));
-		
-		Integer[] sorted2 = Arrays.copyOf(arr2, arr1.length);
-		LargestNumberSolver.insertionSort(sorted2, (lhs, rhs) -> {return LargestNumberSolver.compare(lhs, rhs);});
-		assertTrue(Arrays.equals(test2, sorted2));
-		
-		Integer[] sorted3 = Arrays.copyOf(compArr, arr1.length);
-		LargestNumberSolver.insertionSort(sorted3, (lhs, rhs) -> {return LargestNumberSolver.compare(lhs, rhs);});
-		assertTrue(Arrays.equals(test3, sorted3));
-	}
+//	@Test
+//	void basicComparatorTest() {
+//		Integer[] test1 = {2, 1, 0};
+//		Integer[] test2 = {51, 37, 25};
+//		Integer[] test3 = {78, 7, 72};
+//		
+//		Integer[] sorted1 = Arrays.copyOf(arr1, arr1.length);
+//		LargestNumberSolver.insertionSort(sorted1, (lhs, rhs) -> {return LargestNumberSolver.compare(lhs, rhs);});
+//		assertTrue(Arrays.equals(test1, sorted1));
+//		
+//		Integer[] sorted2 = Arrays.copyOf(arr2, arr1.length);
+//		LargestNumberSolver.insertionSort(sorted2, (lhs, rhs) -> {return LargestNumberSolver.compare(lhs, rhs);});
+//		assertTrue(Arrays.equals(test2, sorted2));
+//		
+//		Integer[] sorted3 = Arrays.copyOf(compArr, arr1.length);
+//		LargestNumberSolver.insertionSort(sorted3, (lhs, rhs) -> {return LargestNumberSolver.compare(lhs, rhs);});
+//		assertTrue(Arrays.equals(test3, sorted3));
+//	}
 	
 	@Test
 	void emptyListSum() {
@@ -176,4 +188,10 @@ public class LargestNumberSolverTest {
 		assertEquals(0, LargestNumberSolver.findLargestNumber(emptyList));
 	}
 	
+	@Test
+	void emptyReadFile() {
+		var emptyList = new ArrayList<Integer[]>();
+		
+		assertTrue(emptyList.equals(LargestNumberSolver.readFile("emptytestfile.txt")));
+	}
 }

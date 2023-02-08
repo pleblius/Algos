@@ -10,8 +10,24 @@ import java.util.Scanner;
 
 public class LargestNumberSolver {
 	
+	Comparator intCmp;
+	
 	public static <T> void insertionSort(T[] arr, Comparator<? super T> cmp) {
+		T temp;
 		
+		for (int i = 0; i < arr.length; i++) {
+			temp = arr[i];
+			
+			for (int j = i; j > 0 && cmp.compare(arr[j-1], arr[j]) > 0; j--) {
+				arr[j] = arr[j-1];
+				arr[j-1] = temp;
+			}
+		}
+	}
+	
+	protected static <T> int compare(T lhs, T rhs) {
+		
+		return 0;
 	}
 	
 	public static BigInteger findLargestNumber(Integer[] arr) {
@@ -70,6 +86,5 @@ public class LargestNumberSolver {
 			
 			return list;
 		}
-		
 	}
 }
