@@ -21,6 +21,8 @@ import java.util.Scanner;
 public class LargestNumberSolver {
 	
 	/**
+	 * Performs an insertion sort on the given generic array, using the comparator cmp to determine
+	 * sorting method. The array parameter is modified during this sort.
 	 * 
 	 * @param <T> Generic type T
 	 * @param arr Array of generic type T to be sorted using insertion sort
@@ -130,7 +132,8 @@ public class LargestNumberSolver {
 
 	/**
 	 * Finds the kth largest biggest number of the Integer[] arrays contained in the provided list.
-	 * Throws an IllegalArgumentException if k is out of bounds of the size of the provide dlist.
+	 * Throws an IllegalArgumentException if k is out of bounds of the size of the provided list.
+	 * 
 	 * @param list The list of Integer[] arrays to be evaluated
 	 * @param k The order of the largest number to be returned
 	 * @return Integer[]
