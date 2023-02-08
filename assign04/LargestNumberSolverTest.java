@@ -4,26 +4,37 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.Arrays;
+import java.util.Comparator;
 
 
 public class LargestNumberSolverTest {
-
+	Integer[] arr1;
+	Integer[] arr2;
+	Comparator<Integer> basicCmp;
+	
 	@BeforeEach
 	void setup() {
-		Integer[] arr1 = {1, 0, 2};
-		Integer[] arr2 = {15, 25, 73, 3};
+		arr1 = new Integer[] {1, 0, 2};
+		arr2 = new Integer[] {25, 51, 37};
+		basicCmp = (Integer lhs, Integer rhs) -> {return lhs.compareTo(rhs);};
 	}
 	
 	// Basic Tests
 	
 	@Test
 	void basicInsertionSort() {
-		assertTrue(Arrays.equals(arr1, new Integer[] {1, 0, 2}));
+		Integer[] testArr1 = {0, 1, 2};
+		Integer[] testArr2 = {25, 37, 51};
+		
+		LargestNumberSolver.insertionSort(arr2, basicCmp);
+		
+		assertTrue(Arrays.equals(testArr1, arr1));
+		assertTrue(Arrays.equals(testArr2, arr2));
 	}
 	
 	@Test
 	void basicFindLargestNumber() {
-		
+
 	}
 	
 	@Test
@@ -73,6 +84,10 @@ public class LargestNumberSolverTest {
 		
 	}
 	
-	
+	// Other Tests
+	@Test
+	void basicComparatorTest() {
+		
+	}
 	
 }
