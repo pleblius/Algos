@@ -9,8 +9,23 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * This class contains methods to perform operations on arrays of integers,
+ * calculating the biggest possible number that can be assembled from the integers in the provided arrays.
+ * 
+ * @author Andrew Tolton and Tyler Wilcox
+ * @version February 07, 2023
+ *
+ */
+
 public class LargestNumberSolver {
 	
+	/**
+	 * 
+	 * @param <T> Generic type T
+	 * @param arr Array of generic type T to be sorted using insertion sort
+	 * @param cmp A comparator object or lambda function to determine how to sort the given array
+	 */
 	public static <T> void insertionSort(T[] arr, Comparator<? super T> cmp) {
 		T temp;
 		
@@ -24,7 +39,13 @@ public class LargestNumberSolver {
 		}
 	}
 	
-	
+	/**
+	 * Finds the largest possible number that can be assembled from the integers contained in the given array.
+	 * Result is a BigInteger object to avoid possible overflow concerns.
+	 * 
+	 * @param arr The array to be evaluated to find the biggest number.
+	 * @return BigInteger
+	 */
 	public static BigInteger findLargestNumber(Integer[] arr) {
 		if (arr.length == 0)
 			return new BigInteger("0");
@@ -56,6 +77,13 @@ public class LargestNumberSolver {
 		return new BigInteger(big.toString());
 	}
 	
+	/**
+	 * Finds the largest possible number that can be assembled from the integers contained in the given array.
+	 * Throws an OutOfRangeException if the result would be too large to be represented as an int.
+	 * @param arr Array to be evaluated
+	 * @return int
+	 * @throws OutOfRangeException if the supplied array creates an overflow
+	 */
 	public static int findLargestInt(Integer[] arr) throws OutOfRangeException {
 		BigInteger big = findLargestNumber(arr);
 		
@@ -66,6 +94,13 @@ public class LargestNumberSolver {
 		return big.intValue();
 	}
 	
+	/**
+	 * Finds the largest possible number that can be assembled from the integers contained in the given array.
+	 * Throws an OutOfRangeException if the result would be too large to be represented as a long.
+	 * @param arr Array to be evaluated
+	 * @return long
+	 * @throws OutOfRangeException if the supplied array creates an overflow
+	 */
 	public static long findLargestLong(Integer[] arr) throws OutOfRangeException {
 		BigInteger big = findLargestNumber(arr);
 		
@@ -76,6 +111,13 @@ public class LargestNumberSolver {
 		return big.longValue();
 	}
 	
+	/**
+	 * Adds the sum of the largest numbers that can be assembled from each integer array in the 
+	 * provided list.
+	 * 
+	 * @param list A list of Integer[] arrays whose biggest numbers are to be summed
+	 * @return BigInteger
+	 */
 	public static BigInteger sum(List<Integer[]> list) {
 		BigInteger total = BigInteger.ZERO;
 		
@@ -86,18 +128,44 @@ public class LargestNumberSolver {
 		return total;
 	}
 
+	/**
+	 * Finds the kth largest biggest number of the Integer[] arrays contained in the provided list.
+	 * Throws an IllegalArgumentException if k is out of bounds of the size of the provide dlist.
+	 * @param list The list of Integer[] arrays to be evaluated
+	 * @param k The order of the largest number to be returned
+	 * @return Integer[]
+	 * @throws IllegalArgumentException
+	 */
 	public static Integer[] findKthLargest(List<Integer[]> list, int k) throws IllegalArgumentException {
+		if (k >= list.size()) {
+			throw new IllegalArgumentException("That index is out of bounds.");
+		}
 		
 		BigInteger[] bigList = new BigInteger[list.size()];
+		
 		for (int i = 0; i < list.size(); i++) {
 			bigList[i] = (findLargestNumber(list.get(i)));
 		}
 		
-		insertionSort(bigList, (BigInteger LHS, BigInteger RHS) -> {-LHS.compareTo(RHS);});
+		BigInteger[] bigListCopy = Arrays.copyOf(bigList, bigList.length);
+		insertionSort(bigList,(lhs, rhs) -> {return -lhs.compareTo(rhs);});
 		
-		return null; // stub
+		for (int i = 0; i < bigList.length; i++) {
+			if (bigListCopy[i].equals(bigList[k])) {
+				return list.get(i);
+			}
+		}
+		
+		return null;
 	}
 	
+	/**
+	 * Parses a .txt file to create a list of Integer[] arrays to be used in these methods.
+	 * Each line is parsed into a separate Integer[] array, with spaces delimiting new entries in each array.
+	 * 
+	 * @param filename A string containing the filename to be parsed
+	 * @return List<Integer[]>
+	 */
 	public static List<Integer[]> readFile(String filename) {
 		
 		List<Integer[]> list = new ArrayList<Integer[]>();

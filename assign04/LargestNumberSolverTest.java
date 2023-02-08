@@ -10,7 +10,13 @@ import java.util.Comparator;
 import java.util.List;
 import java.math.BigInteger;
 
-
+/**
+ * A class containing a variety of J Unit tests to be performed to confirm proper functioning
+ * of the LargestNumberSolver class.
+ * 
+ * @author Andrew Tolton and Tyler Wilcox
+ * @version 07 February, 2023
+ */
 public class LargestNumberSolverTest {
 	Integer[] arr1;
 	Integer[] arr2;
@@ -174,5 +180,13 @@ public class LargestNumberSolverTest {
 		var emptyList = new ArrayList<Integer[]>();
 		
 		assertTrue(emptyList.equals(LargestNumberSolver.readFile("emptytestfile.txt")));
+	}
+	
+	@Test
+	void readSuppliedFile() {
+		BigInteger test = new BigInteger("8851");
+		List<Integer[]> readList = LargestNumberSolver.readFile("integers.txt");
+		
+		assertEquals(test, LargestNumberSolver.findLargestNumber(readList.get(7)));
 	}
 }
