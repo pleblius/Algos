@@ -3,6 +3,8 @@ package assign03;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A class to test and analyze behavior of the SimplePriorityQueue class.
@@ -20,24 +22,27 @@ public class SimpleQueueTester {
 		
 		long startTime, midTime, endTime;
 		
-		loopTimes = 20000;
+		loopTimes = 50000;
 		
 		// Generate random integer list
 		for (int i = 0; i < 20; i++) {
 			// Loop index checker to make sure it's running
 			System.out.println("Length = " + (i+1)*100000);
 			
-			// Reset the queue every run to avoid weird random-number samples affecting results
-			PriorityQueue<Integer> queue = new SimplePriorityQueue<Integer>();
-			
 			length = (100000*(i+1));
 			
-			// Generate random integer list to fill queue with
-			randomInts = new int[length];
+			List<Integer> numList = new ArrayList<Integer>(length);
+			randomInts = new int[loopTimes];
+			
 			for (int j = 0; j < length; j++) {
-				randomInts[j] = (int)(Math.random()*length + 1);
-				queue.insert(randomInts[j]);
+				numList.add(j);
 			}
+			for (int j = 0; j < loopTimes; j++) {
+				randomInts[j] = (int)(Math.random()*loopTimes + 1);
+			}
+			
+			// Reset the queue every run to avoid weird random-number samples affecting results
+			SPQ2<Integer> queue = new SPQ2<Integer>(numList);
 			
 			// Pause operations for one second
 			startTime = System.nanoTime();
@@ -47,7 +52,7 @@ public class SimpleQueueTester {
 			startTime = System.nanoTime();
 			
 			for (int j = 0; j < loopTimes; j++) {
-				queue.insert(randomInts[loopTimes]);
+				queue.insert(randomInts[j]);
 				queue.deleteMax();
 			}
 			
@@ -60,10 +65,7 @@ public class SimpleQueueTester {
 			insertTimes[i] = ((midTime - startTime) - (endTime - midTime))/loopTimes;
 			
 			// Re-fill array up to desired length
-			for (int j = length - loopTimes - 1; j < length; j++) {
-				randomInts[j] = (int)(Math.random()*length + 1);
-				queue.insert(randomInts[j]);
-			}
+			queue = new SPQ2<Integer>(numList);
 			
 			// Pause operations for one second
 			startTime = System.nanoTime();
@@ -100,9 +102,11 @@ public class SimpleQueueTester {
 			for (int i = 0; i < 20; i++) {
 				pw.println((i+1)*100000 + ", " + findMaxTimes[i]);
 			}
+			
 		}
 		catch (IOException e) {
 			System.err.println(e.getMessage());
 		}
 	}
 }
+
