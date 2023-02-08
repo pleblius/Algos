@@ -57,14 +57,23 @@ public class LargestNumberSolver {
 	}
 	
 	public static int findLargestInt(Integer[] arr) throws OutOfRangeException {
+		BigInteger big = findLargestNumber(arr);
 		
+		if (big.compareTo(new BigInteger(Integer.toString(Integer.MAX_VALUE))) > 0) {
+			throw new OutOfRangeException("Result is too large for type int");
+		}
 		
-		return  5;
+		return big.intValue();
 	}
 	
 	public static long findLargestLong(Integer[] arr) throws OutOfRangeException {
+		BigInteger big = findLargestNumber(arr);
 		
-		return 5;
+		if (big.compareTo(new BigInteger(Long.toString(Long.MAX_VALUE))) > 0) {
+			throw new OutOfRangeException("Result is too large for type long");
+		}
+		
+		return big.longValue();
 	}
 	
 	public static BigInteger sum(List<Integer[]> list) {
@@ -78,6 +87,14 @@ public class LargestNumberSolver {
 	}
 
 	public static Integer[] findKthLargest(List<Integer[]> list, int k) throws IllegalArgumentException {
+		
+		BigInteger[] bigList = new BigInteger[list.size()];
+		for (int i = 0; i < list.size(); i++) {
+			bigList[i] = (findLargestNumber(list.get(i)));
+		}
+		
+		insertionSort(bigList, (BigInteger LHS, BigInteger RHS) -> {-LHS.compareTo(RHS);});
+		
 		return null; // stub
 	}
 	
