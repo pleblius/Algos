@@ -189,4 +189,50 @@ public class LargestNumberSolverTest {
 		
 		assertEquals(test, LargestNumberSolver.findLargestNumber(readList.get(7)));
 	}
+	
+	// Our input file tests
+	
+	@Test 
+	void inputFileLargestNumber() {
+		List<Integer[]> readList = LargestNumberSolver.readFile("ourIntegers.txt");
+		
+		String[] bigValues = {"932111", "5338221", "555554321", "988221623", "2", "510", "7816582120", "9876543210", "9876543210", "8955444231111111111111111"};
+				
+		
+		for (int i = 0; i < readList.size(); i++) {
+			assertEquals(new BigInteger(bigValues[i]), LargestNumberSolver.findLargestNumber(readList.get(i)));
+		}
+	}
+	
+	@Test 
+	void inputFileLargestInt() {
+		
+		List<Integer[]> readList = LargestNumberSolver.readFile("ourIntegers.txt");
+
+		int[] intValues = {932111, 5338221, 555554321, 988221623, 2, 510};
+		
+		for (int i = 0; i < intValues.length; i++) {
+			assertEquals(intValues[i], LargestNumberSolver.findLargestInt(readList.get(i)));
+		}
+		
+		assertThrows(OutOfRangeException.class, () -> {LargestNumberSolver.findLargestInt(readList.get(6));});
+		assertThrows(OutOfRangeException.class, () -> {LargestNumberSolver.findLargestInt(readList.get(7));});
+		assertThrows(OutOfRangeException.class, () -> {LargestNumberSolver.findLargestInt(readList.get(8));});
+		assertThrows(OutOfRangeException.class, () -> {LargestNumberSolver.findLargestInt(readList.get(9));});
+				
+	}
+	
+	@Test
+	void inputFileLargestLong() {
+		
+		List<Integer[]> readList = LargestNumberSolver.readFile("ourIntegers.txt");
+
+		long[] longValues = {932111, 5338221, 555554321, 988221623, 2, 510, 7816582120l, 9876543210l, 9876543210l};
+		
+		for (int i = 0; i < longValues.length; i++) {
+			assertEquals(longValues[i], LargestNumberSolver.findLargestLong(readList.get(i)));
+		}
+
+		assertThrows(OutOfRangeException.class, () -> {LargestNumberSolver.findLargestInt(readList.get(9));});
+	}
 }
