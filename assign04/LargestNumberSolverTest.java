@@ -112,7 +112,7 @@ public class LargestNumberSolverTest {
 		List<Integer[]> singleTestList = new ArrayList<Integer[]>();
 		singleTestList.add(arr1);
 		
-//		assertEquals(big1, LargestNumberSolver.sum(singleTestList));
+		assertEquals(big1, LargestNumberSolver.sum(singleTestList));
 		assertEquals(big1.add(big2),LargestNumberSolver.sum(testList));
 		assertEquals(big1.add(big2.add(big3.add(big4))), LargestNumberSolver.sum(testList2));
 	}

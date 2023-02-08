@@ -21,6 +21,8 @@ import java.util.Scanner;
 public class LargestNumberSolver {
 	
 	/**
+	 * Performs an insertion sort on the given generic array, using the comparator cmp to determine
+	 * sorting method. The array parameter is modified during this sort.
 	 * 
 	 * @param <T> Generic type T
 	 * @param arr Array of generic type T to be sorted using insertion sort
