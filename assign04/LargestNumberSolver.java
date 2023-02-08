@@ -1,8 +1,12 @@
 package assign04;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Scanner;
 
 public class LargestNumberSolver {
 	
@@ -36,6 +40,36 @@ public class LargestNumberSolver {
 	}
 	
 	public static List<Integer[]> readFile(String filename) {
+		
+		List<Integer[]> list = new ArrayList<Integer[]>();
+		Integer[] intArray;
+		String line = new String();
+		
+		File f = new File(filename);
+		
+		try (Scanner fileReader = new Scanner(f);) {			
+			
+			// for each line in the file
+			while(fileReader.hasNextLine()) {
+				line = fileReader.nextLine();
+				String[] intStringArr = line.split(" ");
+				intArray = new Integer[intStringArr.length];
+				
+				// Add each int to the intArray
+				for (int i = 0; i < intStringArr.length; i++) {
+					intArray[i] = Integer.parseInt(intStringArr[i]);
+				}
+				
+				// Add the int array to the list
+				list.add(intArray);
+			}
+			
+			return list;
+			
+		} catch(FileNotFoundException e) {
+			
+			return list;
+		}
 		
 	}
 }
