@@ -19,11 +19,12 @@ public class LargestNumberSolver {
 		
 		// Call BigInt version
 		
-		return null;
+		return  5;
 	}
 	
 	public static long findLargestLong(Integer[] arr) throws OutOfRangeException {
 		
+		return 5;
 	}
 	
 	public static BigInteger sum(List<Integer[]> list) {
