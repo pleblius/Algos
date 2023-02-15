@@ -6,6 +6,7 @@ import java.util.Collections;
 public class ArrayListSorter {
 	
 	private static final int THRESHOLD = 0;
+	private static int PIVOTNUMBER = 1;
 	
 	public static <T extends Comparable<? super T>> void mergesort(ArrayList<T> arr) {
 		ArrayList<T> tempArray = new ArrayList<T>(arr.size());
@@ -56,14 +57,43 @@ public class ArrayListSorter {
 	
 	public static <T extends Comparable<? super T>> void quicksort(ArrayList<T> arr) {
 
-		
-		
+		quicksort(arr, 0, arr.size() - 1);
 	}
 	
 	private static <T extends Comparable<? super T>> void quicksort(ArrayList<T> arr, int left, int right) {
+		// Find Pivot
+		int pivot;
+		
+			
+		
+		
 		// Partition
 		// quicksort(left)
 		// quicksort (right)
+	}
+	
+	private static <T extends Comparable<? super T>> void findPivot(ArrayList<T> arr) {
+		switch(PIVOTNUMBER) {
+		
+		// Random pivot
+		case 1:
+			pivot = (int)Math.random()*(right + 1 - left) + left;
+			
+		// Sampled pivot
+		case 2:
+			ArrayList<T> sample = new ArrayList<T>(3);
+			sample.add(arr.get(left));
+			sample.add(arr.get((right + left) / 2));
+			sample.add(arr.get(right));
+			
+			for (int ii = 0; ii < 3; ii++) {
+				if (!(sample.get(ii) == Collections.min(sample)) && !(sample.get(ii) == Collections.max(sample))) 
+					return ii
+			}
+			
+		// Middle index
+		case 3:
+	}
 	}
 	
 	private static <T> void swap(T[] arr, int left, int right) {
@@ -73,6 +103,9 @@ public class ArrayListSorter {
 		arr[right] = temp;
 	}
 	
+	private static <T extends Comparable<? super T>> void partition(ArrayList<T> arr, int left, int right, int pivot) {
+
+	}
 	
 	/*
 	 * Sorting helper methods
