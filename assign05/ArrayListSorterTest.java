@@ -34,7 +34,7 @@ public class ArrayListSorterTest {
 	}
 	
 	@Test
-	void verySmallTest() {
+	void verySmallMergeTest() {
 		var verySmallTest = ArrayListSorter.generateAscending(2);
 		
 		ArrayListSorter.mergesort(verySmallArray);
@@ -45,7 +45,7 @@ public class ArrayListSorterTest {
 	}
 	
 	@Test
-	void bigTest() {
+	void bigMergeTest() {
 		var bigTest = ArrayListSorter.generateAscending(100);
 		
 		ArrayListSorter.mergesort(bigArray);
@@ -55,6 +55,37 @@ public class ArrayListSorterTest {
 		}
 	}
 	
-
+	@Test
+	void smallOddQuickSortTest() {
+		ArrayList<Integer> smallOddTest = ArrayListSorter.generateAscending(5);
+		
+		ArrayListSorter.quicksort(smallOddArr);
+		for (int i = 0; i < smallOddTest.size(); i++) {
+			assertEquals(smallOddTest.get(i), smallOddArr.get(i));
+		}
+		
+	}
+	
+	@Test
+	void verySmallQuickTest() {
+		var verySmallTest = ArrayListSorter.generateAscending(2);
+		
+		ArrayListSorter.quicksort(verySmallArray);
+		
+		for (int i = 0; i < verySmallArray.size(); i++) {
+			assertEquals(verySmallTest.get(i), verySmallArray.get(i));
+		}
+	}
+	
+	@Test
+	void bigQuick() {
+		var bigTest = ArrayListSorter.generateAscending(100);
+		
+		ArrayListSorter.quicksort(bigArray);
+		
+		for (int i = 0; i < bigArray.size(); i++) {
+			assertEquals(bigTest.get(i), bigArray.get(i));
+		}
+	}
 	
 }

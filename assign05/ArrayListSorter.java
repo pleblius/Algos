@@ -62,23 +62,48 @@ public class ArrayListSorter {
 	
 	private static <T extends Comparable<? super T>> void quicksort(ArrayList<T> arr, int left, int right) {
 		// Find Pivot
-		int pivot;
+		if (right - left <= THRESHOLD)
+			return;
+		int pivot = findPivot(arr, left, right);
 		
 			
+		pivot = partition(arr, left, right, pivot);
 		
+		if (pivot == 0) 
+			pivot = 1;
+		quicksort(arr, left, pivot-1);
 		
-		// Partition
-		// quicksort(left)
-		// quicksort (right)
+		if (pivot == right) 
+			pivot = right - 1;
+		quicksort(arr, pivot+1, right);
 	}
 	
-	private static <T extends Comparable<? super T>> void findPivot(ArrayList<T> arr) {
-		switch(PIVOTNUMBER) {
+	private static <T extends Comparable<? super T>> int partition(ArrayList<T> arr, int left, int right, int pivot) {
+		swap(arr, pivot, right);
 		
+		int l = left;
+		int r = right;
+		
+		while (l < r) {
+			while (arr.get(l).compareTo(arr.get(right)) < 0 && l < r) {
+				l++;
+			}
+			while (arr.get(r).compareTo(arr.get(right)) > 0 && r > l) {
+				r--;
+			}
+			swap(arr, l, r);
+		}
+		
+		swap(arr, l, right);
+		return l;
+	}
+	
+	private static <T extends Comparable<? super T>> int findPivot(ArrayList<T> arr, int left, int right) {
+
+		switch(PIVOTNUMBER) {
 		// Random pivot
 		case 1:
-			pivot = (int)Math.random()*(right + 1 - left) + left;
-			
+			return (int)Math.random()*(right + 1 - left) + left;
 		// Sampled pivot
 		case 2:
 			ArrayList<T> sample = new ArrayList<T>(3);
@@ -87,25 +112,30 @@ public class ArrayListSorter {
 			sample.add(arr.get(right));
 			
 			for (int ii = 0; ii < 3; ii++) {
-				if (!(sample.get(ii) == Collections.min(sample)) && !(sample.get(ii) == Collections.max(sample))) 
-					return ii
+				if (!(sample.get(ii) == Collections.min(sample)) && !(sample.get(ii) == Collections.max(sample))) {
+					if (sample.get(ii) == arr.get(left)) return left;
+					else if (sample.get(ii) == arr.get(right)) return right;
+					else return (right + left)/2;
+				}
 			}
 			
+			break;
 		// Middle index
-		case 3:
-	}
-	}
-	
-	private static <T> void swap(T[] arr, int left, int right) {
-		T temp = arr[left];
+		default:
+			return (right + left)/2;
+		}
 		
-		arr[left] = arr[right];
-		arr[right] = temp;
+		return (right + left)/2;
 	}
 	
-	private static <T extends Comparable<? super T>> void partition(ArrayList<T> arr, int left, int right, int pivot) {
-
+	private static <T> void swap(ArrayList<T> arr, int left, int right) {
+		T temp = arr.get(left);
+		
+		arr.set(left, arr.get(right));
+		arr.set(right, temp);
 	}
+	
+
 	
 	/*
 	 * Sorting helper methods
