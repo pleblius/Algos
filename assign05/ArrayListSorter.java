@@ -6,7 +6,7 @@ import java.util.Collections;
 public class ArrayListSorter {
 	
 	private static final int THRESHOLD = 0;
-	private static int PIVOTNUMBER = 1;
+	private static int PIVOTNUMBER = 2;
 	
 	public static <T extends Comparable<? super T>> void mergesort(ArrayList<T> arr) {
 		ArrayList<T> tempArray = new ArrayList<T>(arr.size());
@@ -69,12 +69,7 @@ public class ArrayListSorter {
 			
 		pivot = partition(arr, left, right, pivot);
 		
-		if (pivot == 0) 
-			pivot = 1;
 		quicksort(arr, left, pivot-1);
-		
-		if (pivot == right) 
-			pivot = right - 1;
 		quicksort(arr, pivot+1, right);
 	}
 	

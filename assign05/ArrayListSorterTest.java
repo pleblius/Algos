@@ -88,4 +88,26 @@ public class ArrayListSorterTest {
 		}
 	}
 	
+	@Test
+	void randomSizes() {
+		ArrayList<Integer> randQuickArray;
+		ArrayList<Integer> randMergeArray;
+		ArrayList<Integer> testArray;
+		
+		for (int i = 0; i < 1000; i++) {
+			testArray = ArrayListSorter.generateAscending(i);
+			
+			randQuickArray = ArrayListSorter.generatePermuted(i);
+			randMergeArray = ArrayListSorter.generatePermuted(i);
+			
+			ArrayListSorter.quicksort(randQuickArray);
+			ArrayListSorter.mergesort(randMergeArray);
+			
+			for (int j = 0; j < i; j++) {
+				assertEquals(testArray.get(j), randQuickArray.get(j), "Quicksort array failed at index " + i + ", " + j);
+				assertEquals(testArray.get(j), randMergeArray.get(j), "Mergesort array failed at index " + i + ", " + j);
+			}
+		}
+	}
+	
 }
