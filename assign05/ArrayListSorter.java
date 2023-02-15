@@ -18,6 +18,7 @@ public class ArrayListSorter {
 
 	private static <T extends Comparable<? super T>> void mergesort(ArrayList<T> arr, ArrayList<T> temp, int left, int right) {
 		if ((right - left) <= THRESHOLD) {
+			// Call insertion sort
 			return;
 		}
 		
@@ -25,7 +26,7 @@ public class ArrayListSorter {
 		
 		mergesort(arr, temp, left, mid);
 		mergesort(arr, temp, mid + 1, right);
-		merge(arr, temp, left, mid, right);
+		merge(arr, temp, left, mid + 1, right);
 	}
 	
 	private static <T extends Comparable<? super T>> void merge(ArrayList<T> arr, ArrayList<T> temp, int startL, int startR, int endR) {
@@ -35,20 +36,16 @@ public class ArrayListSorter {
 		// Sort the values from the split arrays into the temporary array
 		for (int ii = startL; ii <= endR; ii++) {
 			
-			var leftVal = arr.get(curL);
-			var rightVal = arr.get(curR);
-			
-			if (leftVal.compareTo(rightVal) < 0 || curR > endR && !(curL > startR - 1)) {
-				temp.set(ii, leftVal);
+			if (curR > endR || arr.get(curL).compareTo(arr.get(curR)) < 0 && !(curL > startR - 1)) {
+				temp.set(ii, arr.get(curL));
 				curL++;
 			}
 			
 			else {
-				temp.set(ii, rightVal);
+				temp.set(ii, arr.get(curR));
 				curR++;
 			}
 		}
-		
 		
 		// Replace the values in the original array
 		for (int ii = startL; ii <= endR; ii++) {
@@ -58,9 +55,23 @@ public class ArrayListSorter {
 	}
 	
 	public static <T extends Comparable<? super T>> void quicksort(ArrayList<T> arr) {
+
+		
 		
 	}
 	
+	private static <T extends Comparable<? super T>> void quicksort(ArrayList<T> arr, int left, int right) {
+		// Partition
+		// quicksort(left)
+		// quicksort (right)
+	}
+	
+	private static <T> void swap(T[] arr, int left, int right) {
+		T temp = arr[left];
+		
+		arr[left] = arr[right];
+		arr[right] = temp;
+	}
 	
 	
 	/*
