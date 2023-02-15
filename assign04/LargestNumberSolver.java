@@ -162,6 +162,29 @@ public class LargestNumberSolver {
 		return null;
 	}
 	
+	public static Integer[] findKthLargestSort(List<Integer[]> list, int k) throws IllegalArgumentException {
+		if (k >= list.size()) {
+			throw new IllegalArgumentException("That index is out of bounds.");
+		}
+		
+		BigInteger[] bigList = new BigInteger[list.size()];
+		
+		for (int i = 0; i < list.size(); i++) {
+			bigList[i] = (findLargestNumber(list.get(i)));
+		}
+		
+		BigInteger[] bigListCopy = Arrays.copyOf(bigList, bigList.length);
+		Arrays.sort(bigList,(lhs, rhs) -> {return -lhs.compareTo(rhs);});
+		
+		for (int i = 0; i < bigList.length; i++) {
+			if (bigListCopy[i].equals(bigList[k])) {
+				return list.get(i);
+			}
+		}
+		
+		return null;
+	}
+	
 	/**
 	 * Parses a .txt file to create a list of Integer[] arrays to be used in these methods.
 	 * Each line is parsed into a separate Integer[] array, with spaces delimiting new entries in each array.
