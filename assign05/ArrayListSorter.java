@@ -235,6 +235,10 @@ public class ArrayListSorter {
 		}
 	}
 	
+	public static void setPivotNumber(int n) {
+		PIVOTNUMBER = n;
+	}
+	
 	/*
 	 * Sorting helper methods
 	 */

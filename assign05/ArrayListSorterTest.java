@@ -149,6 +149,23 @@ public class ArrayListSorterTest {
 		}
 	}
 	
+	@Test
+	void quicksortPivotTest() {		
+		for (int i = 1; i < 4; i++) {
+			ArrayListSorter.setPivotNumber(i);
+			
+			for (int j = 0; j < intSize; j++) {
+				testArray = ArrayListSorter.generateAscending(j);
+				randomIntArray = ArrayListSorter.generatePermuted(j);
+				ArrayListSorter.quicksort(randomIntArray);
+				
+				for (int k = 0; k < j; k++) {
+					assertEquals(testArray.get(k), randomIntArray.get(k), "Pivot testing failed with pivot number " + i + " of size " + j + " at index " + k);
+				}
+			}
+		}
+	}
+	
 	/*
 	 * Non-Integer Sorting Tests
 	 */
@@ -208,6 +225,47 @@ public class ArrayListSorterTest {
 		
 		for (int i = 0; i < intSize; i++) {
 			assertEquals("test", equalStringArray.get(i), "Equal string mergesort test failed at index: " + i);
+		}
+	}
+	
+	/*
+	 * Edge-case tests
+	 */
+	
+	@Test
+	void randomNonUniqueIntTest() {
+		var randArray2 = new ArrayList<Integer>();
+		
+		for (int i = 0; i < intSize; i++) {
+			randomIntArray.add((int)(Math.random()*10));
+			randArray2.add((int)(Math.random()*10));
+		}
+		
+		ArrayListSorter.mergesort(randomIntArray);
+		ArrayListSorter.quicksort(randArray2);
+		
+		for (int i = 0; i < stringSize-1; i++) {
+			assertTrue(randomIntArray.get(i).compareTo(randomIntArray.get(i+1)) <= 0, "Non-unique int array mergesort test failed at index: " + i);
+			assertTrue(randArray2.get(i).compareTo(randArray2.get(i+1)) <= 0, "Non-unique int array quicksort test failed at index: " + i);
+		}
+	}
+	
+	@Test
+	void negativeIntTest() {
+		var randArray2 = new ArrayList<Integer>();
+		
+		for (int i = 0; i < intSize; i++) {
+			randomIntArray.add((int)(Math.random()*-10));
+			randArray2.add((int)(Math.random()*-10));
+		}
+		
+		ArrayListSorter.mergesort(randomIntArray);
+		ArrayListSorter.quicksort(randArray2);
+		
+		for (int i = 0; i < stringSize-1; i++) {
+			assertTrue(randomIntArray.get(i).compareTo(randomIntArray.get(i+1)) <= 0, "Negative int array mergesort test failed at index: " + i);
+			assertTrue(randArray2.get(i).compareTo(randArray2.get(i+1)) <= 0, "Negative int array quicksort test failed at index: " + i);
+
 		}
 	}
 }
