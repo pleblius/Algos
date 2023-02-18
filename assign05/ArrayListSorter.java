@@ -235,6 +235,16 @@ public class ArrayListSorter {
 		}
 	}
 	
+	/**
+	 * Sets the method of finding the pivot index for the quicksort algorithm using
+	 * the following list:
+	 * 1 = Random index
+	 * 2 = Sampled median index
+	 * 3 = Naive end index
+	 * All other values use the default method of returning the middle index of the list
+	 * 
+	 * @param n Int to set pivot number to
+	 */
 	public static void setPivotNumber(int n) {
 		PIVOTNUMBER = n;
 	}
