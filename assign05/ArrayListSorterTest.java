@@ -18,21 +18,37 @@ import org.junit.jupiter.api.Test;
  */
 public class ArrayListSorterTest {
 
+	ArrayList<Integer> testArray;
+	ArrayList<String> testStringArray;
+	
 	ArrayList<Integer> ascendingIntArray;
 	ArrayList<Integer> descendingIntArray;
 	ArrayList<Integer> randomIntArray;
+	ArrayList<Integer> equalIntArray;
+	
 	int intSize = 1000;
 	int stringSize = 1000;
 	
 	ArrayList<String> stringArray;
+	ArrayList<String> equalStringArray;
 	
 	@BeforeEach
 	void setup() {
+		testArray = new ArrayList<Integer>();
+		testStringArray = new ArrayList<String>();
+		
 		ascendingIntArray = new ArrayList<Integer>();
 		descendingIntArray = new ArrayList<Integer>();
 		randomIntArray = new ArrayList<Integer>();
+		equalIntArray = new ArrayList<Integer>();
+		
+		for (int i = 0; i < intSize; i++) {
+			equalIntArray.add(10);
+		}
 		
 		stringArray = new ArrayList<String>();
+		equalStringArray = new ArrayList<String>();
+		
 		int length;
 		int ch;
 		
@@ -47,6 +63,7 @@ public class ArrayListSorterTest {
 			}
 			
 			stringArray.add(str);
+			equalStringArray.add("test");
 		}
 	}
 	
@@ -92,7 +109,7 @@ public class ArrayListSorterTest {
 	
 	@Test
 	void intQuicksortTest() {
-		var testArray = ArrayListSorter.generateAscending(intSize);
+		testArray = ArrayListSorter.generateAscending(intSize);
 		
 		for (int i = 0; i < intSize; i++) {
 			ascendingIntArray = ArrayListSorter.generateAscending(i);
@@ -113,7 +130,7 @@ public class ArrayListSorterTest {
 	
 	@Test
 	void intMergesortTest() {
-		var testArray = ArrayListSorter.generateAscending(intSize);
+		testArray = ArrayListSorter.generateAscending(intSize);
 		
 		for (int i = 0; i < intSize; i++) {
 			ascendingIntArray = ArrayListSorter.generateAscending(i);
@@ -151,6 +168,46 @@ public class ArrayListSorterTest {
 		
 		for (int i = 0; i < stringSize-1; i++) {
 			assertTrue(stringArray.get(i).compareTo(stringArray.get(i+1)) <= 0, "String array mergesort test failed at index: " + i);
+		}
+	}
+	
+	/*
+	 * Equal-value array tests
+	 */
+	
+	@Test
+	void equalIntQuicksortTest() {
+		ArrayListSorter.quicksort(equalIntArray);
+		
+		for (int i = 0; i < intSize; i++) {
+			assertEquals(10, equalIntArray.get(i), "Equal int quicksort test failed at index: " + i);
+		}
+	}
+	
+	@Test
+	void equalIntMergesortTest() {
+		ArrayListSorter.mergesort(equalIntArray);
+		
+		for (int i = 0; i < intSize; i++) {
+			assertEquals(10, equalIntArray.get(i), "Equal int mergesort test failed at index: " + i);
+		}
+	}
+	
+	@Test
+	void equalStringQuicksortTest() {
+		ArrayListSorter.quicksort(equalStringArray);
+		
+		for (int i = 0; i < intSize; i++) {
+			assertEquals("test", equalStringArray.get(i), "Equal string quicksort test failed at index: " + i);
+		}
+	}
+	
+	@Test
+	void equalStringMergesortTest() {
+		ArrayListSorter.mergesort(equalStringArray);
+		
+		for (int i = 0; i < intSize; i++) {
+			assertEquals("test", equalStringArray.get(i), "Equal string mergesort test failed at index: " + i);
 		}
 	}
 }
