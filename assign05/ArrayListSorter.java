@@ -15,7 +15,7 @@ import java.util.Collections;
  */
 public class ArrayListSorter {
 	
-	private static final int THRESHOLD = 5;
+	private static int THRESHOLD = 5;
 	private static int PIVOTNUMBER = 3;
 	
 	
@@ -247,6 +247,10 @@ public class ArrayListSorter {
 	 */
 	public static void setPivotNumber(int n) {
 		PIVOTNUMBER = n;
+	}
+	
+	public static void setThreshold(int n) {
+		THRESHOLD = n;
 	}
 	
 	/*

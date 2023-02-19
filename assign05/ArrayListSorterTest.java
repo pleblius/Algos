@@ -164,6 +164,23 @@ public class ArrayListSorterTest {
 		}
 	}
 	
+	@Test
+	void thresholdTest() {
+		ascendingIntArray = ArrayListSorter.generateAscending(intSize);
+
+		for (int i = 0; i < intSize; i++) {
+			ArrayListSorter.setThreshold(i);
+			
+			randomIntArray = ArrayListSorter.generatePermuted(intSize);
+			
+			ArrayListSorter.mergesort(randomIntArray);
+			
+			for (int j = 0; j < intSize; j++) {
+				assertEquals(ascendingIntArray.get(j), randomIntArray.get(j), "Threshold test failed at index " + i);
+			}
+		}
+	}
+	
 	/*
 	 * Non-Integer Sorting Tests
 	 */
