@@ -248,7 +248,7 @@ public class ArrayListSorterTest {
 	 */
 	
 	@Test
-	void randomNonUniqueIntTest() {
+	void randomUniqueIntTest() {
 		var randArray2 = new ArrayList<Integer>();
 		
 		for (int i = 0; i < intSize; i++) {
@@ -281,6 +281,26 @@ public class ArrayListSorterTest {
 			assertTrue(randomIntArray.get(i).compareTo(randomIntArray.get(i+1)) <= 0, "Negative int array mergesort test failed at index: " + i);
 			assertTrue(randArray2.get(i).compareTo(randArray2.get(i+1)) <= 0, "Negative int array quicksort test failed at index: " + i);
 
+		}
+	}
+	
+	@Test
+	void testVeryLargeArray() {
+		ArrayListSorter.setPivotNumber(1);
+		testArray = ArrayListSorter.generateAscending(10_000_000);
+		var largeArray = ArrayListSorter.generateAscending(10_000_000);
+		
+		ArrayListSorter.quicksort(largeArray);
+		for (int i = 0; i < 10_000_000; i++) {
+			assertEquals(largeArray.get(i), testArray.get(i), "Large array quicksort failed at index " + i);
+		}
+		
+		largeArray = ArrayListSorter.generateAscending(10_000_000);
+		
+		
+		ArrayListSorter.mergesort(largeArray);
+		for (int i = 0; i < 10_000_000; i++) {
+			assertEquals(largeArray.get(i), testArray.get(i), "Large array mergesort failed at index " + i);
 		}
 	}
 }

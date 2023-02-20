@@ -15,8 +15,8 @@ import java.util.Collections;
  */
 public class ArrayListSorter {
 	
-	private static int THRESHOLD = 5;
-	private static int PIVOTNUMBER = 3;
+	private static int THRESHOLD = 20;
+	private static int PIVOTNUMBER = 1;
 	
 	
 	/*
@@ -170,12 +170,13 @@ public class ArrayListSorter {
 		int rightPointer = rightBound;
 		
 		while (leftPointer < rightPointer) {
-			while (arr.get(leftPointer).compareTo(arr.get(rightBound)) <= 0 && leftPointer < rightPointer) {
+			while (arr.get(leftPointer).compareTo(arr.get(rightBound)) < 0 && leftPointer < rightPointer) {
 				leftPointer++;
 			}
 			while (arr.get(rightPointer).compareTo(arr.get(rightBound)) >= 0 && rightPointer > leftPointer) {
 				rightPointer--;
 			}
+			
 			swap(arr, leftPointer, rightPointer);
 		}
 		
@@ -202,12 +203,11 @@ public class ArrayListSorter {
 	 * @return
 	 */
 	private static <T extends Comparable<? super T>> int findPivot(ArrayList<T> arr, int leftBound, int rightBound) {
-
 		switch(PIVOTNUMBER) {
 		
 		// Random pivot
 		case 1:
-			return (int)Math.random()*(rightBound + 1 - leftBound) + leftBound;
+			return (int)(Math.random()*(rightBound + 1 - leftBound)) + leftBound;
 			
 		// Sampled median
 		case 2:
@@ -249,6 +249,12 @@ public class ArrayListSorter {
 		PIVOTNUMBER = n;
 	}
 	
+	/**
+	 * Sets the insertion sort threshold for mergesort (and quicksort) to the provided value
+	 * Must be greater than 0 and less than the provided array size.
+	 * 
+	 * @param n int to set threshold to
+	 */
 	public static void setThreshold(int n) {
 		THRESHOLD = n;
 	}
