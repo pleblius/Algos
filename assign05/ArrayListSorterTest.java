@@ -3,6 +3,7 @@ package assign05;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -89,16 +90,24 @@ public class ArrayListSorterTest {
 	
 	@Test
 	void generatePermutedTest() {
-		randomIntArray = ArrayListSorter.generatePermuted(intSize);
 		
-		int identCount = 0;
-		
-		for (int i = 0; i < intSize; i++) {
-			if (i + 1 == randomIntArray.get(i))
-				identCount++;
+		long identCount = 0;
+		for (int j = 0; j < 1000; j++) {
+			randomIntArray = ArrayListSorter.generatePermuted(intSize);
+			assertEquals(intSize, randomIntArray.size(), "Permuted array incorrect size.");
+			
+			for (int i = 0; i < intSize; i++) {
+				if (i + 1 == randomIntArray.get(i))
+					identCount++;
+			}
+			
+			Collections.sort(randomIntArray);
+			for (int i = 0; i < intSize; i++) {
+				assertEquals(i + 1, randomIntArray.get(i), "Permuted test failed with index " + i);
+			}
 		}
 		
-		assertTrue(identCount < intSize/2, "Random array failed with too many consistent values.");
+		assertTrue(identCount < 1000*intSize/2, "Random array failed with too many consistent values.");
 	}
 	
 	/*
