@@ -10,7 +10,7 @@ public class SinglyLinkedList<E> implements List<E> {
 	Node<E> trailer;
 	int size;
 	
-	public void SinglyLinkedList() {
+	public SinglyLinkedList() {
 		headerer.next = header;
 		header.next = trailer;
 		trailer.next = null;
@@ -20,7 +20,7 @@ public class SinglyLinkedList<E> implements List<E> {
 	
 	@Override
 	public void insertFirst(E element) {
-		Node<E> firstNode = new Node(element, header.next);
+		Node<E> firstNode = new Node<E>(element, header.next);
 		
 		header.next = firstNode;
 		size++;
@@ -37,7 +37,7 @@ public class SinglyLinkedList<E> implements List<E> {
 			current = current.next;
 		}
 		
-		Node<E> newElement = new Node(element, current.next);
+		Node<E> newElement = new Node<E>(element, current.next);
 		current.next = newElement;
 		size++;
 	}
@@ -52,7 +52,7 @@ public class SinglyLinkedList<E> implements List<E> {
 
 	@Override
 	public E get(int index) throws IndexOutOfBoundsException {
-		if (index < 0 || index > size) {
+		if (index < 0 || index >= size) {
 			throw new IndexOutOfBoundsException("That index is out of bounds!");
 		}
 		
@@ -66,49 +66,83 @@ public class SinglyLinkedList<E> implements List<E> {
 
 	@Override
 	public E deleteFirst() throws NoSuchElementException {
-		// TODO Auto-generated method stub
-		return null;
+		if (size == 0) {
+			throw new NoSuchElementException("The list is empty");
+		}
+		
+		E temp = header.next.data;
+		header.next = header.next.next;
+		size--;
+		
+		return temp;
 	}
 
 	@Override
 	public E delete(int index) throws IndexOutOfBoundsException {
-		// TODO Auto-generated method stub
-		return null;
+		if (index < 0 || index >= size) {
+			throw new IndexOutOfBoundsException("That index is outside the bounds of the list.");
+		}
+		
+		Node<E> current = headerer.next;
+		for (int ii = 0; ii < index; ii++){
+			current = current.next;
+		}
+		
+		E data = current.next.data;
+		current.next = current.next.next;
+		size--;
+		
+		return data;
 	}
 
 	@Override
 	public int indexOf(E element) {
-		// TODO Auto-generated method stub
-		return 0;
+		Iterator<E> iter = iterator();
+		Node<E> currentNode = header.next;
+		
+		int index = 0;
+		while (iter.hasNext())
+		{
+			if (currentNode.data.equals(element)) {
+				return index;
+			}
+			index++;
+		}
+		return -1;
 	}
 
 	@Override
 	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
+		return size;
 	}
 
 	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
+		return size == 0;
 	}
 
 	@Override
 	public void clear() {
-		// TODO Auto-generated method stub
-		
+		size = 0;
+		header.next = trailer;
 	}
 
 	@Override
 	public Object[] toArray() {
-		// TODO Auto-generated method stub
-		return null;
+		Object[] arr = new Object[size];
+		Node<E> currentNode = header.next;
+		
+		for (int i = 0; i < size; i++) {
+			arr[i] = currentNode.data;
+			currentNode = currentNode.next;
+		}
+		
+		return arr;
 	}
 
 	@Override
 	public Iterator<E> iterator() {
-		return new SinglyLinkedListIterator<E>();
+		return new SinglyLinkedListIterator();
 	}
 	
 	private class Node<otherE>{
@@ -121,12 +155,11 @@ public class SinglyLinkedList<E> implements List<E> {
 		}
 	}
 	
-	private class SinglyLinkedListIterator<F> implements Iterator<F> {
+	private class SinglyLinkedListIterator implements Iterator<E> {
 
 		boolean canRemove;
-		Node<F> previousNode;
+		Node<E> previousNode;
 		
-		@SuppressWarnings("unchecked")
 		public SinglyLinkedListIterator() {
 			previousNode = headerer;
 			canRemove = false;
@@ -137,10 +170,8 @@ public class SinglyLinkedList<E> implements List<E> {
 			return previousNode.next.next != trailer;
 		}
 
-		
-		@SuppressWarnings("unchecked")
 		@Override
-		public F next() {
+		public E next() {
 			if (!hasNext()) {
 				throw(new NoSuchElementException("Out of bounds error"));
 			}
@@ -149,7 +180,7 @@ public class SinglyLinkedList<E> implements List<E> {
 			
 			previousNode = previousNode.next;
 			
-			return (F) previousNode.next.data;
+			return previousNode.next.data;
 		}
 		
 		@Override
