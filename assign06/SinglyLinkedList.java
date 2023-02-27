@@ -11,9 +11,9 @@ public class SinglyLinkedList<E> implements List<E> {
 	int size;
 	
 	public SinglyLinkedList() {
-		headerer.next = header;
-		header.next = trailer;
-		trailer.next = null;
+		trailer = new Node<E>(null, null);
+		header = new Node<E>(null, trailer);
+		headerer = new Node<E>(null, header);
 
 		size = 0;
 	}

@@ -51,6 +51,21 @@ public class WebBrowser {
 	}
 	
 	public SinglyLinkedList<URL> history() {
+		URL[] arr = new URL[backStack.size() + 1];
+		var list = new SinglyLinkedList<URL>();
 		
+		arr[arr.length - 1] = currentPage;
+		
+		for (int i = arr.length - 2; i >= 0; i--) {
+			arr[i] = backStack.pop();
+		}
+		
+		for (int i = 0; i < arr.length - 1; i++) {
+			list.insertFirst(arr[i]);
+			backStack.push(arr[i]);
+		}
+		
+		list.insertFirst(currentPage);
+		return list;
 	}
 }
