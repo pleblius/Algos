@@ -5,12 +5,13 @@ import java.util.NoSuchElementException;
 
 public class SinglyLinkedList<E> implements List<E> {
 
-	Node head;
-	Node tail;
+	Node header;
+	Node trailer;
 	int size;
 	
 	public void SinglyLinkedList() {
-		
+		trailer.next = null;
+		size = 0;
 	}
 	
 	@Override
@@ -93,37 +94,49 @@ public class SinglyLinkedList<E> implements List<E> {
 			this.data = data;
 			this.next = next;
 		}
-		
 	}
 	
-	private class SinglyLinkedListIterator implements Iterator<E> {
+	private class SinglyLinkedListIterator<F> implements Iterator<F> {
 
-		int nextIndex;
 		boolean canRemove;
+		Node<F> previousNode;
+		
+		@SuppressWarnings("unchecked")
+		public SinglyLinkedListIterator() {
+			previousNode = header;
+			canRemove = false;
+		}
 		
 		@Override
 		public boolean hasNext() {
-			return nextIndex < size;
+			return previousNode.next != trailer;
 		}
 
+		
+		@SuppressWarnings("unchecked")
 		@Override
-		public E next() {
+		public F next() {
 			if (!hasNext()) {
 				throw(new NoSuchElementException("Out of bounds error"));
 			}
 			
 			canRemove = true;
-			;
-			return ;
+			
+			F data = (F) previousNode.next.data;
+			previousNode = previousNode.next;
+			
+			return data;
 		}
 		
 		@Override
 		public void remove() {
+			if (!canRemove)
+				throw new IllegalStateException("Element already removed.");
+			canRemove = false;
 			
+			previousNode.next = previousNode.next.next;
+			
+			size--;
 		}
-		
-		
-		
 	}
-	
 }
