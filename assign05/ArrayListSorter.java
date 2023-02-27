@@ -13,6 +13,7 @@ import java.util.Collections;
  * @author Tyler Wilcox and Andrew Tolton
  * @version 17 February 2023
  */
+
 public class ArrayListSorter {
 	
 	private static int THRESHOLD = 20;
@@ -56,6 +57,7 @@ public class ArrayListSorter {
 	 * @param rightBound The right-most index of the portion of arr being sorted (inclusive)
 	 */
 	private static <T extends Comparable<? super T>> void mergesort(ArrayList<T> arr, ArrayList<T> tempArray, int leftBound, int rightBound) {
+		// Base Case
 		if ((rightBound - leftBound) <= THRESHOLD) {
 			insertionSort(arr, leftBound, rightBound);
 			return;
@@ -135,12 +137,13 @@ public class ArrayListSorter {
 	 * @param rightBound The right-most index of the portion of arr to be sorted (inclusive)
 	 */
 	private static <T extends Comparable<? super T>> void quicksort(ArrayList<T> arr, int leftBound, int rightBound) {
-		// Find Pivot
+		// Base case
 		if (rightBound - leftBound <= THRESHOLD) {
 			insertionSort(arr, leftBound, rightBound);
 			return;
 		}
 		
+		// Find Pivot
 		int pivotIndex = findPivot(arr, leftBound, rightBound);
 		
 			
@@ -227,6 +230,10 @@ public class ArrayListSorter {
 			
 		// Naive end index
 		case 3:
+			return rightBound;
+			
+		// Naive start index
+		case 4:
 			return rightBound;
 			
 		// Middle index

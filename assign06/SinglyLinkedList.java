@@ -5,6 +5,14 @@ import java.util.NoSuchElementException;
 
 public class SinglyLinkedList<E> implements List<E> {
 
+	Node head;
+	Node tail;
+	int size;
+	
+	public void SinglyLinkedList() {
+		
+	}
+	
 	@Override
 	public void insertFirst(E element) {
 		// TODO Auto-generated method stub
@@ -75,6 +83,47 @@ public class SinglyLinkedList<E> implements List<E> {
 	public Iterator<E> iterator() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	private class Node<E>{
+		E data;
+		Node next;
+		
+		public Node(E data, Node next) {
+			this.data = data;
+			this.next = next;
+		}
+		
+	}
+	
+	private class SinglyLinkedListIterator implements Iterator<E> {
+
+		int nextIndex;
+		boolean canRemove;
+		
+		@Override
+		public boolean hasNext() {
+			return nextIndex < size;
+		}
+
+		@Override
+		public E next() {
+			if (!hasNext()) {
+				throw(new NoSuchElementException("Out of bounds error"));
+			}
+			
+			canRemove = true;
+			;
+			return ;
+		}
+		
+		@Override
+		public void remove() {
+			
+		}
+		
+		
+		
 	}
 	
 }
