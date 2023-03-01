@@ -170,12 +170,22 @@ public class SinglyLinkedListTest {
 	
 	@Test
 	void testGetDifferentTypes() {
-		// TODO string, int, color, etc.
+		strings.insert(2, "hooray!");
+		assertTrue(strings.get(0).equals("Hello"));
+		assertTrue(strings.get(1).equals("World!"));
+		assertTrue(strings.get(2).equals("hooray!"));
+		
+		for (int i = 0; i < boolVals.length; i++) {
+			assertEquals(boolVals[i], bools.get(i));
+		}
 	}
 	
 	@Test
 	void testGetLastIndex() {
-		
+		for (int i = 0; i < 1000; i++) {
+			sequence.insert(i, i);
+			assertEquals(sequence.get(i),i, "Failed at index " + i);
+		}
 	}
 	
 	/*
@@ -184,12 +194,28 @@ public class SinglyLinkedListTest {
 	
 	@Test
 	void testDeleteFirstExceptions() {
-	
+		assertThrows(NoSuchElementException.class, () -> {empty.deleteFirst();});
 	}
 	
 	@Test
 	void testDeleteFirstSizeConsistency() {
-		
+		for (int i = 0; i < 1000; i++) {
+			sequence.insertFirst(i);
+		}
+		for (int i = 0; i < 1000; i++) {
+			sequence.deleteFirst();
+			assertEquals(999 - i, sequence.size(), "Failed at index " + i);
+		}
+	}
+	
+	@Test
+	void testDeleteFirstReturnValue() {
+		for (int i = 0; i < 1000; i++) {
+			sequence.insertFirst(i);
+		}
+		for (int i = 0; i < 1000; i++) {
+			assertEquals(999 - i, sequence.deleteFirst(), "Failed at index " + i);
+		}
 	}
 	
 	
@@ -199,12 +225,17 @@ public class SinglyLinkedListTest {
 	
 	@Test
 	void testDeleteExceptions() {
-		
+		assertThrows(IndexOutOfBoundsException.class, () -> {bools.delete(100);});
+		assertThrows(IndexOutOfBoundsException.class, () -> {hasOne.delete(-1);});
+		assertThrows(IndexOutOfBoundsException.class, () -> {hasOne.delete(1);});
+		assertThrows(IndexOutOfBoundsException.class, () -> {empty.delete(0);});
 	}
 	
 	@Test
 	void testDeleteVariousSizes() {
-		
+		for (int i = 0; i < boolVals.length/2; i++) {
+			assertTrue(bools.delete(i) == boolVals[2*i]);
+		}
 	}
 	
 	@Test

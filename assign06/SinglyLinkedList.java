@@ -67,7 +67,7 @@ public class SinglyLinkedList<E> implements List<E> {
 			throw new IndexOutOfBoundsException("That index is out of bounds!");
 		}
 		
-		Node current = header.next;
+		Node current = header;
 		for (int ii = 0; ii < index; ii++){
 			current = current.next;
 		}
