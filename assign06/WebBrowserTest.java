@@ -82,14 +82,14 @@ class WebBrowserTest {
 		testBrowser.back();
 		testBrowser.visit(url4);
 		
-		list = new SinglyLinkedList<URL>();
+		SinglyLinkedList<URL> backList = new SinglyLinkedList<URL>();
 		
-		list.insertFirst(url4);
-		list.insertFirst(url3);
-		list.insertFirst(url4);
+		backList.insertFirst(url4);
+		backList.insertFirst(url3);
+		backList.insertFirst(url4);
 		
-		for (int i = 0; i < list.size(); i++) {
-			assertTrue(list.get(i).toString().equals(testBrowser.history().toString()));
+		for (int i = 0; i < backList.size(); i++) {
+			assertTrue(backList.get(i).toString().equals(testBrowser.history().toString()));
 		}
 	}
 	
@@ -108,6 +108,28 @@ class WebBrowserTest {
 		testBrowser.visit(url4);
 		
 		assertThrows(NoSuchElementException.class, () -> {testBrowser.forward();});
+	}
+	
+	@Test
+	void testForwardStack() {
+		var list = new SinglyLinkedList<URL>();
+		list.insertFirst(url4);
+		list.insertFirst(url3);
+		list.insertFirst(url2);
+		list.insertFirst(url1);
+		
+		var forwardList = new SinglyLinkedList<URL>();
+		forwardList.insertFirst(url1);
+		forwardList.insertFirst(url2);
+		
+		testBrowser = new WebBrowser(list);
+		
+		testBrowser.back();
+		testBrowser.back();
+
+		for (int ii = 0; ii < 2; ii++) {
+			assertTrue(testBrowser.forward().toString().equals(forwardList.get(ii).toString()));
+		}
 	}
 	
 	@Test
