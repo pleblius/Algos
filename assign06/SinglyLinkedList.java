@@ -302,12 +302,15 @@ public class SinglyLinkedList<E> implements List<E> {
 
 		boolean canRemove;
 		Node previousNode;
+		Node twoPreviousNode;
 		
 		/**
 		 * Generates a new iterator object for SinglyLinkedList objects.
 		 */
 		public SinglyLinkedListIterator() {
 			previousNode = new Node(null, header);
+			twoPreviousNode = new Node(null, previousNode);
+			
 			canRemove = false;
 		}
 		
@@ -343,6 +346,8 @@ public class SinglyLinkedList<E> implements List<E> {
 			
 			canRemove = true;
 			
+			twoPreviousNode = previousNode;
+			
 			previousNode = previousNode.next;
 			
 			return previousNode.next.data;
@@ -364,6 +369,7 @@ public class SinglyLinkedList<E> implements List<E> {
 			canRemove = false;
 			
 			previousNode.next = previousNode.next.next;
+			previousNode = twoPreviousNode;
 			
 			size--;
 		}

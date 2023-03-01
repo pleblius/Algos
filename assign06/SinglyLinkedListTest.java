@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -18,6 +19,13 @@ public class SinglyLinkedListTest {
 	SinglyLinkedList<String> strings;
 	SinglyLinkedList<Boolean> bools;
 	boolean[] boolVals = {false, false, false, true, false, true, true};
+	
+	Iterator<Integer> emptyIter;
+	Iterator<Integer> hasOneIter;
+	Iterator<Integer> sequenceIter;
+	Iterator<String> stringsIter;
+	Iterator<Boolean> boolsIter;
+	
 	
 	@BeforeEach
 	void setup() {
@@ -37,6 +45,11 @@ public class SinglyLinkedListTest {
 			bools.insertFirst(false);
 			bools.insertFirst(false);
 			bools.insertFirst(false);
+			
+		emptyIter = empty.iterator();
+		hasOneIter = hasOne.iterator();
+		stringsIter = strings.iterator();
+		boolsIter = bools.iterator();
 	}
 	
 	/*
@@ -398,52 +411,102 @@ public class SinglyLinkedListTest {
 	
 	@Test
 	void testHasNextIfEmpty() {
-		
+		assertFalse(emptyIter.hasNext());
 	}
 	
 	@Test
 	void testHasNextIfNotEmpty() {
-		
+		assertTrue(hasOneIter.hasNext());
+		assertTrue(boolsIter.hasNext());
+		assertTrue(stringsIter.hasNext());
 	}
 	
 	@Test
 	void testHasNextAtEndOfList() {
-		
+		for (int i = 0; i < hasOne.size(); i++) {
+			hasOneIter.next();
+		}
+		for (int i = 0; i < bools.size(); i++) {
+			boolsIter.next();
+		}
+		for (int i = 0; i < strings.size(); i++) {
+			stringsIter.next();
+		}
+
+		assertFalse(hasOneIter.hasNext());
+		assertFalse(boolsIter.hasNext());
+		assertFalse(stringsIter.hasNext());
 	}
 	
 	@Test
 	void testNextExceptions() {
+		for (int i = 0; i < hasOne.size(); i++) {
+			hasOneIter.next();
+		}
+		for (int i = 0; i < bools.size(); i++) {
+			boolsIter.next();
+		}
+		for (int i = 0; i < strings.size(); i++) {
+			stringsIter.next();
+		}
 		
+		assertThrows(NoSuchElementException.class, () -> {hasOneIter.next();});
+		assertThrows(NoSuchElementException.class, () -> {stringsIter.next();});
+		assertThrows(NoSuchElementException.class, () -> {boolsIter.next();});
+		assertThrows(NoSuchElementException.class, () -> {emptyIter.next();});
 	}
 	
 	@Test
 	void testNextIteratesOverEveryItem() {
+		for (int i = 0; i < 1000; i++) {
+			sequence.insert(i,  i);
+		}
 		
-	}
-	
-	@Test
-	void testNextReturnItem() {
+		sequenceIter = sequence.iterator();
 		
+		int testIndex = 0;
+		while(sequenceIter.hasNext()) {
+			assertEquals(testIndex++, sequenceIter.next());
+		}
 	}
 	
 	@Test
 	void testRemoveExceptions() {
-		
+		assertThrows(IllegalStateException.class, () -> {emptyIter.remove();});
+		assertThrows(IllegalStateException.class, () -> {boolsIter.remove();});
+		assertThrows(IllegalStateException.class, () -> {boolsIter.next(); boolsIter.remove(); boolsIter.remove();});
 	}
 	
 	@Test
 	void testRemoveProperlyRemoves() {
+		stringsIter.next();
+		stringsIter.remove();
+		assertEquals("World!",strings.getFirst());
 		
+		for (int i = 0; i < 5; i++) {
+			sequence.insert(i, i);
+		}
+		sequenceIter = sequence.iterator();
+		
+		sequenceIter.next();
+		sequenceIter.next();
+		sequenceIter.next();
+		sequenceIter.remove();
+		assertEquals(3, sequenceIter.next());
 	}
 	
 	@Test
 	void testRemoveDoesntSkipNextValues() {
-		// TODO make sure values aren't skipped while deleting
-	}
-	
-	@Test
-	void testRemoveChangesSize() {
+		for (int i = 0; i < 1000; i++ ) {
+			sequence.insert(i, i);
+		}
+		sequenceIter = sequence.iterator();
+		for (int i = 0; i < 1000; i++) {
+			assertEquals(i, sequenceIter.next(), "Failed at index " + i);
+			sequenceIter.remove();
+		}
 		
+		assertEquals(0, sequence.size());
 	}
 }
 	
