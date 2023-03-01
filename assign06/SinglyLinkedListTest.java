@@ -4,18 +4,40 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.NoSuchElementException;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class SinglyLinkedListTest {
 	
+	SinglyLinkedList<Integer> empty;
+	SinglyLinkedList<Integer> hasOne;
+	SinglyLinkedList<Integer> sequence;
+	
+	SinglyLinkedList<String> strings;
+	SinglyLinkedList<Boolean> bools;
+	boolean[] boolVals = {false, false, false, true, false, true, true};
 	
 	@BeforeEach
 	void setup() {
+		empty = new SinglyLinkedList<Integer>();
+		hasOne = new SinglyLinkedList<Integer>();
+			hasOne.insertFirst(1);
+		sequence = new SinglyLinkedList<Integer>();
 		
+		strings = new SinglyLinkedList<String>();
+			strings.insertFirst("World!");
+			strings.insertFirst("Hello");
+		bools = new SinglyLinkedList<Boolean>();
+			bools.insertFirst(true);
+			bools.insertFirst(true);
+			bools.insertFirst(false);
+			bools.insertFirst(true);
+			bools.insertFirst(false);
+			bools.insertFirst(false);
+			bools.insertFirst(false);
 	}
-	
 	
 	/*
 	 * Constructor Tests
@@ -23,7 +45,7 @@ public class SinglyLinkedListTest {
 	
 	@Test
 	void testInstantiation() {
-		// TODO Various generics, actually runs, check size
+		empty = new SinglyLinkedList<Integer>();
 	}
 	
 	/*
@@ -32,22 +54,34 @@ public class SinglyLinkedListTest {
 	
 	@Test
 	void testInsertFirstWhileEmpty() {
-		
+		empty.insertFirst(125);
+		assertTrue(empty.getFirst().equals(125));
 	}
 	
 	@Test
 	void testInsertFirstWhileNotEmpty() {
+		hasOne.insertFirst(2);
+		bools.insertFirst(true);
 		
+		assertTrue(hasOne.getFirst().equals(2));
+		assertTrue(bools.getFirst());	
 	}
 	
 	@Test
 	void testInsertFirstVariousTypes() {
-		
+		strings.insertFirst("hooray!");
+		assertTrue(strings.getFirst().equals("hooray!"));
 	}
 	
 	@Test
 	void testInsertFirstCheckSize() {
 		
+		for (int ii = 0; ii < 100; ii ++) {
+			assertTrue(sequence.size() == (ii));
+			
+			sequence.insertFirst(ii);
+			assertTrue(sequence.getFirst().equals(ii));
+		}
 	}
 
 	
@@ -57,20 +91,26 @@ public class SinglyLinkedListTest {
 	
 	@Test
 	void testInsertWhileEmpty() {
-		// TODO various tests while array
+		empty.insertFirst(125);
+		assertTrue(empty.getFirst().equals(125));
 	}
 	
 	@Test
 	void testInsertWhileNotEmpty() {
-		// TODO various tests while array is full
-		// First
-		// Last
-		// Other positions
+		for (int ii = 0; ii < 100; ii ++) {
+			assertTrue(sequence.size() == (ii));
+			
+			sequence.insertFirst(ii);
+			assertTrue(sequence.getFirst().equals(ii));
+		}
 	}
 	
 	@Test
 	void testInsertExceptions() {
-		// TODO test for exceptions
+		assertThrows(IndexOutOfBoundsException.class, () -> {bools.insert(100, false);});
+		assertThrows(IndexOutOfBoundsException.class, () -> {hasOne.insert(-1, 2);});
+		assertThrows(IndexOutOfBoundsException.class, () -> {hasOne.insert(2, 2);});
+		assertThrows(IndexOutOfBoundsException.class, () -> {empty.insert(1, 2);});
 	}
 	
 	/*
@@ -79,17 +119,29 @@ public class SinglyLinkedListTest {
 	
 	@Test
 	void testGetFirstExceptions() {
-		
+		assertThrows(NoSuchElementException.class, () -> {empty.getFirst();});
 	}
 	
 	@Test
 	void testGetFirstVariousSizes() {
+		for (int ii = 0; ii < 100; ii ++) {
+			sequence.insertFirst(ii);
+			assertTrue(sequence.getFirst().equals(ii));
+		}
 		
+		for (int ii = 0; ii < 100; ii++) { 
+			sequence.insert(5, 1);
+			assertTrue(sequence.getFirst().equals(99));
+		}
 	}
 	
 	@Test
 	void testGetFirstDifferentTypes() {
+		strings.insertFirst("hooray!");
+		assertTrue(strings.getFirst().equals("hooray!"));
 		
+		bools.insertFirst(true);
+		assertTrue(bools.getFirst());
 	}
 	
 	/*
@@ -98,14 +150,20 @@ public class SinglyLinkedListTest {
 	
 	@Test
 	void testGetExceptions() {
-		// TODO negative, empty, too large
+		assertThrows(IndexOutOfBoundsException.class, () -> {bools.get(100);});
+		assertThrows(IndexOutOfBoundsException.class, () -> {hasOne.get(-1);});
+		assertThrows(IndexOutOfBoundsException.class, () -> {hasOne.get(1);});
+		assertThrows(IndexOutOfBoundsException.class, () -> {empty.get(0);});
 	}
 	
 	@Test
 	void testGetVariousSizes() {
-		for (int i = 1; i < 1000; i++) {
-			for (int j = 0; j < i; j++) {
-				// TODO test gets of J
+		for (int i = 999; i >= 0; i--) {
+			sequence.insertFirst(i);
+			
+			for (int j = 0; j < 1000 - i; j++) {
+				
+				assertTrue(sequence.get(j).equals(i + j));
 			}
 		}
 	}
