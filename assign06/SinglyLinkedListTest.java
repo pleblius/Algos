@@ -236,45 +236,59 @@ public class SinglyLinkedListTest {
 		for (int i = 0; i < boolVals.length/2; i++) {
 			assertTrue(bools.delete(i) == boolVals[2*i]);
 		}
+		
+		for (int i = 1; i < boolVals.length; i += 2) {
+			assertTrue(bools.get(i / 2) == boolVals[i]);
+		}
 	}
 	
 	@Test
 	void testDeleteDifferentTypes() {
+		assertTrue(strings.delete(1).equals("World!"));
 		
+		assertTrue(hasOne.delete(0).equals(1));
 	}
 	
 	@Test
-	void testDeleteLastIndex() {
+	void testDeleteAll() {
+		for (int ii = 0; ii < 1000; ii++) {
+			sequence.insertFirst(ii);
+		}
 		
+		for (int ii = 0; ii < 1000; ii++) {
+			sequence.delete(0);
+		}
+		
+		assertTrue(sequence.size() == 0);
 	}
-	
-	@Test
-	void testDeleteFirstIndex() {
-		// TODO check against deleteFirst()
-	}
+
 	
 	/*
 	 * IndexOf()
 	 */
 
-	@Test
-	void testIndexOfExceptions() {
-		
-	}
 	
 	@Test
 	void testIndexOfVariousSizes() {
+		for (int ii = 0; ii < 1000; ii++) {
+			sequence.insert(ii, ii);
+		}
 		
+		for (int jj = 0; jj < 1000; jj++) {
+			assertTrue(sequence.indexOf(jj) == jj);
+		}
 	}
 	
 	@Test
 	void testIndexOfVariousTypes() {
-		
+		assertTrue(bools.indexOf(true) == 3);
+		assertTrue(bools.indexOf(false) == 0);
 	}
 	
 	@Test
 	void testIndexOfEdges() {
-		
+		assertTrue(strings.indexOf("Hello") == 0);
+		assertTrue(strings.indexOf("World!") == 1);
 	}
 	
 	/*
@@ -283,12 +297,15 @@ public class SinglyLinkedListTest {
 	
 	@Test
 	void testSizeEmpty() {
-		
+		assertTrue(empty.size() == 0);
 	}
 	
 	@Test
 	void testSizeNotEmpty() {
-		
+		for (int ii = 0; ii < 1000; ii++) {
+			sequence.insertFirst(ii);
+			assertEquals(ii + 1, sequence.size());
+		}
 	}
 	
 	/*
@@ -297,12 +314,13 @@ public class SinglyLinkedListTest {
 	
 	@Test
 	void testIsEmptyIfEmpty() {
-		
+		assertTrue(empty.isEmpty());
 	}
 	
 	@Test
 	void testIsEmptyIfNotEmpty() {
-		
+		assertFalse(hasOne.isEmpty());
+		assertFalse(strings.isEmpty());
 	}
 	
 	/*
@@ -311,17 +329,29 @@ public class SinglyLinkedListTest {
 	
 	@Test
 	void testClearIfEmpty() {
-		
+		empty.clear();
+		assertTrue(empty.isEmpty());
 	}
 	
 	@Test
 	void testClearIfNotEmpty() {
+		hasOne.clear();
+		strings.clear();
 		
+		assertTrue(hasOne.isEmpty());
+		assertTrue(strings.isEmpty());
 	}
 	
 	@Test
 	void testClearInsertAfter() {
+		hasOne.clear();
+		strings.clear();
 		
+		assertTrue(hasOne.isEmpty());
+		assertTrue(strings.isEmpty());
+		
+		hasOne.insert(0, 1);
+		assertFalse(hasOne.isEmpty());
 	}
 	
 	/*
@@ -330,22 +360,36 @@ public class SinglyLinkedListTest {
 	
 	@Test
 	void testToArrayEmptyList() {
-		
+		assertTrue(empty.toArray().length == 0);
 	}
 	
 	@Test
-	void testToArraySingleTime() {
-		
+	void testToArraySingleItem() {
+		assertTrue(hasOne.toArray()[0].equals(1));
+		assertTrue(hasOne.toArray().length == 1);
 	}
 	
 	@Test
 	void testToArrayMultipleItems() {
+		Integer[] arr;
+		Object[] listArr;
 		
-	}
-	
-	@Test
-	void testToArrayCorrectSize() {
-		
+		for (int ii = 0; ii < 1000; ii++) {
+			arr = new Integer[ii];
+			sequence.insert(ii, ii);
+			listArr = sequence.toArray();
+			
+			for (int jj = 0; jj < ii; jj++) {
+				arr[jj] = jj;
+			}
+				
+			for (int kk = 0; kk < ii; kk++) {
+				assertEquals(arr[kk], listArr[kk]);
+			}
+			
+			assertTrue(listArr.length == ii + 1);
+				
+		}
 	}
 	
 	/*
