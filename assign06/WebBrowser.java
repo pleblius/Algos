@@ -35,13 +35,14 @@ public class WebBrowser {
 	 */
 	public WebBrowser(SinglyLinkedList<URL> history) {
 		forStack = new ArrayStack<URL>();
+		backStack = new ArrayStack<URL>();
 		
-		URL[] tempArr = (URL[]) history.toArray();
+		var tempArr = history.toArray();
 		for (int ii = tempArr.length - 1; ii > 0; ii--) {
-			backStack.push(tempArr[ii]);
+			backStack.push((URL) tempArr[ii]);
 		}
 		
-		currentPage = tempArr[0];
+		currentPage = (URL) tempArr[0];
 	}
 	
 	/**
