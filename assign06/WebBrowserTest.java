@@ -32,7 +32,7 @@ class WebBrowserTest {
 	}
 	
 	@Test
-	void webBrowserHistorybullshit() {
+	void webBrowserHistory() {
 		testBrowser.visit(url1);
 		testBrowser.visit(url2);
 		testBrowser.visit(url3);
@@ -46,6 +46,32 @@ class WebBrowserTest {
 		testHistory.insertFirst(url4);
 		
 		history = testBrowser.history();
+		
+		for (int i = 0; i < 4; i++) {
+			assertTrue(testHistory.get(i).toString().equals(history.get(i).toString()));
+		}
+	}
+	
+	@Test
+	void testHistoryCreation() {
+		testBrowser.visit(url1);
+		testBrowser.visit(url2);
+		testBrowser.visit(url3);
+		
+		
+		var testHistory = new SinglyLinkedList<URL>();
+		testHistory.insertFirst(url1);
+		testHistory.insertFirst(url2);
+		testHistory.insertFirst(url3);
+		
+		history = testBrowser.history();
+		
+		for (int i = 0; i < 3; i++) {
+			assertTrue(testHistory.get(i).toString().equals(history.get(i).toString()));
+		}
+		
+		testBrowser.visit(url4);
+		testHistory.insertFirst(url4);
 		
 		for (int i = 0; i < 4; i++) {
 			assertTrue(testHistory.get(i).toString().equals(history.get(i).toString()));
