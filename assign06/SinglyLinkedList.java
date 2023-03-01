@@ -21,18 +21,16 @@ import java.util.NoSuchElementException;
  */
 public class SinglyLinkedList<E> implements List<E> {
 
-	Node<E> headerer;
-	Node<E> header;
-	Node<E> trailer;
+	Node header;
+	Node trailer;
 	int size;
 	
 	/**
 	 * Contructs a new, empty, generic SinglyLinkedList object.
 	 */
 	public SinglyLinkedList() {
-		trailer = new Node<E>(null, null);
-		header = new Node<E>(null, trailer);
-		headerer = new Node<E>(null, header);
+		trailer = new Node(null, null);
+		header = new Node(null, trailer);
 
 		size = 0;
 	}
@@ -45,7 +43,7 @@ public class SinglyLinkedList<E> implements List<E> {
 	 */
 	@Override
 	public void insertFirst(E element) {
-		Node<E> firstNode = new Node<E>(element, header.next);
+		Node firstNode = new Node(element, header.next);
 		
 		header.next = firstNode;
 		size++;
@@ -69,12 +67,12 @@ public class SinglyLinkedList<E> implements List<E> {
 			throw new IndexOutOfBoundsException("That index is out of bounds!");
 		}
 		
-		Node<E> current = header.next;
+		Node current = header.next;
 		for (int ii = 0; ii < index; ii++){
 			current = current.next;
 		}
 		
-		Node<E> newElement = new Node<E>(element, current.next);
+		Node newElement = new Node(element, current.next);
 		current.next = newElement;
 		size++;
 	}
@@ -92,7 +90,9 @@ public class SinglyLinkedList<E> implements List<E> {
 		if (size == 0) {
 			throw new NoSuchElementException("There is no data in the list.");
 		}
-		return header.next.data;
+		Iterator<E> iter = iterator();
+		
+		return iter.next();
 	}
 
 	/**
@@ -111,12 +111,13 @@ public class SinglyLinkedList<E> implements List<E> {
 			throw new IndexOutOfBoundsException("That index is out of bounds!");
 		}
 		
-		Node<E> current = header.next;
+		Iterator<E> iter = iterator();
+		
 		for (int ii = 0; ii < index; ii++){
-			current = current.next;
+			iter.next();
 		}
 		
-		return current.data;
+		return iter.next();
 	}
 
 	/**
@@ -132,10 +133,10 @@ public class SinglyLinkedList<E> implements List<E> {
 		if (size == 0) {
 			throw new NoSuchElementException("The list is empty");
 		}
+		Iterator<E> iter = iterator();
 		
-		E temp = header.next.data;
-		header.next = header.next.next;
-		size--;
+		E temp = iter.next();
+		iter.remove();
 		
 		return temp;
 	}
@@ -156,16 +157,15 @@ public class SinglyLinkedList<E> implements List<E> {
 			throw new IndexOutOfBoundsException("That index is outside the bounds of the list.");
 		}
 		
-		Node<E> current = headerer.next;
+		Iterator<E> iter = iterator();
 		for (int ii = 0; ii < index; ii++){
-			current = current.next;
+			iter.next();
 		}
 		
-		E data = current.next.data;
-		current.next = current.next.next;
-		size--;
+		E temp = iter.next();
+		iter.remove();
 		
-		return data;
+		return temp;
 	}
 
 	/**
@@ -181,12 +181,11 @@ public class SinglyLinkedList<E> implements List<E> {
 	@Override
 	public int indexOf(E element) {
 		Iterator<E> iter = iterator();
-		Node<E> currentNode = header.next;
 		
 		int index = 0;
 		while (iter.hasNext())
 		{
-			if (currentNode.data.equals(element)) {
+			if (iter.next().equals(element)) {
 				return index;
 			}
 			index++;
@@ -233,7 +232,7 @@ public class SinglyLinkedList<E> implements List<E> {
 	@Override
 	public Object[] toArray() {
 		Object[] arr = new Object[size];
-		Node<E> currentNode = header.next;
+		Node currentNode = header.next;
 		
 		for (int i = 0; i < size; i++) {
 			arr[i] = currentNode.data;
@@ -264,9 +263,9 @@ public class SinglyLinkedList<E> implements List<E> {
 	 * 
 	 * @param <otherE> - The generic type passed into this node.
 	 */
-	private class Node<otherE>{
-		otherE data;
-		Node<otherE> next;
+	private class Node{
+		E data;
+		Node next;
 		
 		/**
 		 * Creates a new node with the provided data element and a pointer to the 
@@ -275,7 +274,7 @@ public class SinglyLinkedList<E> implements List<E> {
 		 * @param data - The data element stored in this node.
 		 * @param next - The next node in the list.
 		 */
-		public Node(otherE data, Node<otherE> next) {
+		public Node(E data, Node next) {
 			this.data = data;
 			this.next = next;
 		}
@@ -302,13 +301,13 @@ public class SinglyLinkedList<E> implements List<E> {
 	private class SinglyLinkedListIterator implements Iterator<E> {
 
 		boolean canRemove;
-		Node<E> previousNode;
+		Node previousNode;
 		
 		/**
 		 * Generates a new iterator object for SinglyLinkedList objects.
 		 */
 		public SinglyLinkedListIterator() {
-			previousNode = headerer;
+			previousNode = new Node(null, header);
 			canRemove = false;
 		}
 		
