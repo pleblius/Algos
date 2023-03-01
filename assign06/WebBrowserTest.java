@@ -88,8 +88,10 @@ class WebBrowserTest {
 		backList.insertFirst(url3);
 		backList.insertFirst(url4);
 		
+		var history = testBrowser.history();
+		
 		for (int i = 0; i < backList.size(); i++) {
-			assertTrue(backList.get(i).toString().equals(testBrowser.history().toString()));
+			assertTrue(backList.get(i).toString().equals(history.get(i).toString()));
 		}
 	}
 	
