@@ -1,5 +1,6 @@
 package analysis;
 
+import java.awt.Toolkit;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -68,7 +69,7 @@ public class Utils {
 	 */
 	public static void copyArrayValues(ArrayList<Integer> dest, ArrayList<Integer> src) {
 		for (int i = 0; i < src.size(); i++) {
-			dest.add(src.get(i));
+			dest.add(i, src.get(i));
 		}
 	}
 	
@@ -87,17 +88,19 @@ public class Utils {
 	public static void copyEntireArray(List<ArrayList<Integer>> dest, List<ArrayList<Integer>> src) {
 		for (int i = 0; i < src.size(); i++) {
 			for (int j = 0; j < src.get(i).size(); j++) {
-				dest.get(i).add(src.get(i).get(j));
+				dest.get(i).add(j, src.get(i).get(j));
 			}
 		}
 	}
 	
 	/**
-	 * Generates and returns a value-based copy of a the source array list.
+	 * Generates and returns a value-based copy of the source array list.
 	 * 
-	 * Can be used as an assignment for an existing array list to overwrite its values
-	 * with a clone of the data set in the source array list that can be modified
-	 * without modifying the original source dataset.
+	 * Copies the integer value from each index in the source arraylist into the
+	 * corresponding index of the generated arraylist, ensuring an exact copy of
+	 * the list without copying the variable pointers for the list itself or its data,
+	 * preventing modifications to the new list from affecting the data contained in the old
+	 * list.
 	 * 
 	 * @param src Source ArrayList<Integer> to be copied from.
 	 * @return a new unlinked ArrayList<Integer>
@@ -108,5 +111,13 @@ public class Utils {
 		copyArrayValues(temp, src);
 		
 		return temp;
+	}
+	
+	/**
+	 * Generates a simple beep noise based on the user's system hardware
+	 * and default OS settings.
+	 */
+	public static void beep() {
+		Toolkit.getDefaultToolkit().beep();
 	}
 }
