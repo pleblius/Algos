@@ -2,8 +2,6 @@ package assign06;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.NoSuchElementException;
 
 import org.junit.jupiter.api.BeforeEach;

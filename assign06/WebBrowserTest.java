@@ -88,8 +88,10 @@ class WebBrowserTest {
 		backList.insertFirst(url3);
 		backList.insertFirst(url4);
 		
+		var history = testBrowser.history();
+		
 		for (int i = 0; i < backList.size(); i++) {
-			assertTrue(backList.get(i).toString().equals(testBrowser.history().toString()));
+			assertTrue(backList.get(i).toString().equals(history.get(i).toString()));
 		}
 	}
 	
@@ -178,5 +180,29 @@ class WebBrowserTest {
 			assertTrue(testHistory.get(i).toString().equals(testBrowser.history().get(i).toString()));
 		}
 	}
-
+	
+	@Test
+	void testHistoryThenBack() {
+		testBrowser.visit(url1);
+		testBrowser.visit(url2);
+		testBrowser.visit(url3);
+		testBrowser.visit(url4);
+		
+		testBrowser.history();
+		
+		assertTrue(testBrowser.back().toString().equals(url3.toString()));
+		assertTrue(testBrowser.back().toString().equals(url2.toString()));
+		assertTrue(testBrowser.back().toString().equals(url1.toString()));
+	}
+	
+	@Test
+	void testHistorySize() {
+		testBrowser.visit(url1);
+		testBrowser.visit(url2);
+		testBrowser.visit(url3);
+		
+		var history = testBrowser.history();
+		
+		assertEquals(3, history.size());
+	}
 }

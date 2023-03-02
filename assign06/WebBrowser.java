@@ -15,16 +15,16 @@ import java.util.NoSuchElementException;
  */
 public class WebBrowser {
 	
-	private ArrayStack<URL> forStack;
-	private ArrayStack<URL> backStack;
+	private LinkedListStack<URL> forStack;
+	private LinkedListStack<URL> backStack;
 	private URL currentPage;
 	
 	/**
 	 * Generates a new web browser object with an empty browsing history.
 	 */
 	public WebBrowser() {
-		forStack = new ArrayStack<URL>();
-		backStack = new ArrayStack<URL>();
+		forStack = new LinkedListStack<URL>();
+		backStack = new LinkedListStack<URL>();
 	}
 	
 	/**
@@ -34,8 +34,8 @@ public class WebBrowser {
 	 * @param history - the user's browsing history to be stored in this browser instance.
 	 */
 	public WebBrowser(SinglyLinkedList<URL> history) {
-		forStack = new ArrayStack<URL>();
-		backStack = new ArrayStack<URL>();
+		forStack = new LinkedListStack<URL>();
+		backStack = new LinkedListStack<URL>();
 		
 		var tempArr = history.toArray();
 		for (int ii = tempArr.length - 1; ii > 0; ii--) {
@@ -52,7 +52,8 @@ public class WebBrowser {
 	 * @param webpage - the new webpage to be visited.
 	 */
 	public void visit(URL webpage) {
-		backStack.push(currentPage);
+		if (currentPage != null)
+			backStack.push(currentPage);
 		forStack.clear();
 		currentPage = webpage;
 	}

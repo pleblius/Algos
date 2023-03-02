@@ -21,9 +21,9 @@ import java.util.NoSuchElementException;
  */
 public class SinglyLinkedList<E> implements List<E> {
 
-	Node header;
-	Node trailer;
-	int size;
+	private Node header;
+	private Node trailer;
+	private int size;
 	
 	/**
 	 * Contructs a new, empty, generic SinglyLinkedList object.
@@ -264,8 +264,8 @@ public class SinglyLinkedList<E> implements List<E> {
 	 * @param <otherE> - The generic type passed into this node.
 	 */
 	private class Node{
-		E data;
-		Node next;
+		private E data;
+		private Node next;
 		
 		/**
 		 * Creates a new node with the provided data element and a pointer to the 
@@ -300,9 +300,9 @@ public class SinglyLinkedList<E> implements List<E> {
 	 */
 	private class SinglyLinkedListIterator implements Iterator<E> {
 
-		boolean canRemove;
-		Node previousNode;
-		Node twoPreviousNode;
+		private boolean canRemove;
+		private Node previousNode;
+		private Node twoPreviousNode;
 		
 		/**
 		 * Generates a new iterator object for SinglyLinkedList objects.

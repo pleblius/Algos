@@ -17,7 +17,7 @@ import java.util.NoSuchElementException;
  * @param <E> - Generic type parameter of the elements contained in the stack.
  */
 public class LinkedListStack<E> implements Stack<E> {
-	SinglyLinkedList<E> stack;
+	private SinglyLinkedList<E> stack;
 	
 	/**
 	 * Creates a new, empty LinkedListStack object.
