@@ -145,6 +145,8 @@ public class Graph<Type> {
 			v.setCameFrom(null);
 		}
 		
+		frontier.add(vertices.get(srcData));
+		
 		while (!frontier.isEmpty()) {
 			Vertex<Type> n = frontier.remove();
 			
