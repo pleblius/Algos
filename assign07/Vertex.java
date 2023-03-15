@@ -20,7 +20,7 @@ public class Vertex<Type> {
 	private Vertex<Type> cameFrom;
 
 	// adjacency list
-	private LinkedList<Edge> adj;
+	private LinkedList<Edge<Type>> adj;
 
 	/**
 	 * Creates a new Vertex object containing the given data.
@@ -29,7 +29,7 @@ public class Vertex<Type> {
 	 */
 	public Vertex(Type data) {
 		this.data = data;
-		this.adj = new LinkedList<Edge>();
+		this.adj = new LinkedList<Edge<Type>>();
 	}
 
 	/**
@@ -86,13 +86,13 @@ public class Vertex<Type> {
 	 * @param otherVertex - the Vertex object that is the destination of the edge
 	 */
 	public void addEdge(Vertex<Type> otherVertex) {
-		adj.add(new Edge(otherVertex));
+		adj.add(new Edge<Type>(otherVertex));
 	}
 
 	/**
 	 * @return a iterator for accessing the edges for which this Vertex is the source
 	 */
-	public Iterator<Edge> edges() {
+	public Iterator<Edge<Type>> edges() {
 		return adj.iterator();
 	}
 
@@ -101,7 +101,7 @@ public class Vertex<Type> {
 	 */
 	public String toString() {
 		String s = "Vertex " + data.toString() + " adjacent to vertices ";
-		Iterator<Edge> itr = adj.iterator();
+		Iterator<Edge<Type>> itr = adj.iterator();
 		while(itr.hasNext())
 			s += itr.next().toString() + "  ";
 		return s;

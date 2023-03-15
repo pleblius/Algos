@@ -1,5 +1,6 @@
 package assign07;
 
+import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -68,7 +69,7 @@ public class Graph<Type> {
 		// for every vertex 
 		for(Vertex<Type> v : vertices.values()) {
 			// for every edge
-			Iterator<Edge> edges = v.edges();
+			Iterator<Edge<Type>> edges = v.edges();
 			while(edges.hasNext()) 
 				dot.append("\t\"" + v.getData().toString() + "\" -> \"" + edges.next() + "\"\n");
 			
@@ -100,7 +101,39 @@ public class Graph<Type> {
 	}
 	
 	public List<Type> breadthFirstSearch(Type srcData, Type dstData) {
-		List<Type> path = new LinkedList<Type>();
+		ArrayDeque<Vertex<Type>> frontier = new ArrayDeque<Vertex<Type>>();
+		Iterator<Edge<Type>> iter;
+		
+		for (Vertex<Type> v : vertices.values()) {
+			v.setVisited(false);
+			v.setCameFrom(null);
+		}
+		
+		while (!frontier.isEmpty()) {
+			Vertex<Type> n = frontier.remove();
+			
+			n.setVisited(true);
+			
+			if (n.getData().equals(dstData)) {
+				return recreatePath(n);
+			}
+			
+			iter = n.edges();
+			while(iter.hasNext()) {
+				Vertex<Type> neighbor = iter.next().getOtherVertex();
+				
+				if (!neighbor.visited()) {
+					neighbor.setCameFrom(n);
+					neighbor.setVisited(true);
+					frontier.add(neighbor);
+				}
+			}
+			
+		return recreatePath(null);		
+		}
+		
+		
+		
 		
 		return null; // Stub
 	}
@@ -114,7 +147,7 @@ public class Graph<Type> {
 	 * Helper methods
 	 */
 	
-	private Collection<Type> recreatePath() {
+	private List<Type> recreatePath(Vertex<Type> v) {
 		// TODO generate path
 		return null; // Stub
 	}
