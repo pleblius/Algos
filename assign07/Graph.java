@@ -1,9 +1,7 @@
 package assign07;
 
 import java.util.ArrayDeque;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -202,6 +200,8 @@ public class Graph<Type> {
 			}
 		}
 		
+		if (sortedList.size() != vertices.values().size())
+			throw new IllegalArgumentException("This is not an Acyclic path.");
 		return sortedList; // Stub
 	}
 	
@@ -210,7 +210,13 @@ public class Graph<Type> {
 	 */
 	
 	private List<Type> recreatePath(Vertex<Type> v) {
-		// TODO generate path
-		return null; // Stub
+		List<Type> path = new LinkedList<Type>();
+		
+		while (v != null) {
+			path.add(0, v.getData());
+			
+			v = v.getCameFrom();
+		}
+		return path;
 	}
 }

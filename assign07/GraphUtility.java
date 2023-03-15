@@ -119,9 +119,15 @@ public class GraphUtility {
 			throw new IllegalArgumentException("Input lists are incompatible.");
 		
 		// Run topological sort
+		Graph<Type> graph = generateGraph(sources, destinations);
+		
+		List<Type> topoList = graph.topologicalSort(sources, destinations);
 		
 		// Generate list
-		return null;
+		if (topoList.size() != sources.size())
+			throw new IllegalArgumentException("This is not an Acyclic path.");
+		
+		return topoList;
 	}
 
 	/**
