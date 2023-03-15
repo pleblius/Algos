@@ -6,7 +6,7 @@ import java.util.Iterator;
 /**
  * This class represents a vertex (AKA node) in a directed graph, with generic data type.
  * 
- * @author Erin Parker && Tyler Wilcox
+ * @author Erin Parker && Tyler Wilcox & Andrew Tolton
  * @version March 14, 2023
  * @param Type - generic data type
  */
@@ -14,6 +14,10 @@ public class Vertex<Type> {
 
 	// used to id the Vertex
 	private Type data;
+	
+	private boolean isVisited;
+	private int degree;
+	private Vertex<Type> cameFrom;
 
 	// adjacency list
 	private LinkedList<Edge> adj;
@@ -33,6 +37,47 @@ public class Vertex<Type> {
 	 */
 	public Type getData() {
 		return data;
+	}
+	
+	/**
+	 * @return whether the vertex has been visited
+	 */
+	public boolean visited() {
+		return isVisited;
+	}
+	/**
+	 * @return the vertex's in degree
+	 */
+	public int getDegree() {
+		return degree;
+	}
+	/**
+	 * @return the vertex that this vertex was traversed from
+	 */
+	public Vertex<Type> getCameFrom() {
+		return cameFrom;
+	}
+	
+	/**
+	 * Sets the boolean isVisited flag
+	 * @param flag to set isVisited to
+	 */
+	public void setVisited(boolean flag) {
+		isVisited = flag;
+	}
+	/**
+	 * Increments the degree value by 1
+	 */
+	public void incrementDegree() {
+		degree++;
+	}
+	
+	/**
+	 * Sets the vertex this was traversed from to the parameter vertex
+	 * @param vertex this vertex came from
+	 */
+	public void setCameFrom(Vertex<Type> vertex) {
+		cameFrom = vertex;
 	}
 
 	/**

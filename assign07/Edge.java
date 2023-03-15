@@ -7,7 +7,7 @@ package assign07;
  * The source of this edge is the Vertex whose object has an adjacency list
  * containing this edge.
  * 
- * @author Erin Parker && Tyler Wilcox
+ * @author Erin Parker && Tyler Wilcox & Andrew Tolton
  * @version March 14, 2023
  */
 public class Edge {

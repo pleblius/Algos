@@ -9,7 +9,7 @@ import java.util.Scanner;
 /**
  * Contains several methods for solving problems on generic, directed, unweighted, sparse graphs.
  * 
- * @author Erin Parker & Tyler Wilcox
+ * @author Erin Parker & Tyler Wilcox & Andrew Tolton
  * @version March 14, 2022
  */
 public class GraphUtility {
@@ -44,8 +44,14 @@ public class GraphUtility {
 		// Generate graph
 		Graph<Type> graph = generateGraph(sources,destinations);
 		
+		// Run DFS
+		List<Type> path = graph.depthFirstSearch(srcData, dstData);
+		
 		// Return result
-		return false;
+		if (path.size() == 0)
+			return false;
+		else
+			return true;
 	}
 	
 	/**
