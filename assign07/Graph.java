@@ -3,6 +3,7 @@ package assign07;
 import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -57,6 +58,7 @@ public class Graph<Type> {
 
 		// add new directed edge from vertex1 to vertex2
 		vertex1.addEdge(vertex2);
+		vertex2.incrementDegree();
 	}
 	
 	/**
@@ -170,9 +172,37 @@ public class Graph<Type> {
 		return recreatePath(null);	
 	}
 	
-	public List<Type> topologicalSort() {
-		// TODO Topo Sort
-		return null; // Stub
+	public List<Type> topologicalSort(List<Type> srcList, List<Type> dstList) {
+		LinkedList<Vertex<Type>> reachableVertices = new LinkedList<Vertex<Type>>();
+		LinkedList<Type> sortedList = new LinkedList<Type>();
+		
+		Iterator<Edge<Type>> iter;
+		Vertex<Type> neighbor;
+		Vertex<Type> n;
+		
+		for (Vertex<Type> v : vertices.values()) {
+			if (v.getDegree() == 0) {
+				reachableVertices.add(v);
+			}
+		}
+		
+		while(!reachableVertices.isEmpty()) {
+			n = reachableVertices.pop();
+			sortedList.add(n.getData());
+			
+			iter = n.edges();
+			while(iter.hasNext()) {
+				neighbor = iter.next().getOtherVertex();
+				
+				neighbor.decrementDegree();
+				if (neighbor.getDegree() == 0 ) {
+					reachableVertices.add(neighbor);
+				}
+				
+			}
+		}
+		
+		return sortedList; // Stub
 	}
 	
 	/*

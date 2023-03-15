@@ -30,6 +30,10 @@ public class Vertex<Type> {
 	public Vertex(Type data) {
 		this.data = data;
 		this.adj = new LinkedList<Edge<Type>>();
+		
+		this.isVisited = false;
+		this.degree = 0;
+		this.cameFrom = null;
 	}
 
 	/**
@@ -70,6 +74,13 @@ public class Vertex<Type> {
 	 */
 	public void incrementDegree() {
 		degree++;
+	}
+	
+	/**
+	 * Decrements degree by 1
+	 */
+	public void decrementDegree() {
+		degree--;
 	}
 	
 	/**
