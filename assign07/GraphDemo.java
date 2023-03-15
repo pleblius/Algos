@@ -16,6 +16,7 @@ public class GraphDemo {
 		sample.addEdge("b", "c");
 		sample.addEdge("c", "d");
 		sample.addEdge("b", "d");
+		sample.addEdge("d", "a");
 
 		// print textual representation of sample graph
 		System.out.println(sample);

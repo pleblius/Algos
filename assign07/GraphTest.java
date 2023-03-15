@@ -15,12 +15,36 @@ class GraphTest {
 	List<Integer> intList1;
 	List<Integer> intList2;
 	
+	List<String> unitList1;
+	List<String> unitList2;
+	
+	List<String> emptyList1;
+	List<String> emptyList2;
+	
+	List<String> testList;
+	
+	List<String> loopList1;
+	List<String> loopList2;
+	
 	@BeforeEach
 	void setup() {
 		stringList1 = new LinkedList<String>();
 		stringList2 = new LinkedList<String>();
 		intList1 = new LinkedList<Integer>();
 		intList2 = new LinkedList<Integer>();
+		
+		unitList1 = new LinkedList<String>();
+		unitList2 = new LinkedList<String>();
+		unitList1.add("a");
+		unitList2.add("a");
+		
+		emptyList1 = new LinkedList<String>();
+		emptyList2 = new LinkedList<String>();
+		
+		loopList1 = new LinkedList<String>();
+		loopList2 = new LinkedList<String>();
+		
+		testList = new LinkedList<String>();
 		
 		stringList1.add("a");
 		stringList1.add("b");
@@ -41,6 +65,11 @@ class GraphTest {
 		intList2.add(15);
 		intList2.add(20);
 		intList2.add(20);
+		
+		for (int i = 0; i < stringList1.size(); i++) {
+			loopList1.add(stringList1.get(i));
+			loopList2.add(stringList2.get(i));
+		}
 	}
 	
 	@Test
@@ -56,6 +85,8 @@ class GraphTest {
 		
 		assertThrows(IllegalArgumentException.class, () -> {GraphUtility.areConnected(stringList1, stringList2, "a", "d");});
 		assertThrows(IllegalArgumentException.class, () -> {GraphUtility.areConnected(intList1, intList2, 10, 20);});
+		
+		assertThrows(IllegalArgumentException.class, () -> {GraphUtility.areConnected(emptyList1, emptyList2, "a", "b");});
 	}
 	
 	@Test
@@ -74,6 +105,8 @@ class GraphTest {
 		
 		assertThrows(IllegalArgumentException.class, () -> {GraphUtility.shortestPath(stringList1, stringList2, "a", "d");});
 		assertThrows(IllegalArgumentException.class, () -> {GraphUtility.shortestPath(intList1, intList2, 10, 20);});
+		
+		assertThrows(IllegalArgumentException.class, () -> {GraphUtility.shortestPath(emptyList1, emptyList2, "a", "b");});
 	}
 	
 	@Test
@@ -100,7 +133,6 @@ class GraphTest {
 	
 	@Test
 	void findShortestPathTest() {
-		List<String> testList = new LinkedList<String>();
 		
 		testList.add("a");
 		testList.add("b");
@@ -113,5 +145,92 @@ class GraphTest {
 		for (int i = 0; i < testList.size(); i++) {
 			assertTrue(testList.get(i).equals(shortestPath.get(i)), "Different at index " + i);
 		}
+	}
+	
+	@Test
+	void areConnectedUnitTest() {
+		assertTrue(GraphUtility.areConnected(unitList1, unitList2, "a", "a"));
+	}
+	
+	@Test
+	void shortestPathUnitTest() {
+		testList.add("a");
+		
+		List<String> shortestPath = GraphUtility.shortestPath(unitList1, unitList2, "a", "a");
+		
+		assertEquals(testList.size(), shortestPath.size(), "Different sized lists.");
+		assertEquals(1, shortestPath.size(), "Wrong sized lists.");
+		assertTrue(testList.get(0).equals(shortestPath.get(0)), "Array indeces different values.");
+	}
+	
+	@Test
+	void areConnectedLoopTest() {
+		loopList1.add("d");
+		loopList2.add("a");
+		
+		assertTrue(GraphUtility.areConnected(loopList1, loopList2, "a", "b"));
+		assertTrue(GraphUtility.areConnected(loopList1, loopList2, "a", "c"));
+		assertTrue(GraphUtility.areConnected(loopList1, loopList2, "a", "d"));
+		assertTrue(GraphUtility.areConnected(loopList1, loopList2, "b", "c"));
+		assertTrue(GraphUtility.areConnected(loopList1, loopList2, "b", "d"));
+		assertTrue(GraphUtility.areConnected(loopList1, loopList2, "b", "a"));
+		assertTrue(GraphUtility.areConnected(loopList1, loopList2, "c", "d"));
+		assertTrue(GraphUtility.areConnected(loopList1, loopList2, "c", "a"));
+		assertTrue(GraphUtility.areConnected(loopList1, loopList2, "c", "b"));
+		assertTrue(GraphUtility.areConnected(loopList1, loopList2, "d", "a"));
+		assertTrue(GraphUtility.areConnected(loopList1, loopList2, "d", "b"));
+		assertTrue(GraphUtility.areConnected(loopList1, loopList2, "d", "c"));
+	}
+	
+	@Test
+	void shortestPathTest() {
+		loopList1.add("d");
+		loopList2.add("a");
+		List<String> ABList = new LinkedList<String>();
+		List<String> BAList = new LinkedList<String>();
+		List<String> BDList = new LinkedList<String>();
+		List<String> DCList = new LinkedList<String>();
+		
+		ABList.add("a");
+		ABList.add("b");
+		
+		BAList.add("b"); BAList.add("d"); BAList.add("a");
+		
+		BDList.add("b"); BDList.add("d");
+		
+		DCList.add("d"); DCList.add("a"); DCList.add("b"); DCList.add("c");
+		
+		List<String> pathAB = GraphUtility.shortestPath(loopList1, loopList2, "a", "b");
+		
+		assertEquals(ABList.size(), pathAB.size(), "AB Different Size");
+		
+		for (int i = 0; i < ABList.size(); i++) {
+			assertTrue(ABList.get(i).equals(pathAB.get(i)), "Different at index " + i);
+		}
+		
+		List<String> pathBA = GraphUtility.shortestPath(loopList1, loopList2, "b", "a");
+		
+		assertEquals(BAList.size(), pathBA.size(), "BA Different Size");
+		
+		for (int i = 0; i < BAList.size(); i++) {
+			assertTrue(BAList.get(i).equals(pathBA.get(i)), "Different at index " + i);
+		}
+		
+		List<String> pathBD = GraphUtility.shortestPath(loopList1, loopList2, "b", "d");
+		
+		assertEquals(BDList.size(), pathBD.size(), "BD Different Size");
+		
+		for (int i = 0; i < BDList.size(); i++) {
+			assertTrue(BDList.get(i).equals(pathBD.get(i)), "Different at index " + i);
+		}
+		
+		List<String> pathDC = GraphUtility.shortestPath(loopList1, loopList2, "d", "c");
+		
+		assertEquals(DCList.size(), pathDC.size(), "DC Different Size");
+		
+		for (int i = 0; i < DCList.size(); i++) {
+			assertTrue(DCList.get(i).equals(pathDC.get(i)), "Different at index " + i);
+		}
+		
 	}
 }
