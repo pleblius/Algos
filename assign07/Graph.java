@@ -96,8 +96,44 @@ public class Graph<Type> {
 	 */
 	
 	public List<Type> depthFirstSearch(Type srcData, Type dstData) {
-		// TODO DFS
-		return null; // Stub
+		for (Vertex<Type> v : vertices.values()) {
+			v.setVisited(false);
+			v.setCameFrom(null);
+		}
+		
+		return DFS(srcData, dstData, new LinkedList<Type>());
+	}
+	
+	private List<Type> DFS(Type srcData, Type dstData, List<Type> path) {
+		Iterator<Edge<Type>> iter;
+		Vertex<Type> neighbor;
+		
+		if (srcData.equals(dstData)) {
+			path.add(srcData);
+			
+			return path;
+		}
+		else {
+			iter = vertices.get(srcData).edges();
+			
+			while (iter.hasNext()) {
+				neighbor = iter.next().getOtherVertex();
+				
+				if (!neighbor.visited()) {
+					neighbor.setVisited(true);
+					
+					path = DFS(neighbor.getData(), dstData, path);
+					
+					if (!path.isEmpty()) {
+						path.add(0,srcData);
+						
+						return path;
+					}
+				}
+			}
+		}
+		
+		return path;
 	}
 	
 	public List<Type> breadthFirstSearch(Type srcData, Type dstData) {
@@ -128,14 +164,10 @@ public class Graph<Type> {
 					frontier.add(neighbor);
 				}
 			}
-			
-		return recreatePath(null);		
+	
 		}
-		
-		
-		
-		
-		return null; // Stub
+
+		return recreatePath(null);	
 	}
 	
 	public List<Type> topologicalSort() {
