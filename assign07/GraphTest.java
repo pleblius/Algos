@@ -3,14 +3,16 @@ package assign07;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class GraphTest {
-
+	
 	List<String> stringList1;
 	List<String> stringList2;
 	List<Integer> intList1;
@@ -92,6 +94,7 @@ class GraphTest {
 			loopList1.add(stringList1.get(i));
 			loopList2.add(stringList2.get(i));
 		}
+
 	}
 	
 	@Test
@@ -302,6 +305,45 @@ class GraphTest {
 	}
 	
 	@Test 
+	void topoBigTest() {
+		HashSet<Integer> middleSet = new HashSet<Integer>();	
+		
+		LinkedList<Integer> topoSrcs = new LinkedList<Integer>();
+		LinkedList<Integer> topoDsts = new LinkedList<Integer>();
+		
+		LinkedList<Integer> middleNodes = new LinkedList<Integer>();
+		
+		// Building directed acyclic graph
+		
+		for (int ii = 0; ii < 1000; ii++) {
+			topoSrcs.add(0);			
+			middleNodes.add(ii + 1);
+		}
+		
+		middleSet.addAll(middleNodes);
+		Collections.shuffle(middleNodes);
+		topoDsts.addAll(middleNodes);
+		
+		Collections.shuffle(middleNodes);
+		topoSrcs.addAll(middleNodes);
+		
+		for (int ii = 0; ii < 1000; ii++) {
+			topoDsts.add(10000);
+		}
+		
+		// Testing toposort
+		List<Integer> path = GraphUtility.sort(topoSrcs, topoDsts);
+		
+		assertTrue(path.get(0).equals(0), "Failed on first vertex");
+		
+		for (int ii = 1; ii <= 1000; ii++) {
+			assertTrue(middleSet.contains(path.get(ii)), "Failed on index " + ii);
+		}
+		
+		assertTrue(path.get(1001).equals(10000));
+	}
+	
+	@Test 
 	void topoSingleCycleTest() {
 		// A single cycle
 		List<Integer> singleCyclic = new LinkedList<Integer>();
@@ -325,13 +367,15 @@ class GraphTest {
 	}
 	
 	@Test
-	void topoSucceedsonAcyclicTest() {
+	void topoAcyclicTest() {
 		
 		for (int ii = 0; ii < 1000; ii++) {
+			var directionLists = RandomGraph.generateRandomAcyclic(ii);
+			var srcList = directionLists.get(0);
+			var dstList = directionLists.get(1);
 			
+			GraphUtility.sort(srcList, dstList);
 		}
-		
-		
 	}
 	
 }
