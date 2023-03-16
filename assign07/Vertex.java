@@ -70,14 +70,14 @@ public class Vertex<Type> {
 		isVisited = flag;
 	}
 	/**
-	 * Increments the degree value by 1
+	 * Increments vertex degree by 1
 	 */
 	public void incrementDegree() {
 		degree++;
 	}
 	
 	/**
-	 * Decrements degree by 1
+	 * Decrements vertex degree by 1
 	 */
 	public void decrementDegree() {
 		degree--;
@@ -85,6 +85,7 @@ public class Vertex<Type> {
 	
 	/**
 	 * Sets the vertex this was traversed from to the parameter vertex
+	 * 
 	 * @param vertex this vertex came from
 	 */
 	public void setCameFrom(Vertex<Type> vertex) {

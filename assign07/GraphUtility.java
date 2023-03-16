@@ -121,9 +121,13 @@ public class GraphUtility {
 		// Run topological sort
 		Graph<Type> graph = generateGraph(sources, destinations);
 		
-		List<Type> topoList = graph.topologicalSort(sources, destinations);
-		
-		return topoList;
+		try {
+			List<Type> topoList = graph.topologicalSort();
+			return topoList;
+		}
+		catch(IllegalArgumentException e) {
+			throw e;
+		}
 	}
 
 	/**
@@ -217,7 +221,21 @@ public class GraphUtility {
 	 * Helper Methods
 	 */
 	
-	private static <Type> Graph<Type> generateGraph(List<Type> sources, List<Type> destinations) {
+	/**
+	 * Builds a digraph data structure from the provided data lists.
+	 * The list pair acts as the boundaries of each edge in the graph, pointing
+	 * from sources(i) to destinations(i). Lists must be the same size.
+	 * 
+	 * @param <Type> Generic type of the data stored in the vertices of the graph.
+	 * @param sources The list containing the "source" nodes for each edge in the graph.
+	 * @param destinations The list containing the "destination" nodes for each edge in the graph.
+	 * @return A graph object.
+	 * @throws IllegalArgumentException - If the source and destination list are different sizes.
+	 */
+	private static <Type> Graph<Type> generateGraph(List<Type> sources, List<Type> destinations) throws IllegalArgumentException {
+		if (sources.size() != destinations.size())
+			throw new IllegalArgumentException("Lists are different sizes.");
+		
 		Graph<Type> graph = new Graph<Type>();
 		
 		for (int i = 0; i < sources.size(); i++) {
