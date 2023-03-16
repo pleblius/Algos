@@ -106,8 +106,14 @@ public class Graph<Type> {
 	 * @param dstData The destination vertex to search for.
 	 * @return An ordered list of all data points along the path from the source to
 	 * the destination.
+	 * @throws IllegalArgumentException - if graph does not contain data for srcData or dstData
 	 */
-	public List<Type> depthFirstSearch(Type srcData, Type dstData) {
+	public List<Type> depthFirstSearch(Type srcData, Type dstData) throws IllegalArgumentException {
+		if (!vertices.containsKey(srcData))
+			throw new IllegalArgumentException("Graph does not contain source data point.");
+		if (!vertices.containsKey(dstData))
+			throw new IllegalArgumentException("Graph does not contain destination data point.");
+		
 		for (Vertex<Type> v : vertices.values()) {
 			v.setVisited(false);
 			v.setCameFrom(null);
@@ -177,8 +183,15 @@ public class Graph<Type> {
 	 * @param dstData The data key of the destination vertex.
 	 * @return An ordered list corresponding to the path through each data point
 	 * from the source to the destination. List will be empty if no viable path was found.
+	 * @throws IllegalArgumentException if the source or destination data points are not
+	 * contained in the dataset.
 	 */
-	public List<Type> breadthFirstSearch(Type srcData, Type dstData) {
+	public List<Type> breadthFirstSearch(Type srcData, Type dstData) throws IllegalArgumentException {
+		if (!vertices.containsKey(srcData))
+			throw new IllegalArgumentException("Graph does not contain source data point.");
+		if (!vertices.containsKey(dstData))
+			throw new IllegalArgumentException("Graph does not contain destination data point.");
+		
 		ArrayDeque<Vertex<Type>> frontier = new ArrayDeque<Vertex<Type>>();
 		Iterator<Edge<Type>> iter;
 		

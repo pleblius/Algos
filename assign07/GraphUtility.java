@@ -28,30 +28,33 @@ public class GraphUtility {
 	 * @param srcData The data value representing the "start-point" of the path in question.
 	 * @param dstData The data value representing the "end-point" of the path in question.
 	 * @return True if a valid path exists from srcData to dstData; false otherwise.
-	 * @throws IllegalArgumentException - If the source and destination list are different sizes, or if the data points
-	 * srcData or dstData are not contained in their respective lists.
+	 * @throws IllegalArgumentException - If the source and destination list are different sizes or if the data points
+	 * srcData or dstData are not contained in either list.
 	 */
 	public static <Type> boolean areConnected(List<Type> sources, List<Type> destinations, Type srcData, Type dstData)
 			throws IllegalArgumentException {
+		
 		// Check for illegal arguments
 		if (sources.size() != destinations.size())
 			throw new IllegalArgumentException("Input lists are incompatible.");
-		if (!sources.contains(srcData))
-			throw new IllegalArgumentException("Source list does not contain indicated source data.");
-		if (!destinations.contains(dstData))
-			throw new IllegalArgumentException("Destination list does not contain indicated destination data.");
 		
 		// Generate graph
 		Graph<Type> graph = generateGraph(sources,destinations);
 		
-		// Run DFS
-		List<Type> path = graph.depthFirstSearch(srcData, dstData);
-		
-		// Return result
-		if (path.size() == 0)
-			return false;
-		else
-			return true;
+		try {
+
+			// Run DFS
+			List<Type> path = graph.depthFirstSearch(srcData, dstData);
+			
+			// Return result
+			if (path.size() == 0)
+				return false;
+			else
+				return true;
+		}
+		catch (IllegalArgumentException e) {
+			throw e;
+		}
 	}
 	
 	/**
@@ -73,7 +76,7 @@ public class GraphUtility {
 	 * @return A list containing the ordered sequence of data values that corresponds to the shortest path from srcData to
 	 * dstData.
 	 * @throws IllegalArgumentException - If the source and destination list are different sizes, if the data points
-	 * srcData or dstData are not contained in their respective lists, or if there is no valid path
+	 * srcData or dstData are not contained in either list, or if there is no valid path
 	 * from srcData to dstData.
 	 */
 	public static <Type> List<Type> shortestPath(List<Type> sources, List<Type> destinations, Type srcData, Type dstData)
@@ -81,21 +84,24 @@ public class GraphUtility {
 		// Check for illegal arguments
 		if (sources.size() != destinations.size())
 			throw new IllegalArgumentException("Input lists are incompatible.");
-		if (!sources.contains(srcData))
-			throw new IllegalArgumentException("Source list does not contain indicated source data.");
-		if (!destinations.contains(dstData))
-			throw new IllegalArgumentException("Destination list does not contain indicated destination data.");
 		
 		// Generate Graph
 		Graph<Type> graph = generateGraph(sources, destinations);
 		
-		List<Type> path = graph.breadthFirstSearch(srcData, dstData);
-		
-		if (path.size() == 0)
-			throw new IllegalArgumentException("No valid path exists for these data points.");
-		else
-			return path;
+		try {
+			List<Type> path = graph.breadthFirstSearch(srcData, dstData);
+			
+			if (path.size() == 0)
+				throw new IllegalArgumentException("No valid path exists for these data points.");
+			else
+				return path;
+		}
+		catch (IllegalArgumentException e) {
+			throw e;
+		}
 	}
+		
+
 	
 	/**
 	 * Generates a sorted dependency list based on the data-set indicated by the source
@@ -125,7 +131,7 @@ public class GraphUtility {
 			List<Type> topoList = graph.topologicalSort();
 			return topoList;
 		}
-		catch(IllegalArgumentException e) {
+		catch (IllegalArgumentException e) {
 			throw e;
 		}
 	}
