@@ -1,6 +1,7 @@
 package assign07;
 
 import java.util.LinkedList;
+import java.util.HashSet;
 import java.util.Iterator;
 
 /**
@@ -21,6 +22,7 @@ public class Vertex<Type> {
 
 	// adjacency list
 	private LinkedList<Edge<Type>> adj;
+	private HashSet<Vertex<Type>> children;
 
 	/**
 	 * Creates a new Vertex object containing the given data.
@@ -30,6 +32,7 @@ public class Vertex<Type> {
 	public Vertex(Type data) {
 		this.data = data;
 		this.adj = new LinkedList<Edge<Type>>();
+		this.children = new HashSet<Vertex<Type>>();
 		
 		this.isVisited = false;
 		this.degree = 0;
@@ -99,6 +102,7 @@ public class Vertex<Type> {
 	 */
 	public void addEdge(Vertex<Type> otherVertex) {
 		adj.add(new Edge<Type>(otherVertex));
+		children.add(otherVertex);
 	}
 
 	/**

@@ -31,6 +31,8 @@ class GraphTest {
 	List<String> loopList1;
 	List<String> loopList2;
 	
+	Random rng;
+	
 	@BeforeEach
 	void setup() {
 		stringList1 = new LinkedList<String>();
@@ -94,6 +96,8 @@ class GraphTest {
 			loopList1.add(stringList1.get(i));
 			loopList2.add(stringList2.get(i));
 		}
+		
+		rng = new Random();
 
 	}
 	
@@ -370,11 +374,48 @@ class GraphTest {
 	void topoAcyclicTest() {
 		
 		for (int ii = 0; ii < 1000; ii++) {
-			var directionLists = RandomGraph.generateRandomAcyclic(ii);
+			var directionLists = RandomGraphLists.generateRandomAcyclicLists(ii);
 			var srcList = directionLists.get(0);
 			var dstList = directionLists.get(1);
 			
 			GraphUtility.sort(srcList, dstList);
+		}
+	}
+	
+	@Test
+	void topoThrowsOnCyclicTest() {
+		
+		HashSet<Integer> middleSet = new HashSet<Integer>();	
+		
+		LinkedList<Integer> topoSrcs = new LinkedList<Integer>();
+		LinkedList<Integer> topoDsts = new LinkedList<Integer>();
+		
+		LinkedList<Integer> middleNodes = new LinkedList<Integer>();
+		
+		// Building directed cyclic graphs
+		
+		for (int n = 2; n < 15; n++) {
+		
+			for (int ii = 0; ii < n; ii++) {
+				topoSrcs.add(0);			
+				middleNodes.add(ii + 1);
+			}
+			
+			middleSet.addAll(middleNodes);
+			Collections.shuffle(middleNodes);
+			topoDsts.addAll(middleNodes);
+			
+			Collections.shuffle(middleNodes);
+			topoSrcs.addAll(middleNodes);
+			
+			for (int ii = 0; ii < n; ii++) {
+				topoDsts.add(10000);
+			}
+			
+			topoSrcs.add(rng.nextInt(1, n));
+			topoDsts.add(0);
+		
+			assertThrows(IllegalArgumentException.class, () -> {GraphUtility.sort(topoSrcs, topoDsts);}, "Failed at graph #" + n);
 		}
 	}
 	

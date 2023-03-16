@@ -60,6 +60,16 @@ public class Graph<Type> {
 	}
 	
 	/**
+	 * Returns the specified vertex
+	 * 
+	 * @param data - Vertex key
+	 */
+	public Vertex<Type> getVertex(Type data) {
+		return vertices.get(data);
+	}
+		
+	
+	/**
 	 * Generates the DOT encoding of this graph as string, which can be 
 	 * pasted into http://www.webgraphviz.com to produce a visualization.
 	 */
