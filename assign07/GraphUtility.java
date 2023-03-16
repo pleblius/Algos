@@ -123,10 +123,6 @@ public class GraphUtility {
 		
 		List<Type> topoList = graph.topologicalSort(sources, destinations);
 		
-		// Generate list
-		if (topoList.size() != sources.size())
-			throw new IllegalArgumentException("This is not an Acyclic path.");
-		
 		return topoList;
 	}
 
