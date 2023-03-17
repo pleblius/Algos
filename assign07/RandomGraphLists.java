@@ -32,19 +32,23 @@ public class RandomGraphLists {
 	  }
 	  
 	  
-	  public static LinkedList<LinkedList<String>> generateRandomAcyclicLists(int vertexCount) {
+	  public static LinkedList<LinkedList<String>> generateRandomAcyclicLists(int vertexCount, int edgeCount) {
 		    Random rng = new Random();
 		    LinkedList<String> srcList = new LinkedList<String>();
 		    LinkedList<String> dstList = new LinkedList<String>();
+		    int srcVertex;
 
 		    // generate a list of vertices
 		    String[] vertex = new String[vertexCount];
 		    for(int i = 0; i < vertexCount; i++)
 		      vertex[i] = "v" + i;
 		    
-		    for(int i = 0; i < vertexCount - 1; i++) {		
-		      srcList.add(vertex[i]);	
-		      dstList.add(vertex[i + 1 + rng.nextInt(vertexCount - (i + 1))]);
+		    for(int i = 0; i < edgeCount; i++) {
+		    	
+		      srcVertex = rng.nextInt(0, vertexCount - 1);
+		    	
+		      srcList.add(vertex[srcVertex]);	
+		      dstList.add(vertex[srcVertex + rng.nextInt(1, vertexCount - srcVertex)]);
 		      
 		    }
 		

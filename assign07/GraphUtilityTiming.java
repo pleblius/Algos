@@ -9,41 +9,27 @@ public class GraphUtilityTiming {
 	public static void main (String[] args) {
 		
 		// areConnectedTiming
-		var areConnectedTimes = areConnectedTiming();
-		
 		System.out.println("areConnectedTimes:");
-		for (int ii = 0; ii < areConnectedTimes.length; ii++) {
-			System.out.printf("%10f\n", areConnectedTimes[ii]);
-		}
+		var areConnectedTimes = areConnectedTiming(50, 100);
 		
 		// shortestPathTiming
-		var shortestPathTimes = shortestPathTiming();
-		
 		System.out.println("\nshortestPathTimes:");
-		for (int ii = 0; ii < shortestPathTimes.length; ii++) {
-			System.out.printf("%10f\n", shortestPathTimes[ii]);
-		}
+		var shortestPathTimes = shortestPathTiming(500, 100);
 		
 		// topoSortTiming
-		var topoSortTimes = topoSortTiming();
-		
 		System.out.println("\ntopoSortTimes:");
-		for (int ii = 0; ii < topoSortTimes.length; ii++) {
-			System.out.printf("%10f\n", topoSortTimes[ii]);
-		}
+		var topoSortTimes = topoSortTiming(500, 100);
 		
 	}
 	
-	public static double[] areConnectedTiming(){
+	public static double[] areConnectedTiming(int nStep, int timesToLoop){
 				
 		Random rng = new Random();
 		
-		int timesToLoop = 10;		
-		int nStep = 100;
 		int numN = 20;
 		
-		LinkedList<String> srcList;
-		LinkedList<String> dstList;
+		ArrayList<String> srcList = new ArrayList<String>();
+		ArrayList<String> dstList = new ArrayList<String>();
 		String src;
 		String dst;
 		
@@ -52,6 +38,8 @@ public class GraphUtilityTiming {
 		for (int ii = 0; ii < numN; ii++) {
 			
 			int n = nStep * (ii + 1);
+			
+			
 			
 			long startTime, midTime, endTime;
 
@@ -66,9 +54,8 @@ public class GraphUtilityTiming {
 			startTime = System.nanoTime();
 
 			for (int i = 0; i < timesToLoop; i++) {
-				var directions = RandomGraphLists.generateRandomLists(n, 2*n);
-				srcList = directions.get(0);
-				dstList = directions.get(1);
+				RandomGraphDot.generateRandomDotFile("areConnectedTiming.dot", n, 2*n);
+				GraphUtility.buildListsFromDot("areConnectedTiming.dot", srcList, dstList);
 				
 				src = srcList.get(rng.nextInt(srcList.size()));
 				dst = dstList.get(rng.nextInt(dstList.size()));
@@ -81,9 +68,8 @@ public class GraphUtilityTiming {
 			// Subtract overhead code
 			
 			for (int i = 0; i < timesToLoop; i++) {
-				var directions = RandomGraphLists.generateRandomLists(n, 2*n);
-				srcList = directions.get(0);
-				dstList = directions.get(1);
+				RandomGraphDot.generateRandomDotFile("areConnectedTiming2.dot", n, 2*n);
+				GraphUtility.buildListsFromDot("areConnectedTiming2.dot", srcList, dstList);
 				
 				src = srcList.get(rng.nextInt(srcList.size()));
 				dst = dstList.get(rng.nextInt(dstList.size()));
@@ -92,17 +78,16 @@ public class GraphUtilityTiming {
 			endTime = System.nanoTime();
 			
 			areConnectedTimes[ii] = ((midTime - startTime) - (endTime - midTime)) / timesToLoop;
+			System.out.println(areConnectedTimes[ii]);
 		}
 		
 		return areConnectedTimes; // stub
 	}
 	
-	public static double[] shortestPathTiming(){
+	public static double[] shortestPathTiming(int nStep, int timesToLoop){
 		
 		Random rng = new Random();
 		
-		int timesToLoop = 10;		
-		int nStep = 100;
 		int numN = 20;
 		
 		LinkedList<String> srcList;
@@ -129,14 +114,19 @@ public class GraphUtilityTiming {
 			startTime = System.nanoTime();
 
 			for (int i = 0; i < timesToLoop; i++) {
-				var directions = RandomGraphLists.generateRandomAcyclicLists(n);
+				var directions = RandomGraphLists.generateRandomLists(n, 2*n);
 				srcList = directions.get(0);
 				dstList = directions.get(1);
 				
 				src = srcList.get(rng.nextInt(srcList.size()));
 				dst = dstList.get(rng.nextInt(dstList.size()));
 				
+				
+				try {
 				GraphUtility.shortestPath(srcList, dstList, src, dst);
+				}
+				catch (IllegalArgumentException ignored) {
+				}
 			}
 			
 			midTime = System.nanoTime();
@@ -144,28 +134,33 @@ public class GraphUtilityTiming {
 			// Subtract overhead code
 			
 			for (int i = 0; i < timesToLoop; i++) {
-				var directions = RandomGraphLists.generateRandomAcyclicLists(n);
+				var directions = RandomGraphLists.generateRandomLists(n, 2*n);
 				srcList = directions.get(0);
 				dstList = directions.get(1);
 				
 				src = srcList.get(rng.nextInt(srcList.size()));
 				dst = dstList.get(rng.nextInt(dstList.size()));
+				
+				try {
+					
+				}
+				catch (IllegalArgumentException ignored) {
+				}
 			}
 
 			endTime = System.nanoTime();
 			
 			shortestPathTimes[ii] = ((midTime - startTime) - (endTime - midTime)) / timesToLoop;
+			System.out.println(shortestPathTimes[ii]);
 		}
 		
 		return shortestPathTimes; // stub
 	}
 	
-	public static double[] topoSortTiming(){
+	public static double[] topoSortTiming(int nStep, int timesToLoop){
 		
 		Random rng = new Random();
 		
-		int timesToLoop = 10;		
-		int nStep = 100;
 		int numN = 20;
 		
 		LinkedList<String> srcList;
@@ -173,7 +168,7 @@ public class GraphUtilityTiming {
 		String src;
 		String dst;
 		
-		double[] topoSortTiming = new double[numN];
+		double[] topoSortTimes = new double[numN];
 
 		for (int ii = 0; ii < numN; ii++) {
 			
@@ -192,14 +187,14 @@ public class GraphUtilityTiming {
 			startTime = System.nanoTime();
 
 			for (int i = 0; i < timesToLoop; i++) {
-				var directions = RandomGraphLists.generateRandomAcyclicLists(n);
+				var directions = RandomGraphLists.generateRandomAcyclicLists(n, 2*n);
 				srcList = directions.get(0);
 				dstList = directions.get(1);
 				
 				src = srcList.get(rng.nextInt(srcList.size()));
 				dst = dstList.get(rng.nextInt(dstList.size()));
 				
-				GraphUtility.shortestPath(srcList, dstList, src, dst);
+				GraphUtility.sort(srcList, dstList);
 			}
 			
 			midTime = System.nanoTime();
@@ -207,7 +202,7 @@ public class GraphUtilityTiming {
 			// Subtract overhead code
 			
 			for (int i = 0; i < timesToLoop; i++) {
-				var directions = RandomGraphLists.generateRandomAcyclicLists(n);
+				var directions = RandomGraphLists.generateRandomAcyclicLists(n, 2*n);
 				srcList = directions.get(0);
 				dstList = directions.get(1);
 				
@@ -217,10 +212,11 @@ public class GraphUtilityTiming {
 
 			endTime = System.nanoTime();
 			
-			topoSortTiming[ii] = ((midTime - startTime) - (endTime - midTime)) / timesToLoop;
+			topoSortTimes[ii] = ((midTime - startTime) - (endTime - midTime)) / timesToLoop;
+			System.out.println(topoSortTimes[ii]);
 		}
 		
-		return topoSortTiming; // stub
+		return topoSortTimes; // stub
 	}
 	
 	

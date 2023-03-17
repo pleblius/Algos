@@ -7,7 +7,7 @@ import java.util.Random;
 
 public class RandomGraphDot {
 
-	  public static void generateRandomDotFile(String filename, int vertexCount) {
+	  public static void generateRandomDotFile(String filename, int vertexCount, int numEdges) {
 		    PrintWriter out = null;
 		    try {
 		      out = new PrintWriter(filename);
@@ -19,20 +19,13 @@ public class RandomGraphDot {
 		    Random rng = new Random();
 
 		    // randomly construct either a graph or a digraph
-		    String edgeOp = "--";
-		    if (rng.nextBoolean()) {
-		      out.print("di");
-		      edgeOp = "->";
-		    }
-		    out.println("graph G {");
+		    String edgeOp = "->";
+		    out.println("digraph G {");
 
 		    // generate a list of vertices
 		    String[] vertex = new String[vertexCount];
 		    for(int i = 0; i < vertexCount; i++)
 		      vertex[i] = "v" + i;
-
-		    // randomly connect the vertices using |V| - |V|^2 edges
-		    int numEdges = rng.nextInt(vertexCount, vertexCount * vertexCount);
 		    
 		    for(int i = 0; i < numEdges; i++)
 		      out.println("\t" + vertex[rng.nextInt(vertexCount)] + edgeOp + vertex[rng.nextInt(vertexCount)]);

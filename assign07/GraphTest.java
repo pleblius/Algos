@@ -374,7 +374,7 @@ class GraphTest {
 	void topoAcyclicTest() {
 		
 		for (int ii = 0; ii < 1000; ii++) {
-			var directionLists = RandomGraphLists.generateRandomAcyclicLists(ii);
+			var directionLists = RandomGraphLists.generateRandomAcyclicLists(ii, 2*ii);
 			var srcList = directionLists.get(0);
 			var dstList = directionLists.get(1);
 			

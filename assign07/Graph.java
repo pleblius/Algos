@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Stack;
+
 
 /**
  * Represents a sparse, unweighted, directed graph (a set of vertices and a set of edges). 
@@ -170,7 +172,7 @@ public class Graph<Type> {
 					path = DFS(neighbor.getData(), dstData, path);
 					
 					if (!path.isEmpty()) {
-						path.add(0,srcData);
+						path.add(0, srcData);
 						
 						return path;
 					}
