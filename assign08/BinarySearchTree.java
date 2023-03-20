@@ -52,14 +52,14 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 			if (!this.hasLeftChild())
 				return this;
 			
-			return this.getLeftMostNode();
+			return this.leftChild.getLeftMostNode();
 		}
 		
 		public Node getRightMostNode() {
 			if (!this.hasRightChild())
 				return this;
 			
-			return this.getRightMostNode();
+			return this.rightChild.getRightMostNode();
 		}
 		
 		public Node getPredecessor() throws NoSuchElementException {
@@ -209,15 +209,12 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 		// Check for 0 items in tree
 		if (this.isEmpty())
 			return false;
-		// Check for 1 item in tree
-		else if (root.isLeaf()) {
-			if (root.data.equals(item)) {
-				this.clear();
-				return true;
-			}
-			else {
-				return false;
-			}
+		
+		// Check root
+		if (root.data.equals(item)) {
+			root = adoptChild(root);
+			size--;
+			return true;
 		}
 		
 		boolean didRemove = removeNode(item, root);
@@ -233,27 +230,40 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 		if (current.isLeaf()) {
 			return false;
 		}
-		// Check if left child is data point in question
-		else if (current.leftChild.data.equals(item)) {
-			current.leftChild = adoptChild(current, current.leftChild);
-			return true;
-		}
-		// Check if right child is data point in question
-		else if (current.rightChild.data.equals(item)) {
-			current.rightChild = adoptChild(current, current.rightChild);
-			return true;
-		}
-		// Recurse left
+		// Check left direction
 		else if (item.compareTo(current.data) < 0) {
-			return removeNode(item, current.leftChild);
+			// Check left child
+			if (current.hasLeftChild()) {
+				if (current.leftChild.data.equals(item)) {
+					current.leftChild = adoptChild(current.leftChild);
+					return true;
+				}
+				// Recurse left
+				else
+					return removeNode(item, current.leftChild);
+			}
+			// Node doesn't exist
+			else
+				return false;
 		}
-		// Recurse right
+		// Check right direction
 		else {
-			return removeNode(item, current.rightChild);
+			if (current.hasRightChild()) {
+				if (current.rightChild.data.equals(item)) {
+					current.rightChild = adoptChild(current.rightChild);
+					return true;
+				}
+				// Recurse right
+				else
+					return removeNode(item, current.rightChild);
+			}
+			// Node doesn't exist
+			else
+				return false;
 		}
 	}
 	
-	private Node adoptChild(Node parent, Node oldChild) {
+	private Node adoptChild(Node oldChild) {
 		// Leaf has no sub-children
 		if (oldChild.isLeaf())
 			return null;
@@ -311,8 +321,10 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 			return;
 		}
 		
-		inOrderTraverse(list, current.leftChild);
+		if (current.hasLeftChild())
+			inOrderTraverse(list, current.leftChild);
 		list.add(current.data);
-		inOrderTraverse(list, current.rightChild);
+		if (current.hasRightChild())
+			inOrderTraverse(list, current.rightChild);
 	}
 }
