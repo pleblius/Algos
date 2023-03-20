@@ -10,7 +10,7 @@ public class GraphUtilityTiming {
 		
 		// areConnectedTiming
 		System.out.println("areConnectedTimes:");
-		var areConnectedTimes = areConnectedTiming(50, 100);
+		var areConnectedTimes = areConnectedTiming(500, 100);
 		
 		// shortestPathTiming
 		System.out.println("\nshortestPathTimes:");
