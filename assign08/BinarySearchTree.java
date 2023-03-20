@@ -235,12 +235,10 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 		
 		else if (current.leftChild.data.equals(item)) {
 			current.leftChild = adoptChild(current, current.leftChild);
-			size--;
 			return true;
 		}
 		else if (current.rightChild.data.equals(item)) {
 			current.rightChild = adoptChild(current, current.rightChild);
-			size--;
 			return true;
 		}
 		
