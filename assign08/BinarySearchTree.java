@@ -20,20 +20,53 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 			this.data = data;
 			this.parent = parent;
 		}
+		
+		public Node getLeftMostNode() {
+			if (this.leftChild == null)
+				return this;
+			
+			return this.getLeftMostNode();
+		}
+		
+		public Node getRightMostNode() {
+			if (this.rightChild == null)
+				return this;
+			
+			return this.getRightMostNode();
+		}
+		
+		public Node getPredecessor() throws NoSuchElementException {
+			if (this.leftChild == null)
+				throw new NoSuchElementException("This child does not exist.");
+			
+			return this.leftChild.getRightMostNode();
+		}
+		
+		public Node getSuccessor() throws NoSuchElementException {
+			if (this.rightChild == null)
+				throw new NoSuchElementException("This child does not exist.");
+			return this.rightChild.getLeftMostNode();
+		}
 	}
 	
 	public BinarySearchTree() {
 		size = 0;
 	}
 	
-	public BinarySearchTree(Node root) {
-		this.root = root;
+	public BinarySearchTree(Type item) {
+		this.root = new Node(item, null);
 		size = 1;
 	}
 	
 	
 	@Override
 	public boolean add(Type item) {
+		if (size == 0) {
+			this.root = new Node(item, null);
+			size++;
+			return true;
+		}
+		
 		boolean addedItem = add(item, root);
 		
 		if (addedItem)
@@ -72,50 +105,98 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 
 	@Override
 	public boolean addAll(Collection<? extends Type> items) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean addAny = false;
+		
+		for (Type t : items) {
+			if (add(t))
+				addAny = true;
+		}
+		
+		return addAny;
 	}
 
 	@Override
 	public void clear() {
-		// TODO Auto-generated method stub
-		
+		size = 0;
+		root = null;
 	}
 
 	@Override
 	public boolean contains(Type item) {
-		// TODO Auto-generated method stub
-		return false;
+		if (size == 0) return false;
+		
+		return contains(item, root);
+	}
+	
+	private boolean contains(Type item, Node current) {
+		if (current.data.equals(item)) {
+			return true;
+		}
+		else if(item.compareTo(current.data) < 0) {
+			if (current.leftChild == null) {
+				return false;
+			}
+			
+			return contains(item, current.leftChild);
+		}
+		else {
+			if (current.rightChild == null) {
+				return false;
+			}
+			
+			return contains(item, current.rightChild);
+		}	
 	}
 
 	@Override
 	public boolean containsAll(Collection<? extends Type> items) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean containsAll = true;
+		for (Type t : items) {
+			if (!contains(t))
+				containsAll = false;
+		}
+		
+		return containsAll;
 	}
 
 	@Override
 	public Type first() throws NoSuchElementException {
-		// TODO Auto-generated method stub
-		return null;
+		if (size == 0)
+			throw new NoSuchElementException("The set is empty.");
+		
+		return root.getLeftMostNode().data;
 	}
 
 	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
+		if (size == 0)
+			return true;
+		
+		else return false;
 	}
 
 	@Override
 	public Type last() throws NoSuchElementException {
-		// TODO Auto-generated method stub
-		return null;
+		if (size == 0)
+			throw new NoSuchElementException("The set is empty.");
+		
+		return root.getRightMostNode().data;
 	}
 
 	@Override
 	public boolean remove(Type item) {
-		// TODO Auto-generated method stub
-		return false;
+		if (size == 0) return false;
+		
+		boolean didRemove = false;
+		didRemove = remove(item, root);
+		
+		if (didRemove)
+			size--;
+		
+		return didRemove;
+	}
+	
+	private boolean remove(Type item, Node current) {
 	}
 
 	@Override
@@ -135,5 +216,10 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	/*
+	 * Helper methods
+	 */
+	
 
 }
