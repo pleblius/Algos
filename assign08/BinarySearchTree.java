@@ -299,7 +299,9 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 	public ArrayList<Type> toArrayList() {
 		ArrayList<Type> list = new ArrayList<Type>();
 		
-		traverse(list, this.root);
+		if (size != 0) 
+			traverse(list, this.root);
+		
 		return list;
 	}
 	
