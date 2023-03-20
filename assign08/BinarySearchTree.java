@@ -4,6 +4,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.NoSuchElementException;
 
+/**
+ * 
+ * @author Tyler Wilcox and Andrew Tolton
+ * @version 20 March, 2023
+ * @param <Type>
+ */
 public class BinarySearchTree<Type extends Comparable<? super Type>> implements SortedSet<Type> {
 
 	private Node root;
@@ -43,29 +49,29 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 		}
 		
 		public Node getLeftMostNode() {
-			if (this.leftChild == null)
+			if (!this.hasLeftChild())
 				return this;
 			
 			return this.getLeftMostNode();
 		}
 		
 		public Node getRightMostNode() {
-			if (this.rightChild == null)
+			if (!this.hasRightChild())
 				return this;
 			
 			return this.getRightMostNode();
 		}
 		
 		public Node getPredecessor() throws NoSuchElementException {
-			if (this.leftChild == null)
-				throw new NoSuchElementException("This child does not exist.");
+			if (!this.hasLeftChild())
+				throw new NoSuchElementException("This node does not have a predecessor.");
 			
 			return this.leftChild.getRightMostNode();
 		}
 		
 		public Node getSuccessor() throws NoSuchElementException {
-			if (this.rightChild == null)
-				throw new NoSuchElementException("This child does not exist.");
+			if (!this.hasRightChild())
+				throw new NoSuchElementException("This node does not have a successor.");
 			return this.rightChild.getLeftMostNode();
 		}
 	}
@@ -74,21 +80,16 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 		size = 0;
 	}
 	
-	public BinarySearchTree(Type item) {
-		this.root = new Node(item, null);
-		size = 1;
-	}
-	
-	
 	@Override
 	public boolean add(Type item) {
-		if (size == 0) {
+		if (this.isEmpty()) {
 			this.root = new Node(item, null);
 			size++;
+			
 			return true;
 		}
 		
-		boolean addedItem = add(item, root);
+		boolean addedItem = addNode(item, root);
 		
 		if (addedItem)
 			size++;
@@ -96,7 +97,7 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 		return addedItem;
 	}
 	
-	private boolean add(Type item, Node current) {
+	private boolean addNode(Type item, Node current) {
 		
 		// Duplicate item
 		if (current.data.equals(item)) {
@@ -110,7 +111,7 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 				return true;
 			}
 				
-			return add(item, current.leftChild);
+			return addNode(item, current.leftChild);
 		}
 			
 		// Check right child, if null, add item there
@@ -120,7 +121,7 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 				return true;
 			}
 			
-			return add(item, current.rightChild);
+			return addNode(item, current.rightChild);
 		}
 	}
 
@@ -144,12 +145,13 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 
 	@Override
 	public boolean contains(Type item) {
-		if (size == 0) return false;
+		if (this.isEmpty())
+			return false;
 		
-		return contains(item, root);
+		return containsNode(item, root);
 	}
 	
-	private boolean contains(Type item, Node current) {
+	private boolean containsNode(Type item, Node current) {
 		if (current.data.equals(item)) {
 			return true;
 		}
@@ -158,20 +160,21 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 				return false;
 			}
 			
-			return contains(item, current.leftChild);
+			return containsNode(item, current.leftChild);
 		}
 		else {
 			if (!current.hasRightChild()) {
 				return false;
 			}
 			
-			return contains(item, current.rightChild);
+			return containsNode(item, current.rightChild);
 		}	
 	}
 
 	@Override
 	public boolean containsAll(Collection<? extends Type> items) {
 		boolean containsAll = true;
+		
 		for (Type t : items) {
 			if (!contains(t))
 				containsAll = false;
@@ -182,7 +185,7 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 
 	@Override
 	public Type first() throws NoSuchElementException {
-		if (size == 0)
+		if (this.isEmpty())
 			throw new NoSuchElementException("The set is empty.");
 		
 		return root.getLeftMostNode().data;
@@ -190,15 +193,12 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 
 	@Override
 	public boolean isEmpty() {
-		if (size == 0)
-			return true;
-		
-		else return false;
+		return this.size == 0;
 	}
 
 	@Override
 	public Type last() throws NoSuchElementException {
-		if (size == 0)
+		if (this.isEmpty())
 			throw new NoSuchElementException("The set is empty.");
 		
 		return root.getRightMostNode().data;
@@ -206,21 +206,20 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 
 	@Override
 	public boolean remove(Type item) {
-		if (size == 0) return false;
-		if (size == 1) {
-			if (root.data == item) {
-				root.data = null;
-				size--;
+		if (this.isEmpty())
+			return false;
+		else if (root.isLeaf()) {
+			if (root.data.equals(item)) {
+				this.clear();
 				return true;
 			}
-			
 			else {
 				return false;
 			}
 		}
 		
 		boolean didRemove = false;
-		didRemove = remove(item, root);
+		didRemove = removeNode(item, root);
 		
 		if (didRemove)
 			size--;
@@ -228,11 +227,10 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 		return didRemove;
 	}
 	
-	private boolean remove(Type item, Node current) {
+	private boolean removeNode(Type item, Node current) {
 		if (current.isLeaf()) {
 			return false;
 		}
-		
 		else if (current.leftChild.data.equals(item)) {
 			current.leftChild = adoptChild(current, current.leftChild);
 			return true;
@@ -241,15 +239,12 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 			current.rightChild = adoptChild(current, current.rightChild);
 			return true;
 		}
-		
 		else if (item.compareTo(current.data) < 0) {
-			return remove(item, current.leftChild);
+			return removeNode(item, current.leftChild);
 		}
-		
 		else {
-			return remove(item, current.rightChild);
+			return removeNode(item, current.rightChild);
 		}
-		
 	}
 	
 	private Node adoptChild(Node parent, Node oldChild) {
@@ -268,15 +263,14 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 		// Two children
 		else {
 			Node successor = oldChild.getSuccessor();
+			
 			successor.leftChild = oldChild.leftChild;
 			successor.rightChild = oldChild.rightChild;
-			
 			successor.parent.leftChild = null;
 			
 			return successor;
 		}
 	}
-
 
 	@Override
 	public boolean removeAll(Collection<? extends Type> items) {
@@ -299,20 +293,20 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 	public ArrayList<Type> toArrayList() {
 		ArrayList<Type> list = new ArrayList<Type>();
 		
-		if (size != 0) 
-			traverse(list, this.root);
+		if (this.isEmpty()) 
+			inOrderTraverse(list, this.root);
 		
 		return list;
 	}
 	
-	private void traverse(ArrayList<Type> list, Node current) {
+	private void inOrderTraverse(ArrayList<Type> list, Node current) {
 		if (current.isLeaf()) {
 			list.add(current.data);
 			return;
 		}
 		
-		traverse(list, current.leftChild);
+		inOrderTraverse(list, current.leftChild);
 		list.add(current.data);
-		traverse(list, current.rightChild);
+		inOrderTraverse(list, current.rightChild);
 	}
 }
