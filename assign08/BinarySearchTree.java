@@ -33,6 +33,15 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 			return !hasLeftChild() && !hasRightChild();
 		}
 		
+		public boolean hasOneChild() {
+			if (this.hasLeftChild() && !this.hasRightChild())
+				return true;
+			if (this.hasRightChild() && !this.hasLeftChild())
+				return true;
+			
+			return false;
+		}
+		
 		public Node getLeftMostNode() {
 			if (this.leftChild == null)
 				return this;
@@ -220,17 +229,17 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 	}
 	
 	private boolean remove(Type item, Node current) {
-		Node toRemove;
-		
 		if (current.isLeaf()) {
 			return false;
 		}
 		
-		else if (current.leftChild.equals(item)) {
-			return killChild(current, current.leftChild);
+		else if (current.leftChild.data.equals(item)) {
+			current.leftChild = adoptChild(current, current.leftChild);
+			return true;
 		}
-		else if (current.rightChild.equals(item)) {
-			return killChild(current, current.rightChild);
+		else if (current.rightChild.data.equals(item)) {
+			current.rightChild = adoptChild(current, current.rightChild);
+			return true;
 		}
 		
 		else if (item.compareTo(current.data) < 0) {
@@ -243,43 +252,65 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 		
 	}
 	
-	private boolean killChild(Node parent, Node toRemove) {
+	private Node adoptChild(Node parent, Node oldChild) {
+		// Is leaf
+		if (oldChild.isLeaf())
+			return null;
 		
-		// One-child node
+		// One child
+		else if (oldChild.hasOneChild()) {
+			if (oldChild.hasLeftChild())
+				return oldChild.leftChild;
+			else
+				return oldChild.rightChild;
+		}
 		
-		parent.child = toRemove.child
-		
-		// Two-child node
-		parent.leftChild = toRemove.getPredecessor()
-			// predesessor = null
-		parent.rightChild = toRemove.getSuccessor()
-			// successor = null
-		
-				
+		// Two children
+		else {
+			Node successor = oldChild.getSuccessor();
+			successor.leftChild = oldChild.leftChild;
+			successor.rightChild = oldChild.rightChild;
+			
+			successor.parent.leftChild = null;
+			
+			return successor;
+		}
 	}
 
 
 	@Override
 	public boolean removeAll(Collection<? extends Type> items) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean removed = false;
+		
+		for (Type t : items) {
+			if (remove(t))
+				removed = true;
+		}
+		
+		return removed;
 	}
 
 	@Override
 	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
+		return size;
 	}
 
 	@Override
 	public ArrayList<Type> toArrayList() {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<Type> list = new ArrayList<Type>();
+		
+		traverse(list, this.root);
+		return list;
 	}
 	
-	/*
-	 * Helper methods
-	 */
-	
-
+	private void traverse(ArrayList<Type> list, Node current) {
+		if (current.isLeaf()) {
+			list.add(current.data);
+			return;
+		}
+		
+		traverse(list, current.leftChild);
+		list.add(current.data);
+		traverse(list, current.rightChild);
+	}
 }
