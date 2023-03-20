@@ -206,8 +206,10 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 
 	@Override
 	public boolean remove(Type item) {
+		// Check for 0 items in tree
 		if (this.isEmpty())
 			return false;
+		// Check for 1 item in tree
 		else if (root.isLeaf()) {
 			if (root.data.equals(item)) {
 				this.clear();
@@ -218,8 +220,7 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 			}
 		}
 		
-		boolean didRemove = false;
-		didRemove = removeNode(item, root);
+		boolean didRemove = removeNode(item, root);
 		
 		if (didRemove)
 			size--;
@@ -228,27 +229,32 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 	}
 	
 	private boolean removeNode(Type item, Node current) {
+		// Check if at bottom level
 		if (current.isLeaf()) {
 			return false;
 		}
+		// Check if left child is data point in question
 		else if (current.leftChild.data.equals(item)) {
 			current.leftChild = adoptChild(current, current.leftChild);
 			return true;
 		}
+		// Check if right child is data point in question
 		else if (current.rightChild.data.equals(item)) {
 			current.rightChild = adoptChild(current, current.rightChild);
 			return true;
 		}
+		// Recurse left
 		else if (item.compareTo(current.data) < 0) {
 			return removeNode(item, current.leftChild);
 		}
+		// Recurse right
 		else {
 			return removeNode(item, current.rightChild);
 		}
 	}
 	
 	private Node adoptChild(Node parent, Node oldChild) {
-		// Is leaf
+		// Leaf has no sub-children
 		if (oldChild.isLeaf())
 			return null;
 		
@@ -293,7 +299,7 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 	public ArrayList<Type> toArrayList() {
 		ArrayList<Type> list = new ArrayList<Type>();
 		
-		if (this.isEmpty()) 
+		if (!this.isEmpty()) 
 			inOrderTraverse(list, this.root);
 		
 		return list;
