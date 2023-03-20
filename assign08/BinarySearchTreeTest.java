@@ -463,11 +463,59 @@ class BinarySearchTreeTest {
 		
 		for (int i = 0; i < testSize; i++) {
 			if (i%2 == 0) {
-				assertFalse(intTree.contains(i));
+				assertFalse(intTree.contains(i), "Failed at index " + i);
 			}
 			if (i%2 != 0) {
-				assertTrue(intTree.contains(i));
+				assertTrue(intTree.contains(i), "Failed at index " + i);
 			}
 		}
+	}
+	
+	/*
+	 * Contains All Test
+	 */
+	
+	@Test
+	void containsAllUnitTest() {
+		testList.add(1);
+		assertTrue(unitTree.containsAll(testList));
+	}
+	
+	@Test
+	void containsAllEmptyTest() {
+		testList.add(1);
+		assertFalse(emptyTree.containsAll(testList));
+	}
+	
+	@Test
+	void containsAllMultiTest() {
+		for (int i = 0; i < testSize; i++) {
+			testList.add(i);
+			intTree.add(i);
+		}
+		
+		assertTrue(intTree.containsAll(testList));
+	}
+	
+	@Test
+	void containsAllMultiSub() {
+		for (int i = 0; i < testSize; i++) {
+			intTree.add(i);
+			if (i%2 == 0)
+				testList.add(i);
+		}
+		
+		assertTrue(intTree.containsAll(testList));
+	}
+	
+	@Test
+	void containsAllFails() {
+		for (int i = 0; i < testSize; i++) {
+			testList.add(i);
+			if (i%2 == 0)
+				intTree.add(i);
+		}
+		
+		assertFalse(intTree.containsAll(testList));
 	}
 }
