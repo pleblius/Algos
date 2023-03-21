@@ -393,6 +393,7 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 		else if (item.compareTo(current.data) < 0) {
 			// Check left child
 			if (current.hasLeftChild()) {
+				// Child is target
 				if (current.leftChild.data.equals(item)) {
 					current.leftChild = adoptChild(current.leftChild);
 					return true;
@@ -408,6 +409,7 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 		// Check right direction
 		else {
 			if (current.hasRightChild()) {
+				// Child is target
 				if (current.rightChild.data.equals(item)) {
 					current.rightChild = adoptChild(current.rightChild);
 					return true;
