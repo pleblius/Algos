@@ -29,7 +29,7 @@ class SpellCheckerTest {
 		cowDict = new SpellChecker(new File("src/assign08/cowDict.txt"));
 		dictionary = new SpellChecker(new File("src/assign08/dictionary.txt"));
 		
-		LEAPText = new File("src/assig08/LEAP.txt");		
+		LEAPText = new File("src/assign08/LEAP.txt");		
 	}
 	
 	File fileWriter(String filename, List<String> words) {
@@ -84,5 +84,11 @@ class SpellCheckerTest {
 		var testList = cowDict.spellCheck(fileWriter("one.txt", "cow"));
 		
 		assertTrue(testList.isEmpty());
+	}
+	
+	@Test
+	void leapTest() {
+		var wrongWords = dictionary.spellCheck(LEAPText);
+		System.out.println(wrongWords);
 	}
 }
