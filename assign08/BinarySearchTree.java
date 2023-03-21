@@ -493,7 +493,7 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 	 */
 	@Override
 	public ArrayList<Type> toArrayList() {
-		ArrayList<Type> list = new ArrayList<Type>();
+		ArrayList<Type> list = new ArrayList<Type>(this.size());
 		
 		if (!this.isEmpty()) 
 			inOrderTraverse(list, this.root);
