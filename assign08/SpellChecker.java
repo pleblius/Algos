@@ -4,10 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
-import java.util.Set;
 
 /**
  * Represents a "dictionary" of strings using a binary search tree and offers
@@ -76,22 +74,27 @@ public class SpellChecker {
 	public List<String> spellCheck(File documentFile) {
 
 		List<String> wordsToCheck = readFromFile(documentFile);
-		List<String> misspelledWords = new ArrayList<String>();
-		Set<String> checkedWords = new HashSet<String>();
 		
-		for (String s : wordsToCheck) {
-			if (!checkedWords.contains(s.toLowerCase())) {
-				if (!dictionary.contains(s.toLowerCase())) {
-					misspelledWords.add(s);
-				}
-				
-				checkedWords.add(s.toLowerCase());
+		return spellCheck(wordsToCheck);
+	}
+	
+	/**
+	 * Spell-checks a list against the dictionary.
+	 * 
+	 * @param words - a list of strings to be spell-checked
+	 * @return a List of misspelled words
+	 */
+	public List<String> spellCheck(List<String> words) {
+		List<String> misspelledWords = new ArrayList<String>();
+		
+		for (String s : words) {
+			if (!dictionary.contains(s.toLowerCase())) {
+				misspelledWords.add(s);
 			}
 		}
 
 		return misspelledWords;
 	}
-
 	/**
 	 * Fills in the dictionary with the input list of words.
 	 * 
@@ -149,6 +152,12 @@ public class SpellChecker {
 		return words;
 	}
 	
+	/**
+	 * Takes a list of words and converts them all to lower case.
+	 * 
+	 * @param words - A list of strings to be lowercased
+	 * @return a list of strings that is all lowercase
+	 */
 	private List<String> listToLower(List<String> words) {
 		List<String> lowerCaseWords = new ArrayList<String>(words.size());
 		

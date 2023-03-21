@@ -269,7 +269,7 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 	 * @return true if the data element is found, false otherwise.
 	 */
 	private boolean containsNode(Type item, Node current) {
-		if (current.data.equals(item)) {
+		if (current.data.compareTo(item) == 0) {
 			return true;
 		}
 		else if(item.compareTo(current.data) < 0) {
