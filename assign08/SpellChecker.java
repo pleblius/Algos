@@ -3,8 +3,11 @@ package assign08;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 
 /**
  * Represents a "dictionary" of strings using a binary search tree and offers
@@ -51,7 +54,7 @@ public class SpellChecker {
 	 * @param word - the String to be added to the dictionary
 	 */
 	public void addToDictionary(String word) {
-		// FILL IN
+		dictionary.add(word.toLowerCase());
 	}
 
 	/**
@@ -60,7 +63,7 @@ public class SpellChecker {
 	 * @param word - the String to be removed from the dictionary
 	 */
 	public void removeFromDictionary(String word) {
-		// FILL IN
+		dictionary.remove(word.toLowerCase());
 	}
 
 	/**
@@ -73,10 +76,20 @@ public class SpellChecker {
 	public List<String> spellCheck(File documentFile) {
 
 		List<String> wordsToCheck = readFromFile(documentFile);
+		List<String> misspelledWords = new ArrayList<String>();
+		Set<String> checkedWords = new HashSet<String>();
+		
+		for (String s : wordsToCheck) {
+			if (!checkedWords.contains(s.toLowerCase())) {
+				if (!dictionary.contains(s.toLowerCase())) {
+					misspelledWords.add(s);
+				}
+				
+				checkedWords.add(s.toLowerCase());
+			}
+		}
 
-		// FILL IN -- do not return null
-
-		return null;
+		return misspelledWords;
 	}
 
 	/**
@@ -85,7 +98,11 @@ public class SpellChecker {
 	 * @param words - the List of Strings to be added to the dictionary
 	 */
 	private void buildDictionary(List<String> words) {
-		// FILL IN
+		List<String> lowerList = listToLower(words);
+		
+		Collections.shuffle(lowerList);
+		
+		dictionary.addAll(lowerList);
 	}
 
 	/**
@@ -130,5 +147,15 @@ public class SpellChecker {
 		}
 
 		return words;
+	}
+	
+	private List<String> listToLower(List<String> words) {
+		List<String> lowerCaseWords = new ArrayList<String>(words.size());
+		
+		for (String s : words) {
+			lowerCaseWords.add(s.toLowerCase());
+		}
+		
+		return lowerCaseWords;
 	}
 }

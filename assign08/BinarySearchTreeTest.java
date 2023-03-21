@@ -153,10 +153,12 @@ class BinarySearchTreeTest {
 	void multipleIntFirstTest() {
 		for (int i = testSize; i > 0; i--) {
 			intTree.add(i);
+			assertEquals(i, intTree.first());
 		}
 		
 		for (int i = 0; i < testSize; i++) {
-			assertEquals(1, intTree.first());
+			intTree.remove(i);
+			assertEquals(i + 1, intTree.first());
 		}
 	}
 	
