@@ -87,8 +87,8 @@ public class SpellChecker {
 	public List<String> spellCheck(List<String> words) {
 		List<String> misspelledWords = new ArrayList<String>();
 		
-		for (String s : words) {
-			if (!dictionary.contains(s.toLowerCase())) {
+		for (String s : listToLower(words)) {
+			if (!dictionary.contains(s)) {
 				misspelledWords.add(s);
 			}
 		}

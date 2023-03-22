@@ -1,6 +1,7 @@
 package assign08;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,6 +17,10 @@ public class SpellCheckerDemo {
 		SpellChecker mySC = new SpellChecker(new File("src/assign08/dictionary.txt"));
 
 		runSpellCheck(mySC, "src/assign08/hello_world.txt");
+		runSpellCheck(mySC, "src/assign08/good_luck.txt");
+		List<String> list = new ArrayList<String>();
+		mySC = new SpellChecker(list);
+		
 		runSpellCheck(mySC, "src/assign08/good_luck.txt");
 	}
 

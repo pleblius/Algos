@@ -42,6 +42,8 @@ class BinarySearchTreeTest {
 		
 		stringList = new ArrayList<String>();
 		stringList2 = new ArrayList<String>();
+		
+		treeList = new ArrayList<Integer>();
 	}
 	
 	/*
@@ -329,6 +331,21 @@ class BinarySearchTreeTest {
 	}
 	
 	@Test
+	void randomArrayTest() {
+		for (int i = 0; i < testSize; i++) {
+			testList.add(i);
+		}
+		Collections.shuffle(testList);
+		intTree.addAll(testList);
+		
+		Collections.shuffle(testList);
+		
+		intTree.removeAll(testList);
+		
+		
+	}
+	
+	@Test
 	void multipleStringTest() {
 		
 		for (int i = 0; i < testSize; i++) {
@@ -522,5 +539,21 @@ class BinarySearchTreeTest {
 		}
 		
 		assertFalse(intTree.containsAll(testList));
+	}
+	
+	@Test
+	void removeRandomTest() {
+		int size = testSize;
+		for (int i = 0; i < size; i++) {
+			testList.add(i);
+		}
+		
+		Collections.shuffle(testList);
+		intTree.addAll(testList);
+		
+		Collections.shuffle(testList);
+		for (int i = 0; i < size; i++) {
+			intTree.remove(testList.get(i));
+		}
 	}
 }

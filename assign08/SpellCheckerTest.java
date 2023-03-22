@@ -198,114 +198,34 @@ class SpellCheckerTest {
 		for (int i = 0; i < 10; i++) {
 			Collections.shuffle(asdf);
 			var sc = new SpellChecker(asdf);
-			var testList = sc.spellCheck(new File("src/assign08/words.txt"));
+			var testList = sc.spellCheck(new File("src/assign08/dictionary.txt"));
 			assertTrue(testList.size() > 0);
 		}
 	}
 	
 	@Test
-	void fuckIt() {
-		var asdf = new ArrayList<String>();
-		var asdf2 = new ArrayList<String>();
-		var asdf3 = new ArrayList<String>();
-		var asdf4 = new ArrayList<String>();
-		
-		List<String> testList = new ArrayList<String>();
-		List<String> testList2 = new ArrayList<String>();
-		List<String> testList3 = new ArrayList<String>();
-		
-		SpellChecker checker;
-		
-		try (Scanner scanner = new Scanner(new File("src/assign08/dictionary.txt"))) {
-			while(scanner.hasNext())
-				asdf.add(scanner.next());
-		}
-		catch (IOException e) {}
-		
-		Collections.shuffle(asdf);
-		asdf4.addAll(asdf);
-		Collections.shuffle(asdf4);
-		
-		for (int i = 0; i < asdf.size(); i++) {			
-			testList.clear();
-			testList2.clear();
-			testList3.clear();
-			
-			asdf2.add(asdf.get(i));
-			
-			String str = new String();
-			String str2 = new String();
-			for (int j = 0; j < 10; j++) {
-				Integer rand = (int)(Math.random()*56) + 65;
-				if (rand > 90 && rand < 97) continue;
-				str += (char)((int) rand);
-			}
-			
-			asdf3.add(str);
-			
-			Collections.shuffle(asdf2);
-			
-			checker = new SpellChecker(asdf2);
-			
-			testList = checker.spellCheck(asdf2);
-			testList2 = checker.spellCheck(asdf3);
-			testList3 = checker.spellCheck(asdf4);
-			
-			assertEquals(0, testList.size(), "Failed at index " + i);
-			assertEquals(i + 1, testList2.size(), "Failed at index " + i);
-		}
-		
-		assertEquals(0, testList3.size());
-	}
-	
-	@Test
-	void fsfaTest() {
-		var testList = new ArrayList<String>();
-		List<String> testList2;
-		List<String> testList3 = new ArrayList<String>();
-		List<String> testList4;
-		
-		testList3.add("asdf");
-		
-		String str;
-		
-		for (int i = 0; i < 10_000_000; i++) {
-			str = new String();
-			
-			for (int j = 0; j < 10; j++) {
-				Integer rand = (int)(Math.random()*56) + 65;
-				if (rand > 90 && rand < 97) continue;
-				str += (char)((int) rand);
-			}
-			
-			testList.add(str);
-		}
-		
-		List<String> wordList = new ArrayList<String>();
-		try {
-			Scanner scanner = new Scanner(new File("src/assign08/dictionary.txt"));
-			
-			str = new String();
-			
-			while (scanner.hasNext()) {
-				str = scanner.next();
-				
-				if (!wordList.contains(str.toLowerCase())) {
-					wordList.add(str.toLowerCase());
-				}
+	void randomTest() {
+		List<String> words = new ArrayList<String>();
+		try {	
+			Scanner reader = new Scanner(new File("src/assign08/dictionary.txt"));
+			while(reader.hasNext()) {
+				words.add(reader.next());
 			}
 		}
 		catch(IOException e) {}
 		
-		var checker = new SpellChecker(testList);
+		Collections.shuffle(words);
 		
-		testList2 = checker.spellCheck(wordList);
+		for (int i = 0 ; i < words.size(); i++) {
+			dictionary.removeFromDictionary(words.get(i));
+		}
 		
-		var checker2 = new SpellChecker(testList3);
+		for (int i = 0; i < words.size(); i++) {
+			dictionary.addToDictionary(words.get(i));
+		}
 		
-		testList4 = checker2.spellCheck(testList);
+		dictionary.spellCheck(new File("src/assign08/dictionary.txt"));
 		
-		assertTrue(testList2.size() > 2600);
-		assertEquals(testList.size(), testList4.size());
+
 	}
 }

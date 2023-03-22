@@ -32,7 +32,7 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 		
 		private Type data;
 		private Node leftChild;
-		private Node rightChild; 
+		private Node rightChild;
 		private Node parent;
 		
 		/**
@@ -269,7 +269,7 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 	 * @return true if the data element is found, false otherwise.
 	 */
 	private boolean containsNode(Type item, Node current) {
-		if (current.data.compareTo(item) == 0) {
+		if (current.data.equals(item)) {
 			return true;
 		}
 		else if(item.compareTo(current.data) < 0) {
@@ -285,7 +285,7 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 			}
 			
 			return containsNode(item, current.rightChild);
-		}	
+		}
 	}
 	
 	/**
@@ -297,14 +297,12 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 	 */
 	@Override
 	public boolean containsAll(Collection<? extends Type> items) {
-		boolean containsAll = true;
-		
 		for (Type t : items) {
 			if (!contains(t))
-				containsAll = false;
+				return false;
 		}
 		
-		return containsAll;
+		return true;
 	}
 	
 	/**
@@ -450,12 +448,12 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 		// Two children
 		else {
 			Node successor = oldChild.getSuccessor();
+			Type data = successor.data;
 			
-			successor.leftChild = oldChild.leftChild;
-			successor.rightChild = oldChild.rightChild;
-			successor.parent.leftChild = null;
+			removeNode(data, successor.parent);
+			oldChild.data = data;
 			
-			return successor;
+			return oldChild;
 		}
 	}
 	
