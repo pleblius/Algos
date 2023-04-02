@@ -9,17 +9,17 @@ public class BSTTiming {
 
 	public static void main(String[] args) {
 		
-		System.out.println("Stick Times:");
-		ammortizedStickTiming(750, 100);
-		
-		System.out.println("Random Times:");
-		ammortizedRandomTiming(750, 1000);
+//		System.out.println("Stick Times:");
+//		ammortizedStickTiming(750, 100);
+//		
+//		System.out.println("Random Times:");
+//		ammortizedRandomTiming(750, 1000);
 		
 		System.out.println("Random Times2:");
-		ammortizedRandomTiming(10000, 100);
+		ammortizedRandomTiming(100000, 100);
 		
 		System.out.println("Balanced Times:");
-		ammortizedBalancedTiming(10000, 100);
+		ammortizedBalancedTiming(100000, 100);
 		
 	}
 	

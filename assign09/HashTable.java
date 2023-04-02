@@ -35,44 +35,91 @@ public class HashTable<K, V> implements Map<K, V> {
 
 	@Override
 	public boolean containsKey(K key) {
-		// TODO Auto-generated method stub
+		int index = compressHash(key.hashCode());
+		
+		for (MapEntry<K, V> entry : backingArray.get(index)) {
+			if (entry.getKey().equals(key))
+				return true;
+		}
+		
 		return false;
 	}
 
 	@Override
 	public boolean containsValue(V value) {
-		// TODO Auto-generated method stub
+		
+		for (List<MapEntry<K,V>> list : backingArray) {
+			for (MapEntry<K,V> entry : list) {
+				if (entry.getValue().equals(value))			
+					return true;
+			}
+		}
+		
 		return false;
 	}
 
 	@Override
 	public List<MapEntry<K, V>> entries() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		ArrayList<MapEntry<K,V>> returnList = new ArrayList<MapEntry<K,V>>();
+		
+		for (List<MapEntry<K,V>> list : backingArray) {
+			for (MapEntry<K,V> entry : list) {
+				returnList.add(entry);
+			}
+		}
+		
+		return returnList;
 	}
 
 	@Override
 	public V get(K key) {
-		// TODO Auto-generated method stub
+		int index = compressHash(key.hashCode());
+		
+		for (MapEntry<K, V> entry : backingArray.get(index)) {
+			if (entry.getKey().equals(key))
+				return entry.getValue();
+		}
+		
 		return null;
 	}
 
 	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
+		return size == 0;
 	}
 
 	@Override
 	public V put(K key, V value) {
-		// TODO Auto-generated method stub
-		return null;
+		int index = compressHash(key.hashCode());
+		V returnValue = null;
+		
+		for (MapEntry<K, V> entry : backingArray.get(index)) {
+			if (entry.getKey().equals(key)) {
+				returnValue = entry.getValue();
+			
+				entry.setValue(value);
+				break;
+			}
+		}
+		
+		return returnValue;
 	}
 
 	@Override
 	public V remove(K key) {
-		// TODO Auto-generated method stub
-		return null;
+		int index = compressHash(key.hashCode());
+		V returnValue = null;
+		
+		for (MapEntry<K, V> entry : backingArray.get(index)) {
+			if (entry.getKey().equals(key)) {
+				returnValue = entry.getValue();
+				backingArray.get(index).remove(entry);
+				break;
+			}
+		}
+		
+		return returnValue;
 	}
 
 	@Override
