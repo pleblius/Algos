@@ -1,13 +1,36 @@
 package assign09;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class HashTable<K, V> implements Map<K, V> {
-
+	
+	private int size;
+	private int capacity;
+	
+	private ArrayList<List<MapEntry<K, V>>> backingArray;
+	
+	public HashTable() {
+		size = 0;
+		capacity = 20;
+		
+		backingArray = new ArrayList<List<MapEntry<K,V>>>();
+		
+		for (int i = 0; i < capacity; i++) {
+			backingArray.add(new LinkedList<MapEntry<K,V>>());
+		}
+	}
+	
 	@Override
 	public void clear() {
-		// TODO Auto-generated method stub
-
+		size = 0;
+		capacity = 20;
+		backingArray = new ArrayList<List<MapEntry<K,V>>>();
+		
+		for (int i = 0; i < capacity; i++) {
+			backingArray.add(new LinkedList<MapEntry<K,V>>());
+		}
 	}
 
 	@Override
@@ -54,8 +77,36 @@ public class HashTable<K, V> implements Map<K, V> {
 
 	@Override
 	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
+		return size;
 	}
-
+	
+	/*
+	 * Helper Functions
+	 */
+	
+	private int compressHash(int hash) {
+		return hash%capacity;
+	}
+	
+	private void doubleCapacity() {
+		ArrayList<List<MapEntry<K,V>>> newArray = new ArrayList<List<MapEntry<K,V>>>();
+		
+		capacity *= 2;
+		
+		for (int i = 0; i < capacity; i++) {
+			newArray.add(new LinkedList<MapEntry<K,V>>());
+		}
+		
+		for (List<MapEntry<K,V>> list : newArray) {
+			for (MapEntry<K,V> entry : list) {
+				put(entry.getKey(), entry.getValue());
+			}
+		}
+		
+		backingArray = newArray;
+	}
+	
+	private float getLoadFactor() {
+		return ((float)(size))/((float)(capacity));
+	}
 }
