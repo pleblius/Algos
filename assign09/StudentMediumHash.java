@@ -73,6 +73,12 @@ public class StudentMediumHash {
 		return firstName + " " + lastName + " (u" + formatter.format(uid) + ")";
 	}
 
+	/**
+	 * Gets a moderately beneficial hashcode that will collide 10% of the time.
+	 * 
+	 * @return uid%10.
+	 */
+	@Override
 	public int hashCode() {
 		return uid%10;
 	}

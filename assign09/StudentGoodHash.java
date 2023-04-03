@@ -74,6 +74,12 @@ public class StudentGoodHash {
 		return firstName + " " + lastName + " (u" + formatter.format(uid) + ")";
 	}
 
+	/**
+	 * Gets a good hash code based on java's innate hashcode function.
+	 * Should minimize possible collisions.
+	 * 
+	 * @return a good hash code.
+	 */
 	@Override
 	public int hashCode() {
 		return Objects.hash(firstName, lastName, uid);

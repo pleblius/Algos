@@ -73,6 +73,12 @@ public class StudentBadHash {
 		return firstName + " " + lastName + " (u" + formatter.format(uid) + ")";
 	}
 
+	/**
+	 * Gets a bad hashcode that will collide 100% of the time.
+	 * 
+	 * @return 0
+	 */
+	@Override
 	public int hashCode() {
 		return 0;
 	}
