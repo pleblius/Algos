@@ -1,6 +1,7 @@
 package assign09;
 
 import java.text.DecimalFormat;
+import java.util.Objects;
 
 /**
  * This class provides a simple representation for a University of Utah student.
@@ -8,8 +9,8 @@ import java.text.DecimalFormat;
  * object, but one that does a poor job of distributing students in a hash
  * table.
  * 
- * @author Erin Parker and ?
- * @version ?
+ * @author Erin Parker and Tyler Wilcox and Andrew Tolton
+ * @version 02 April, 2023
  */
 public class StudentGoodHash {
 
@@ -73,9 +74,8 @@ public class StudentGoodHash {
 		return firstName + " " + lastName + " (u" + formatter.format(uid) + ")";
 	}
 
+	@Override
 	public int hashCode() {
-		// FILL IN and add method comment
-		
-		return 0;
+		return Objects.hash(firstName, lastName, uid);
 	}
 }

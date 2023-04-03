@@ -94,15 +94,24 @@ public class HashTable<K, V> implements Map<K, V> {
 		int index = compressHash(key.hashCode());
 		V returnValue = null;
 		
+		// Check if entry already exists
+		
 		for (MapEntry<K, V> entry : backingArray.get(index)) {
 			if (entry.getKey().equals(key)) {
 				returnValue = entry.getValue();
-			
 				entry.setValue(value);
-				break;
+				
+				return returnValue;
 			}
 		}
 		
+		// Entry does not exist
+		size++;
+		backingArray.get(index).add(new MapEntry<K, V>(key, value));
+		
+		if (getLoadFactor() > 5.0)
+			doubleCapacity();
+			
 		return returnValue;
 	}
 
@@ -115,6 +124,8 @@ public class HashTable<K, V> implements Map<K, V> {
 			if (entry.getKey().equals(key)) {
 				returnValue = entry.getValue();
 				backingArray.get(index).remove(entry);
+				size--;
+				
 				break;
 			}
 		}
@@ -132,7 +143,8 @@ public class HashTable<K, V> implements Map<K, V> {
 	 */
 	
 	private int compressHash(int hash) {
-		return hash%capacity;
+		
+		return Math.abs(hash%capacity);
 	}
 	
 	private void doubleCapacity() {
