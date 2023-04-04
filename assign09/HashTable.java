@@ -229,7 +229,7 @@ public class HashTable<K, V> implements Map<K, V> {
 	 */
 	private void doubleCapacity() {
 		List<MapEntry<K, V>> itemList = entries();
-		int newCapacity = capacity*2;
+		int newCapacity = capacity*10;
 		
 		clear();
 		
