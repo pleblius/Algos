@@ -165,13 +165,24 @@ public class HashTable<K, V> implements Map<K, V> {
 		}
 		
 		// Entry does not exist
-		size++;
-		backingArray.get(index).add(new MapEntry<K, V>(key, value));
+		addToArray(key, value, index);
 		
 		if (getLoadFactor() > 5.0)
 			doubleCapacity();
 			
 		return returnValue;
+	}
+	
+	/**
+	 * Adds a key-value entry with the given index to the backing array.
+	 * 
+	 * @param key - key to be hashed to the index to store the entry at.
+	 * @param value - value to add to the array.
+	 * @param index - hashed index to store the entry at.
+	 */
+	private void addToArray(K key, V value, int index) {
+		size++;
+		backingArray.get(index).add(new MapEntry<K, V>(key, value));
 	}
 
 	/**
@@ -239,8 +250,11 @@ public class HashTable<K, V> implements Map<K, V> {
 			backingArray.add(new LinkedList<MapEntry<K,V>>());
 		}
 		
+		int index;
 		for (MapEntry<K,V> entry : itemList) {
-			put(entry.getKey(),entry.getValue());
+			index = compressHash(entry.getKey().hashCode());
+			
+			addToArray(entry.getKey(), entry.getValue(), index);
 		}
 	}
 	
