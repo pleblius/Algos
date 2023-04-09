@@ -416,5 +416,132 @@ public class ChatGPTTest {
             }
         }
     }
+    
+    @Test
+    public void testToArrayEmptyHeap() {
+        Object[] array = heap.toArray();
+        assertEquals(0, array.length);
+    }
+
+    @Test
+    public void testToArrayEmptyStringHeap() {
+        Object[] array = stringHeap.toArray();
+        assertEquals(0, array.length);
+    }
+
+    @Test
+    public void testToArraySingleElementHeap() {
+        heap.add(5);
+        Object[] array = heap.toArray();
+        assertEquals(1, array.length);
+        assertEquals(5, array[0]);
+    }
+
+    @Test
+    public void testToArraySingleElementStringHeap() {
+        stringHeap.add("apple");
+        Object[] array = stringHeap.toArray();
+        assertEquals(1, array.length);
+        assertEquals("apple", array[0]);
+    }
+
+    @Test
+    public void testToArrayAfterElementRemoval() {
+        heap.add(5);
+        heap.add(3);
+        heap.add(8);
+        heap.extractMax();
+        Object[] array = heap.toArray();
+        int n = array.length;
+
+        for (int i = 0; i < n; i++) {
+            int left = 2 * i + 1;
+            int right = 2 * i + 2;
+
+            if (left < n) {
+                assertTrue((Integer) array[i] >= (Integer) array[left]);
+            }
+
+            if (right < n) {
+                assertTrue((Integer) array[i] >= (Integer) array[right]);
+            }
+        }
+    }
+
+    @Test
+    public void testToArrayAfterElementRemovalStringHeap() {
+        stringHeap.add("apple");
+        stringHeap.add("orange");
+        stringHeap.add("banana");
+        stringHeap.extractMax();
+        Object[] array = stringHeap.toArray();
+        int n = array.length;
+
+        for (int i = 0; i < n; i++) {
+            int left = 2 * i + 1;
+            int right = 2 * i + 2;
+
+            if (left < n) {
+                assertTrue(((String) array[i]).compareTo((String) array[left]) >= 0);
+            }
+
+            if (right < n) {
+                assertTrue(((String) array[i]).compareTo((String) array[right]) >= 0);
+            }
+        }
+    }
+
+    @Test
+    public void testToArrayAfterElementRemovalCustomComparatorIntegerHeap() {
+        Comparator<Integer> customComparator = (a, b) -> b % 5 - a % 5;
+        heap = new BinaryMaxHeap<>(customComparator);
+        heap.add(5);
+        heap.add(3);
+        heap.add(8);
+        heap.extractMax();
+
+        Object[] array = heap.toArray();
+        int n = array.length;
+
+        for (int i = 0; i < n; i++) {
+            int left = 2 * i + 1;
+            int right = 2 * i + 2;
+
+            if (left < n) {
+                assertTrue(customComparator.compare((Integer) array[i], (Integer) array[left]) >= 0);
+            }
+
+            if (right < n) {
+                assertTrue(customComparator.compare((Integer) array[i], (Integer) array[right]) >= 0);
+            }
+        }
+    }
+
+    @Test
+    public void testToArrayAfterElementRemovalCustomComparatorStringHeap() {
+        Comparator<String> customComparator = (a, b) -> a.length() - b.length();
+        stringHeap = new BinaryMaxHeap<>(customComparator);
+        stringHeap.add("apple");
+        stringHeap.add("orange");
+        stringHeap.add("banana");
+        stringHeap.extractMax();
+
+        Object[] array = stringHeap.toArray();
+        int n = array.length;
+
+        for (int i = 0; i < n; i++) {
+            int left = 2 * i + 1;
+            int right = 2 * i + 2;
+
+            if (left < n) {
+                assertTrue(customComparator.compare((String) array[i], (String) array[left]) >= 0);
+            }
+
+            if (right < n) {
+                assertTrue(customComparator.compare((String) array[i], (String) array[right]) >= 0);
+            }
+        }
+    }
+
 
 }
