@@ -542,6 +542,4 @@ public class ChatGPTTest {
             }
         }
     }
-
-
 }
