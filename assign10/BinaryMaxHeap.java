@@ -317,11 +317,7 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 	 */
 	
 	/**
-<<<<<<< HEAD
 	 * Gets the array index of the associated element's left child.
-=======
-	 * Gets the array index of the associated element's left child.
->>>>>>> comparison
 	 * 
 	 * @param index - The array index of the parent element.
 	 * @return The array index of the parent's left child.
@@ -331,11 +327,7 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 	}
 	
 	/**
-<<<<<<< HEAD
 	 * Gets the array index of the associated element's right child.
-=======
-	 * Gets the array index of the associated element's right child.
->>>>>>> comparison
 	 * 
 	 * @param index - The array index of the parent element.
 	 * @return The array index of the parent's right child.
@@ -345,12 +337,8 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 	}
 	
 	/**
-<<<<<<< HEAD
 	 * Gets the array index of the associated element's parent.
 	 * 
-=======
-	 * Gets the array index of the associated element's parent.
->>>>>>> comparison
 	 * @param index - The array index of the child element.
 	 * @return The array index of the child's parent.
 	 */
@@ -360,16 +348,24 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 	
 	/*
 	 * Miscellaneous
-<<<<<<< HEAD
-=======
->>>>>>> comparison
 	 */
 	
 	/**
-<<<<<<< HEAD
-=======
-
->>>>>>> comparison
+	 * Checks if the element stored at the array index baseIndex is larger 
+	 * (by the ordering specified by the stored comparator) than the element
+	 * stored at the array index compIndex.
+	 * 
+	 * @param baseIndex - the array index of the element being checked.
+	 * @param compIndex - the array index of the element being compared to the base element.
+	 * @return true if baseIndex > compIndex, false otherwise.
+	 */
+	private boolean isBiggerThan(int baseIndex, int compIndex) {
+		if (cmp.compare(heap[baseIndex], heap[compIndex]) > 0)
+			return true;
+		else return false;
+	}
+	
+	/**
 	 * Swaps the elements stored at the array indexes n1 and n2.
 	 * 
 	 * @param n1 - Array index of the first element to be swapped.
