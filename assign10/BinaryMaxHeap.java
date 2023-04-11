@@ -23,27 +23,42 @@ import java.util.NoSuchElementException;
  */
 public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 
+	private int size;
+	private E[] heap;
+	private int capacity;
+	private Comparator<? super E> cmp;
 	
+	@SuppressWarnings("unchecked")
 	public BinaryMaxHeap() {
-		// TODO
+		this((l,r) -> ((Comparable<? super E>)r).compareTo(l));
 	}
 	
+	@SuppressWarnings("unchecked")
 	public BinaryMaxHeap(Comparator<? super E> cmp) {
-		// TODO
+		this.cmp = cmp;
+		size = 0;
+		capacity = 10;
+		heap = (E[]) new Object[capacity];
 	}
 	
+	@SuppressWarnings("unchecked")
 	public BinaryMaxHeap(List<? extends E> list) {
-		// TODO
+		this(list, (l,r) -> ((Comparable<? super E>)r).compareTo(l));
 	}
 	
+	@SuppressWarnings("unchecked")
 	public BinaryMaxHeap(List<? extends E> list, Comparator<? super E> cmp) {
-		// TODO
+		this.cmp = cmp;
+		size = list.size();
+		capacity = 2*list.size();
+		heap = (E[]) new Object[capacity];
+		
+		heapify(list);
 	}
 	
 	@Override
 	public void add(E item) {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
@@ -87,7 +102,13 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 	 */
 	
 	private void percolateUp(int index) {
-		// TODO
+		int parent = getParent(index);
+		
+		while (index > 0 && compare(index, parent) > 0) {
+			swap(index, parent);
+			index = parent;
+			parent = getParent(index);
+		}
 	}
 	
 	private void percolateDown(int index) {
@@ -99,26 +120,24 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 	}
 	
 	private int getLeft(int index) {
-		// TODO
-		return 0;
+		return 2*index + 1;
 	}
 	
 	private int getRight(int index) {
-		// TODO
-		return 0;
+		return 2*index + 2;
 	}
 	
 	private int getParent(int index) {
-		// TODO
-		return 0;
+		return (index - 1)/2;
 	}
 	
 	private int compare(int left, int right) {
-		// TODO
-		return 0;
+		return cmp.compare(heap[left], heap[right]);
 	}
 	
 	private void swap(int n1, int n2) {
-		// TODO
+		E temp = heap[n1];
+		heap[n1] = heap[n2];
+		heap[n2] = temp;
 	}
 }
