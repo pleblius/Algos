@@ -58,7 +58,12 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 	
 	@Override
 	public void add(E item) {
-		
+		heap[size] = item;
+		percolateUp(size++);
+
+		if (size == capacity) {
+			growCapacity();
+		}
 	}
 
 	@Override
@@ -112,11 +117,37 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 	}
 	
 	private void percolateDown(int index) {
-		// TODO
+		int left, right;
+		
+		while(index < size/2) {
+			left = getLeft(index);
+			right = getRight(index);
+			
+			// Is there a valid left or right child smaller than the current index?
+			if (left < size && compare(index, left) < 0 || right < size && compare(index, right) < 0) {
+				if (compare(left, right) < 0) {
+					swap(index, left);
+					index = left;
+				}
+				else {
+					swap(index, right);
+					index = right;
+				}
+			}
+		}
+		
 	}
 	
-	private void heapify(List<?> list) {
-		// TODO
+	private void heapify(List<? extends E> list) {
+		int index = 0;
+		for (E l : list) {
+			heap[index] = l;
+			index++;
+		}
+		
+		for (int ii = size/2; ii >= 0; ii--) {
+			percolateDown(ii);
+		}
 	}
 	
 	private int getLeft(int index) {
@@ -139,5 +170,17 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 		E temp = heap[n1];
 		heap[n1] = heap[n2];
 		heap[n2] = temp;
+	}
+	
+	@SuppressWarnings("unchecked")
+	private void growCapacity() {
+		capacity *= 2;
+		E[] newArr = (E[]) new Object[capacity];
+		
+		for (int ii = 0; ii < size; ii++) {
+			newArr[ii] = heap[ii];
+		}
+		
+		heap = newArr;
 	}
 }
