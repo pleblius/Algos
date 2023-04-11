@@ -81,5 +81,44 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
+	/*
+	 * Helper methods
+	 */
+	
+	private void percolateUp(int index) {
+		// TODO
+	}
+	
+	private void percolateDown(int index) {
+		// TODO
+	}
+	
+	private void heapify(List<?> list) {
+		// TODO
+	}
+	
+	private int getLeft(int index) {
+		// TODO
+		return 0;
+	}
+	
+	private int getRight(int index) {
+		// TODO
+		return 0;
+	}
+	
+	private int getParent(int index) {
+		// TODO
+		return 0;
+	}
+	
+	private int compare(int left, int right) {
+		// TODO
+		return 0;
+	}
+	
+	private void swap(int n1, int n2) {
+		// TODO
+	}
 }
