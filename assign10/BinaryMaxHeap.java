@@ -82,8 +82,8 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 		
 		E retValue = heap[0];
 		
-		heap[0] = heap[size];
-		heap[size] = null;
+		heap[0] = heap[size-1];
+		heap[size-1] = null;
 		
 		size--;
 		percolateDown(0);
@@ -151,51 +151,55 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 //	}
 	
 	private void percolateDown(int index) {
-		while (index < size/2) {
-			index = swapLargestChild(index);
-		}
+		int smallerChild;
+		
+		while(!isIndexOkay(index)) {
+			smallerChild = getSmallerChild(index);
+			swap(index, getSmallerChild(index));
+			
+			index = smallerChild;
+		}		
 	}
 	
-	private int swapLargestChild(int index) {
-		int left, right;
-		
-		// Left child
-		left = getLeft(index);
-		right = getRight(index);
-		
-		if (right >= size) {
-			if (compare(index,left) > 0) {
-				swap(index, left);
-				index = left;
-			}
-			else
-				return -1;
-		}
-		// Right child
-		else {
-			int largestChild = getLargerChild(index);
-			if (compare(index,largestChild) > 0) {
-				swap(index, largestChild);
-				index = largestChild;
-			}
-			else
-				return -1;
-		}
-		
-		return index;
-	}
-	
-	private int getLargerChild(int index) {
+	private boolean isIndexOkay(int index) {
 		int left = getLeft(index);
 		int right = getRight(index);
 		
-		if (compare(left, right) < 0) {
-			return left;
+		if (size <= 1) {
+			return true;
 		}
-		else
-			return right;
+		else if (left < size && compare(index, left) > 0)
+			return false;
+		else if (right < size && compare(index, right) > 0) {
+			return false;
+		}
+		else {
+			return true;
+		}
 	}
 	
+	private int getSmallerChild(int index) {
+		int left = getLeft(index);
+		int right = getRight(index);
+		
+		// One-Child
+		if (right >= size) 
+			return left;
+		
+		// Two Children
+		else {
+			if(compare(left, right) < 0)
+				return left;
+			else
+				return right;
+		}
+	}
+	
+	
+	
+	
+	
+		
 	private void heapify(List<? extends E> list) {
 		int index = 0;
 		for (E l : list) {
