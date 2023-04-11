@@ -262,14 +262,14 @@ public class ChatGPTTest {
 
     @Test
     public void testHeapifyStringListWithCustomComparator() {
-        List<String> words = Arrays.asList("one", "two", "three", "four", "five", "six");
+        List<String> words = Arrays.asList("one", "two", "fifteen", "seven", "five", "six");
         Comparator<String> customComparator = (a, b) -> a.length() - b.length();
         stringHeap = new BinaryMaxHeap<>(words, customComparator);
 
-        assertEquals("three", stringHeap.peek());
-        assertEquals("three", stringHeap.extractMax());
-        assertEquals("four", stringHeap.peek());
-        assertEquals("four", stringHeap.extractMax());
+        assertEquals("fifteen", stringHeap.peek());
+        assertEquals("fifteen", stringHeap.extractMax());
+        assertEquals("seven", stringHeap.peek());
+        assertEquals("seven", stringHeap.extractMax());
     }
     
     @Test

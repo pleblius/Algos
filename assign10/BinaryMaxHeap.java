@@ -3,6 +3,7 @@
  */
 package assign10;
 
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -35,7 +36,7 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 	
 	@SuppressWarnings("unchecked")
 	public BinaryMaxHeap(Comparator<? super E> cmp) {
-		this.cmp = cmp;
+		this.cmp = (l, r) -> cmp.compare(r, l);
 		size = 0;
 		capacity = 10;
 		heap = (E[]) new Object[capacity];
@@ -48,7 +49,7 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 	
 	@SuppressWarnings("unchecked")
 	public BinaryMaxHeap(List<? extends E> list, Comparator<? super E> cmp) {
-		this.cmp = cmp;
+		this.cmp = (l, r) -> cmp.compare(r, l);
 		size = list.size();
 		capacity = 2*list.size();
 		heap = (E[]) new Object[capacity];
@@ -68,38 +69,50 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 
 	@Override
 	public E peek() throws NoSuchElementException {
-		// TODO Auto-generated method stub
-		return null;
+		if (size == 0)
+			throw new NoSuchElementException("This data structure is currently empty.");
+		
+		return heap[0];
 	}
 
 	@Override
 	public E extractMax() throws NoSuchElementException {
-		// TODO Auto-generated method stub
-		return null;
+		if (size == 0)
+			throw new NoSuchElementException("This data structure is currently empty.");
+		
+		E retValue = heap[0];
+		
+		heap[0] = heap[size];
+		heap[size] = null;
+		
+		size--;
+		percolateDown(0);
+		
+		return retValue;
 	}
 
 	@Override
 	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
+		return size;
 	}
 
 	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
+		return size == 0;
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public void clear() {
-		// TODO Auto-generated method stub
-
+		size = 0;
+		capacity = 10;
+		
+		heap = (E[]) new Object[capacity];
 	}
 
 	@Override
 	public Object[] toArray() {
-		// TODO Auto-generated method stub
-		return null;
+		return Arrays.copyOf(heap, size);
 	}
 	
 	/*
@@ -116,26 +129,71 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 		}
 	}
 	
+//	private void percolateDown(int index) {
+//		int left, right;
+//		
+//		while(index < size/2) {
+//			left = getLeft(index);
+//			right = getRight(index);
+//			
+//			// Is there a valid left or right child smaller than the current index?
+//			if (left < size && compare(index, left) < 0 || right < size && compare(index, right) < 0) {
+//				if (compare(left, right) < 0) {
+//					swap(index, left);
+//					index = left;
+//				}
+//				else {
+//					swap(index, right);
+//					index = right;
+//				}
+//			}
+//		}	
+//	}
+	
 	private void percolateDown(int index) {
+		while (index < size/2) {
+			index = swapLargestChild(index);
+		}
+	}
+	
+	private int swapLargestChild(int index) {
 		int left, right;
 		
-		while(index < size/2) {
-			left = getLeft(index);
-			right = getRight(index);
-			
-			// Is there a valid left or right child smaller than the current index?
-			if (left < size && compare(index, left) < 0 || right < size && compare(index, right) < 0) {
-				if (compare(left, right) < 0) {
-					swap(index, left);
-					index = left;
-				}
-				else {
-					swap(index, right);
-					index = right;
-				}
+		// Left child
+		left = getLeft(index);
+		right = getRight(index);
+		
+		if (right >= size) {
+			if (compare(index,left) > 0) {
+				swap(index, left);
+				index = left;
 			}
+			else
+				return -1;
+		}
+		// Right child
+		else {
+			int largestChild = getLargerChild(index);
+			if (compare(index,largestChild) > 0) {
+				swap(index, largestChild);
+				index = largestChild;
+			}
+			else
+				return -1;
 		}
 		
+		return index;
+	}
+	
+	private int getLargerChild(int index) {
+		int left = getLeft(index);
+		int right = getRight(index);
+		
+		if (compare(left, right) < 0) {
+			return left;
+		}
+		else
+			return right;
 	}
 	
 	private void heapify(List<? extends E> list) {
