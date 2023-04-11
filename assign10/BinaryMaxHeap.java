@@ -317,6 +317,8 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 	 */
 	
 	/**
+	 * Gets the array index of the provided element's left child.
+	 * 
 	 * @param index - The array index of the parent element.
 	 * @return The array index of the parent's left child.
 	 */
@@ -325,6 +327,8 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 	}
 	
 	/**
+	 * Gets the array index of the provided element's right child.
+	 * 
 	 * @param index - The array index of the parent element.
 	 * @return The array index of the parent's right child.
 	 */
@@ -333,12 +337,17 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 	}
 	
 	/**
+	 * Gets the array index of the provided element's parent.
 	 * @param index - The array index of the child element.
 	 * @return The array index of the child's parent.
 	 */
 	private int getParent(int index) {
 		return (index - 1)/2;
 	}
+	
+	/*
+	 * Miscellaneous
+	 */
 	
 	/**
 	 * Checks if the element stored at the array index baseIndex is larger 
