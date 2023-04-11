@@ -11,11 +11,11 @@ import java.util.NoSuchElementException;
  * This class represents an implementation of a binary max heap, which is a binary
  * heap that prioritizes higher-valued items.
  * 
- * Contains constructors to build the heap from scratch or from a pre-fab list using
+ * Contains constructors to build the heap from scratch or from a pre-fabricated list using
  * either the natural ordering of a comparable generic type E or using a comparator
  * to define the ordering of the element type.
  * 
- * @param E - Generic type, must either be comparable OR a constructor that takes
+ * @param <E> - Generic type, must either be comparable OR a constructor that takes
  * a comparator type must be called.
  * @author Tyler Wilcox and Andrew Tolton
  * @version 08 April 2023
