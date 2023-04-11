@@ -58,7 +58,7 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 	 */
 	@SuppressWarnings("unchecked")
 	public BinaryMaxHeap(Comparator<? super E> cmp) {
-		this.cmp = (l, r) -> cmp.compare(r, l);
+		this.cmp = (l, r) -> cmp.compare(l, r);
 		size = 0;
 		capacity = 10;
 		heap = (E[]) new Object[capacity];
@@ -100,7 +100,7 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 	 */
 	@SuppressWarnings("unchecked")
 	public BinaryMaxHeap(List<? extends E> list, Comparator<? super E> cmp) {
-		this.cmp = (l, r) -> cmp.compare(r, l);
+		this.cmp = (l, r) -> cmp.compare(l, r);
 		size = list.size();
 		capacity = 2*list.size();
 		heap = (E[]) new Object[capacity];
@@ -218,7 +218,7 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 	private void percolateUp(int index) {
 		int parent = getParent(index);
 		
-		while (index > 0 && compare(index, parent) < 0) {
+		while (index > 0 && isBiggerThan(index, parent)) {
 			swap(index, parent);
 			index = parent;
 			parent = getParent(index);
@@ -260,9 +260,9 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 		if (size <= 1) {
 			return true;
 		}
-		else if (left < size && compare(index, left) > 0)
+		else if (left < size && isBiggerThan(left, index))
 			return false;
-		else if (right < size && compare(index, right) > 0) {
+		else if (right < size && isBiggerThan(right, index)) {
 			return false;
 		}
 		else {
@@ -287,7 +287,7 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 		
 		// Two Children
 		else {
-			if(compare(left, right) < 0)
+			if(isBiggerThan(left, right))
 				return left;
 			else
 				return right;
@@ -341,21 +341,6 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 	}
 	
 	/**
-	 * Compares the two data elements using the stored comparator object.
-	 * 
-	 * Returns a negative value if left < right.
-	 * Returns zero if left = right.
-	 * Returns positive if left > right.
-	 * 
-	 * @param left - The first object to be compared.
-	 * @param right - The second object that the first is compared to.
-	 * @return An integer corresponding to their correct ordering.
-	 */
-	private int compare(int left, int right) {
-		return cmp.compare(heap[left], heap[right]);
-	}
-	
-	/**
 	 * Checks if the element stored at the array index baseIndex is larger 
 	 * (by the ordering specified by the stored comparator) than the element
 	 * stored at the array index compIndex.
@@ -364,7 +349,7 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 	 * @param compIndex - the array index of the element being compared to the base element.
 	 * @return true if baseIndex > compIndex, false otherwise.
 	 */
-	private boolean isBigger(int baseIndex, int compIndex) {
+	private boolean isBiggerThan(int baseIndex, int compIndex) {
 		if (cmp.compare(heap[baseIndex], heap[compIndex]) > 0)
 			return true;
 		else return false;
