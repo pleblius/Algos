@@ -237,8 +237,8 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 		int smallerChild;
 		
 		while(!isIndexOkay(index)) {
-			smallerChild = getSmallerChild(index);
-			swap(index, getSmallerChild(index));
+			smallerChild = getLargerChild(index);
+			swap(index, getLargerChild(index));
 			
 			index = smallerChild;
 		}		
@@ -277,7 +277,7 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 	 * @param index - The array index whose children are to be compared.
 	 * @return The array index corresponding to the higher-valued child.
 	 */
-	private int getSmallerChild(int index) {
+	private int getLargerChild(int index) {
 		int left = getLeft(index);
 		int right = getRight(index);
 		
