@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -338,36 +339,40 @@ public class ChatGPTTest {
     }
 
     @Test
-    public void testToArrayStringHeap() {
+    public void testToArrayHasSameElementsStringHeap() {
         List<String> values = Arrays.asList("apple", "orange", "banana", "kiwi", "grape");
         for (String value : values) {
             stringHeap.add(value);
         }
 
         Object[] array = stringHeap.toArray();
-        Arrays.sort(array);
         assertEquals(values.size(), array.length);
 
-        for (int i = 0; i < values.size(); i++) {
-            assertEquals(values.get(i), array[i]);
+        for (String value : values) {
+            int inputFrequency = Collections.frequency(values, value);
+            int outputFrequency = Collections.frequency(Arrays.asList(array), value);
+            assertEquals(inputFrequency, outputFrequency);
         }
     }
 
+
     @Test
-    public void testToArrayIntegerHeap() {
+    public void testToArrayHasSameElementsIntegerHeap() {
         List<Integer> values = Arrays.asList(5, 3, 8, 1, 4);
         for (Integer value : values) {
             heap.add(value);
         }
 
         Object[] array = heap.toArray();
-        Arrays.sort(array);
         assertEquals(values.size(), array.length);
 
-        for (int i = 0; i < values.size(); i++) {
-            assertEquals(values.get(i), array[i]);
+        for (Integer value : values) {
+            int inputFrequency = Collections.frequency(values, value);
+            int outputFrequency = Collections.frequency(Arrays.asList(array), value);
+            assertEquals(inputFrequency, outputFrequency);
         }
     }
+
 
     @Test
     public void testToArrayMaintainsHeapPropertyIntegerHeap() {

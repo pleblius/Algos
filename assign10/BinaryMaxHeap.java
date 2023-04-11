@@ -31,7 +31,7 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 	
 	@SuppressWarnings("unchecked")
 	public BinaryMaxHeap() {
-		this((l,r) -> ((Comparable<? super E>)r).compareTo(l));
+		this((l,r) -> ((Comparable<? super E>)l).compareTo(r));
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -44,7 +44,7 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 	
 	@SuppressWarnings("unchecked")
 	public BinaryMaxHeap(List<? extends E> list) {
-		this(list, (l,r) -> ((Comparable<? super E>)r).compareTo(l));
+		this(list, (l,r) -> ((Comparable<? super E>)l).compareTo(r));
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -122,33 +122,12 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 	private void percolateUp(int index) {
 		int parent = getParent(index);
 		
-		while (index > 0 && compare(index, parent) > 0) {
+		while (index > 0 && compare(index, parent) < 0) {
 			swap(index, parent);
 			index = parent;
 			parent = getParent(index);
 		}
 	}
-	
-//	private void percolateDown(int index) {
-//		int left, right;
-//		
-//		while(index < size/2) {
-//			left = getLeft(index);
-//			right = getRight(index);
-//			
-//			// Is there a valid left or right child smaller than the current index?
-//			if (left < size && compare(index, left) < 0 || right < size && compare(index, right) < 0) {
-//				if (compare(left, right) < 0) {
-//					swap(index, left);
-//					index = left;
-//				}
-//				else {
-//					swap(index, right);
-//					index = right;
-//				}
-//			}
-//		}	
-//	}
 	
 	private void percolateDown(int index) {
 		int smallerChild;
@@ -195,11 +174,6 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 		}
 	}
 	
-	
-	
-	
-	
-		
 	private void heapify(List<? extends E> list) {
 		int index = 0;
 		for (E l : list) {
