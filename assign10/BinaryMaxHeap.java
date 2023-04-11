@@ -58,7 +58,7 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 	 */
 	@SuppressWarnings("unchecked")
 	public BinaryMaxHeap(Comparator<? super E> cmp) {
-		this.cmp = (l, r) -> cmp.compare(r, l);
+		this.cmp = (l, r) -> cmp.compare(l, r);
 		size = 0;
 		capacity = 10;
 		heap = (E[]) new Object[capacity];
@@ -100,7 +100,7 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 	 */
 	@SuppressWarnings("unchecked")
 	public BinaryMaxHeap(List<? extends E> list, Comparator<? super E> cmp) {
-		this.cmp = (l, r) -> cmp.compare(r, l);
+		this.cmp = (l, r) -> cmp.compare(l, r);
 		size = list.size();
 		capacity = 2*list.size();
 		heap = (E[]) new Object[capacity];
@@ -218,7 +218,7 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 	private void percolateUp(int index) {
 		int parent = getParent(index);
 		
-		while (index > 0 && compare(index, parent) < 0) {
+		while (index > 0 && isBiggerThan(index, parent)) {
 			swap(index, parent);
 			index = parent;
 			parent = getParent(index);
@@ -237,8 +237,8 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 		int smallerChild;
 		
 		while(!isIndexOkay(index)) {
-			smallerChild = getSmallerChild(index);
-			swap(index, getSmallerChild(index));
+			smallerChild = getLargerChild(index);
+			swap(index, getLargerChild(index));
 			
 			index = smallerChild;
 		}		
@@ -260,9 +260,9 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 		if (size <= 1) {
 			return true;
 		}
-		else if (left < size && compare(index, left) > 0)
+		else if (left < size && isBiggerThan(left, index))
 			return false;
-		else if (right < size && compare(index, right) > 0) {
+		else if (right < size && isBiggerThan(right, index)) {
 			return false;
 		}
 		else {
@@ -277,7 +277,7 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 	 * @param index - The array index whose children are to be compared.
 	 * @return The array index corresponding to the higher-valued child.
 	 */
-	private int getSmallerChild(int index) {
+	private int getLargerChild(int index) {
 		int left = getLeft(index);
 		int right = getRight(index);
 		
@@ -287,7 +287,7 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 		
 		// Two Children
 		else {
-			if(compare(left, right) < 0)
+			if(isBiggerThan(left, right))
 				return left;
 			else
 				return right;
@@ -317,7 +317,11 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 	 */
 	
 	/**
+<<<<<<< HEAD
 	 * Gets the array index of the associated element's left child.
+=======
+	 * Gets the array index of the associated element's left child.
+>>>>>>> comparison
 	 * 
 	 * @param index - The array index of the parent element.
 	 * @return The array index of the parent's left child.
@@ -327,7 +331,11 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 	}
 	
 	/**
+<<<<<<< HEAD
 	 * Gets the array index of the associated element's right child.
+=======
+	 * Gets the array index of the associated element's right child.
+>>>>>>> comparison
 	 * 
 	 * @param index - The array index of the parent element.
 	 * @return The array index of the parent's right child.
@@ -337,8 +345,12 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 	}
 	
 	/**
+<<<<<<< HEAD
 	 * Gets the array index of the associated element's parent.
 	 * 
+=======
+	 * Gets the array index of the associated element's parent.
+>>>>>>> comparison
 	 * @param index - The array index of the child element.
 	 * @return The array index of the child's parent.
 	 */
@@ -348,24 +360,16 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 	
 	/*
 	 * Miscellaneous
+<<<<<<< HEAD
+=======
+>>>>>>> comparison
 	 */
 	
 	/**
-	 * Compares the two data elements using the stored comparator object.
-	 * 
-	 * Returns a negative value if left < right.
-	 * Returns zero if left = right.
-	 * Returns positive if left > right.
-	 * 
-	 * @param left - The first object to be compared.
-	 * @param right - The second object that the first is compared to.
-	 * @return An integer corresponding to their correct ordering.
-	 */
-	private int compare(int left, int right) {
-		return cmp.compare(heap[left], heap[right]);
-	}
-	
-	/**
+<<<<<<< HEAD
+=======
+
+>>>>>>> comparison
 	 * Swaps the elements stored at the array indexes n1 and n2.
 	 * 
 	 * @param n1 - Array index of the first element to be swapped.
