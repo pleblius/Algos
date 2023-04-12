@@ -16,7 +16,7 @@ import java.util.NoSuchElementException;
  * @param <E> - Generic type, must either be comparable OR a constructor that takes
  * a comparator type must be called.
  * @author Tyler Wilcox and Andrew Tolton
- * @version 08 April 2023
+ * @version 11 April, 2023
  *
  */
 public class BinaryMaxHeap<E> implements PriorityQueue<E> {
