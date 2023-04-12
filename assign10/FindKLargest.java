@@ -1,5 +1,7 @@
 package assign10;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -25,7 +27,13 @@ public class FindKLargest {
 			throw new IllegalArgumentException ();
 		}
 		var heap = new BinaryMaxHeap<E>(items);
-		return null;
+		List<E> list = new ArrayList<E>();
+		
+		for (int i = 0; i < k; i++) {
+			list.add(heap.extractMax());
+		}
+		
+		return list;
 	}
 
 	/**
@@ -38,7 +46,17 @@ public class FindKLargest {
 	 * @throws IllegalArgumentException if k is negative or larger than the size of the given list
 	 */
 	public static <E> List<E> findKLargestHeap(List<E> items, int k, Comparator<? super E> cmp) throws IllegalArgumentException {
-		return null;
+		if (k < 0 || k > items.size()) {
+			throw new IllegalArgumentException ();
+		}
+		var heap = new BinaryMaxHeap<E>(items, cmp);
+		List<E> list = new ArrayList<E>();
+		
+		for (int i = 0; i < k; i++) {
+			list.add(heap.extractMax());
+		}
+		
+		return list;
 	}
 
 	/**
@@ -51,7 +69,24 @@ public class FindKLargest {
 	 * @throws IllegalArgumentException if k is negative or larger than the size of the given list
 	 */
 	public static <E extends Comparable<? super E>> List<E> findKLargestSort(List<E> items, int k) throws IllegalArgumentException {
-		return null;
+		if (k < 0 || k > items.size()) {
+			throw new IllegalArgumentException ();
+		}
+		
+		Collections.sort(items);
+		Collections.reverse(items);
+		List<E> list = new ArrayList<E>();
+		
+		int i = 0;
+		for (E item : items) {
+			list.add(item);
+			
+			i++;
+			if (i >= k)
+				break;
+		}
+		
+		return list;
 	}
 
 	/**
@@ -64,6 +99,23 @@ public class FindKLargest {
 	 * @throws IllegalArgumentException if k is negative or larger than the size of the given list
 	 */
 	public static <E> List<E> findKLargestSort(List<E> items, int k, Comparator<? super E> cmp) throws IllegalArgumentException {
-		return null;
+		if (k < 0 || k > items.size()) {
+			throw new IllegalArgumentException ();
+		}
+		
+		Collections.sort(items, cmp);
+		Collections.reverse(items);
+		List<E> list = new ArrayList<E>();
+		
+		int i = 0;
+		for (E item : items) {
+			list.add(item);
+			
+			i++;
+			if (i >= k)
+				break;
+		}
+		
+		return list;
 	}
 }
