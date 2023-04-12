@@ -155,42 +155,104 @@ class BinaryMaxHeapTest {
 	
 	@Test
 	void testAddWithDuplicates() {
+		for (int i = 0; i < 100; i++) {
+			intList.add(i);
+		}
 		
-	}
-	
-	@Test
-	void testAddAndRemove() {
+		intListHeap = new BinaryMaxHeap<Integer>(intList);
 		
-	}
-	
-	@Test
-	void testManyInts() {
+		for (int i = 0; i < 100; i++) {
+			assertEquals(200 - 2*i, intListHeap.size(), "Failed at index " + i);
+			
+			assertEquals(99 - i, intListHeap.peek(), "Failed at index " + i);
+			assertEquals(99 - i, intListHeap.extractMax(), "Failed at index " + i);
+			
+			assertEquals(99 - i, intListHeap.peek(), "Failed at index " + i);
+			assertEquals(99 - i, intListHeap.extractMax(), "Failed at index " + i);
+		}
+		
 		
 	}
 	
 	@Test
 	void testAddManyIntsCustomComparator() {
+		var minHeap = new BinaryMaxHeap<Integer>(comp);
 		
+		for (int i = 0; i < 100; i++) {
+			minHeap.add(i);
+		}
+		
+		for (int i = 0; i < 100; i++) {
+			assertEquals(100 - i, minHeap.size());
+			assertEquals(i, minHeap.peek());
+			assertEquals(i, minHeap.extractMax());
+		}
 	}
 	
 	@Test
 	void testStringsCustomComparator() {
+		var minStrings = new BinaryMaxHeap<String>(stringList, stringComp);
 		
+		assertEquals("apple", minStrings.extractMax());
+		assertEquals("banana", minStrings.extractMax());
+		assertEquals("cantaloupe", minStrings.extractMax());
+		assertEquals("durian", minStrings.extractMax());
+		assertEquals("eggplant", minStrings.extractMax());
 	}
 	
 	@Test
 	void testToArrayValues() {
+		Object[] list = intListHeap.toArray();
+		Arrays.sort(list);
 		
+		for (int i = 0; i < list.length; i++) {
+			assertEquals(i, list[i], "Failed at index " + i);
+		}
 	}
 	
 	@Test
 	void testToArrayMaintainsHeapQuality() {
-		
+        Object[] array = intListHeap.toArray();
+        int n = array.length;
+
+        for (int i = 0; i < n/2; i++) {
+            int left = 2 * i + 1;
+            int right = 2 * i + 2;
+
+            if (left < n) {
+                assertTrue((Integer) array[i] >= (Integer) array[left]);
+            }
+
+            if (right < n) {
+                assertTrue((Integer) array[i] >= (Integer) array[right]);
+            }
+        }
 	}
 	
 	@Test
 	void testToArrayAfterRemove() {
+		intListHeap.extractMax();
+		Object[] list = intListHeap.toArray();
+		Arrays.sort(list);
 		
+		int n = list.length;
+		
+		for (int i = 0; i < n; i++) {
+			assertEquals(i, list[i], "Failed at index " + i);
+		}
+		
+        for (int i = 0; i < n; i++) {
+            int left = 2 * i + 1;
+            int right = 2 * i + 2;
+
+            if (left < n) {
+                assertTrue((Integer) n >= (Integer) list[left]);
+            }
+
+            if (right < n) {
+                assertTrue((Integer) n >= (Integer) list[right]);
+            }
+        }
 	}
 	
 	// Test toArray (and test heap quality of toArray
