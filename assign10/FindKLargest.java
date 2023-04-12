@@ -72,21 +72,27 @@ public class FindKLargest {
 		if (k < 0 || k > items.size()) {
 			throw new IllegalArgumentException ();
 		}
+		List<E> newList = new ArrayList<>();
 		
-		Collections.sort(items);
-		Collections.reverse(items);
-		List<E> list = new ArrayList<E>();
+		for (E item : items) {
+			newList.add(item);
+		}
+		
+		Collections.sort(newList);
+		Collections.reverse(newList);
+		
+		List<E> retList = new ArrayList<>();
 		
 		int i = 0;
-		for (E item : items) {
-			list.add(item);
+		for (E item : newList) {
+			retList.add(item);
 			
 			i++;
 			if (i >= k)
 				break;
 		}
 		
-		return list;
+		return retList;
 	}
 
 	/**
@@ -103,19 +109,26 @@ public class FindKLargest {
 			throw new IllegalArgumentException ();
 		}
 		
-		Collections.sort(items, cmp);
-		Collections.reverse(items);
-		List<E> list = new ArrayList<E>();
+		List<E> newList = new ArrayList<>();
+		
+		for (E item : items) {
+			newList.add(item);
+		}
+		
+		Collections.sort(newList, cmp);
+		Collections.reverse(newList);
+		
+		List<E> retList = new ArrayList<>();
 		
 		int i = 0;
-		for (E item : items) {
-			list.add(item);
+		for (E item : newList) {
+			retList.add(item);
 			
 			i++;
 			if (i >= k)
 				break;
 		}
 		
-		return list;
+		return retList;
 	}
 }
