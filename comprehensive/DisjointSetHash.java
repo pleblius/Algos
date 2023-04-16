@@ -19,5 +19,4 @@ public class DisjointSetHash<E> implements DisjointSet<E> {
 		// TODO Auto-generated method stub
 
 	}
-
 }
