@@ -1,25 +1,27 @@
-/**
- * 
- */
 package comprehensive;
 
 import java.util.NoSuchElementException;
 
 /**
- * This interface represents the Disjoint Set ADT. It contains data in a collection
- * of sets, each of which is represented by a single member element and which can
- * only be accessed through that representative element.<br>
- * Data manipulation in this ADT is restricted to:
+ * This class represents an implementation of the Disjoint Set ADT, using a hash-map
+ * as the backing data structure. Data in this object is stored as elements in
+ * abstract sets, each of which can be accessed through a representative data element
+ * that is contained in that set.<br>
+ * Data manipulation in this class is restricted to:
  * <li>the creation of new single-element sets 
  * <li>combining the sets containing specific elements
- * <li>getting the representative of a set containing
- * a specific element.<br>
+ * <li>getting the representative of a set containing a specific element.<br>
  * <br>
+ * In this implementation, data is stored in key-value pairs in a hash-map, with 
+ * the data elements being the key and their respective set's representative being
+ * the value.<br>
+ * <br>
+ * @version 16 April, 2023
  * @author Tyler Wilcox && Andrew Tolton
- * @version 13 April, 2023
+ * @param <E>
  */
-public interface DisjointSet<E> {
-	
+public class DisjointForestHash<E> implements DisjointSet<E> {
+
 	/**
 	 * Creates a new set consisting of a single element.
 	 * If there is already a set containing the given element, this method
@@ -27,8 +29,12 @@ public interface DisjointSet<E> {
 	 * 
 	 * @param element - The element to be added to a new set.
 	 */
-	public void makeSet(E element);
-	
+	@Override
+	public void makeSet(E element) {
+		// TODO Auto-generated method stub
+
+	}
+
 	/**
 	 * Gets the representative element for the set containing the given element.
 	 * The representative element is not guaranteed to be any particular element, 
@@ -41,8 +47,12 @@ public interface DisjointSet<E> {
 	 * @return the representative of the given element.
 	 * @throws NoSuchElementException If the given element is not contained in any set.
 	 */
-	public E getRepresentative(E element) throws NoSuchElementException;
-	
+	@Override
+	public E getRepresentative(E element) throws NoSuchElementException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	/**
 	 * Combines the two sets containing the respective elements e1 and e2, placing
 	 * all elements of both sets into a single set with a single representative. If
@@ -56,5 +66,10 @@ public interface DisjointSet<E> {
 	 * @throws NoSuchElementException If either element e1 and/or e2 is not already
 	 * contained in a set.
 	 */
-	public void union(E e1, E e2) throws NoSuchElementException;
+	@Override
+	public void union(E e1, E e2) throws NoSuchElementException {
+		// TODO Auto-generated method stub
+
+	}
+
 }
