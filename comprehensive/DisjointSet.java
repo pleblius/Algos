@@ -7,13 +7,14 @@ import java.util.NoSuchElementException;
 
 /**
  * This interface represents the Disjoint Set ADT. It contains data in a collection
- * of sets, each of which is represented by a single member element, and which can
- * only be accessed through that representative.
- * 
- * Data manipulation is restricted to the creation of new, single-element sets, combining
- * the sets containing specific elements, and getting the representative of a set containing
- * a specific element.
- * 
+ * of sets, each of which is represented by a single member element and which can
+ * only be accessed through that representative element.<br>
+ * Data manipulation is restricted to:
+ * <li>the creation of new single-element sets 
+ * <li>combining the sets containing specific elements
+ * <li>getting the representative of a set containing
+ * a specific element.<br>
+ * <br>
  * @author Tyler Wilcox && Andrew Tolton
  * @version 13 April, 2023
  */
