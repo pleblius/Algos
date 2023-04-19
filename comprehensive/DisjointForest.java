@@ -25,14 +25,16 @@ import java.util.NoSuchElementException;
  * @author Tyler Wilcox && Andrew Tolton
  * @param <E>
  */
-
-
-
 public class DisjointForest<E> implements DisjointSet<E> {
 	
-	Map<E, E> dataMap = new HashMap<E, E>();
-	Map<E, Integer> rankMap = new HashMap<E, Integer>();
+	private Map<E, E> dataMap;
+	private Map<E, Integer> rankMap;
+	private int size;
 
+	public DisjointForest() {
+		dataMap = new HashMap<E, E>();
+		rankMap = new HashMap<E, Integer>();
+	}
 	/**
 	 * Creates a new set consisting of a single element.
 	 * If there is already a set containing the given element, this method
@@ -44,6 +46,7 @@ public class DisjointForest<E> implements DisjointSet<E> {
 	public void makeSet(E element) {
 		dataMap.put(element, element);
 		rankMap.put(element, 1);
+		size++;
 	}
 
 	/**
@@ -60,6 +63,8 @@ public class DisjointForest<E> implements DisjointSet<E> {
 	 */
 	@Override
 	public E getRepresentative(E element) throws NoSuchElementException {
+		if (!dataMap.containsKey(element))
+			throw new NoSuchElementException("Element doesn't exist.");
 		
 		E parent = dataMap.get(element);
 		
@@ -91,6 +96,11 @@ public class DisjointForest<E> implements DisjointSet<E> {
 	 */
 	@Override
 	public void union(E e1, E e2) throws NoSuchElementException {
+		if (!dataMap.containsKey(e1))
+			throw new NoSuchElementException("Element 1 is not contained in this structure.");
+		if (!dataMap.containsKey(e2))
+			throw new NoSuchElementException("Element 2 is not contained in this structure.");
+		
 		E rep1 = getRepresentative(e1);
 		E rep2 = getRepresentative(e2);
 		
@@ -108,5 +118,12 @@ public class DisjointForest<E> implements DisjointSet<E> {
 			rankMap.put(rep2, rank2 + 1);
 		}
 	}
-
+	
+	/**
+	 * Gets the number of elements currently in the structure
+	 * @return size of the discrete map
+	 */
+	public int size() {
+		return size;
+	}
 }

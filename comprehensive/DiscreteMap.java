@@ -1,6 +1,11 @@
 package comprehensive;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Set;
+
 
 /**
  * This class represents an implementation of the Disjoint Set ADT, using a hash-map
@@ -22,6 +27,13 @@ import java.util.NoSuchElementException;
  */
 public class DiscreteMap<E> implements DisjointSet<E> {
 
+	private Map<E, Set<E>> dataMap;
+	private int size;
+	
+	public DiscreteMap() {
+		dataMap = new HashMap<E, Set<E>>();
+	}
+	
 	/**
 	 * Creates a new set consisting of a single element.
 	 * If there is already a set containing the given element, this method
@@ -31,14 +43,19 @@ public class DiscreteMap<E> implements DisjointSet<E> {
 	 */
 	@Override
 	public void makeSet(E element) {
-		// TODO Auto-generated method stub
-
+		Set<E> newSet = new HashSet<E>();
+		newSet.add(element);
+		
+		dataMap.put(element, newSet);
+		
+		size++;
 	}
 
 	/**
 	 * Gets the representative element for the set containing the given element.
 	 * The representative element is not guaranteed to be any particular element, 
-	 * it is only guaranteed that every set has exactly one representative.
+	 * it is only guaranteed that every set has exactly one representative.<br>
+	 * Note: This representative <b>will change</b> when sets are unioned.
 	 * <br><br>
 	 * This method will throw an exception if there is no set containing the given
 	 * element.
@@ -49,8 +66,12 @@ public class DiscreteMap<E> implements DisjointSet<E> {
 	 */
 	@Override
 	public E getRepresentative(E element) throws NoSuchElementException {
-		// TODO Auto-generated method stub
-		return null;
+		if (!dataMap.containsKey(element))
+			throw new NoSuchElementException("Element doesn't exist.");
+		
+		Set<E> set = dataMap.get(element);
+		
+		return set.iterator().next();
 	}
 
 	/**
@@ -68,8 +89,38 @@ public class DiscreteMap<E> implements DisjointSet<E> {
 	 */
 	@Override
 	public void union(E e1, E e2) throws NoSuchElementException {
-		// TODO Auto-generated method stub
-
+		if (!dataMap.containsKey(e1))
+			throw new NoSuchElementException("Element 1 is not contained in this structure.");
+		if (!dataMap.containsKey(e2))
+			throw new NoSuchElementException("Element 2 is not contained in this structure.");
+		
+		Set<E> set1 = dataMap.get(e1);
+		Set<E> set2 = dataMap.get(e2);
+		
+		int size1 = set1.size();
+		int size2 = set2.size();
+		
+		if (size1 >= size2) {
+			set1.addAll(set2);
+			
+			for (E data : set2) {
+				dataMap.put(data, set1);
+			}
+		}
+		else {
+			set2.addAll(set1);
+			
+			for (E data: set1) {
+				dataMap.put(data, set2);
+			}
+		}
 	}
-
+	
+	/**
+	 * Gets the number of elements currently in the structure
+	 * @return size of the discrete map
+	 */
+	public int size() {
+		return size;
+	}
 }
