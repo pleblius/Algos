@@ -1,5 +1,7 @@
 package comprehensive;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 /**
@@ -23,7 +25,13 @@ import java.util.NoSuchElementException;
  * @author Tyler Wilcox && Andrew Tolton
  * @param <E>
  */
+
+
+
 public class DisjointForest<E> implements DisjointSet<E> {
+	
+	Map<E, E> dataMap = new HashMap<E, E>();
+	Map<E, Integer> rankMap = new HashMap<E, Integer>();
 
 	/**
 	 * Creates a new set consisting of a single element.
@@ -34,8 +42,8 @@ public class DisjointForest<E> implements DisjointSet<E> {
 	 */
 	@Override
 	public void makeSet(E element) {
-		// TODO Auto-generated method stub
-
+		dataMap.put(element, element);
+		rankMap.put(element, 1);
 	}
 
 	/**
@@ -52,8 +60,20 @@ public class DisjointForest<E> implements DisjointSet<E> {
 	 */
 	@Override
 	public E getRepresentative(E element) throws NoSuchElementException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		E parent = dataMap.get(element);
+		
+		// Base case
+		if (parent == dataMap.get(parent)) {
+			return parent;
+		}
+		
+		// Step up the chain
+		else {
+			parent = getRepresentative(parent);
+			dataMap.put(element, parent);
+			return parent;
+		}		
 	}
 
 	/**
@@ -71,8 +91,22 @@ public class DisjointForest<E> implements DisjointSet<E> {
 	 */
 	@Override
 	public void union(E e1, E e2) throws NoSuchElementException {
-		// TODO Auto-generated method stub
+		E rep1 = getRepresentative(e1);
+		E rep2 = getRepresentative(e2);
+		
+		int rank1 = rankMap.get(rep1);
+		int rank2 = rankMap.get(rep2);
 
+		if (rank1 < rank2) {
+			dataMap.put(rep1, rep2);
+		}
+		else if (rank2 < rank1) {
+			dataMap.put(rep2, rep1);
+		}
+		else {
+			dataMap.put(rep1, rep2);
+			rankMap.put(rep2, rank2 + 1);
+		}
 	}
 
 }
