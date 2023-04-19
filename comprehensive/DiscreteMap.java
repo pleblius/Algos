@@ -20,7 +20,7 @@ import java.util.NoSuchElementException;
  * @author Tyler Wilcox && Andrew Tolton
  * @param <E>
  */
-public class DisjointForestHash<E> implements DisjointSet<E> {
+public class DiscreteMap<E> implements DisjointSet<E> {
 
 	/**
 	 * Creates a new set consisting of a single element.
