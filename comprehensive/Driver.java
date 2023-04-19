@@ -12,9 +12,9 @@ public class Driver {
 		if (args.length == 0)
 			throw new IllegalArgumentException("Needs a filename");
 		
-		DisjointSet<String> discreteSet = new DisjointForest<String>();
+		DisjointSet<String> discreteSet = new DiscreteMap<String>();
 		
-		try(Scanner scanner = new Scanner(new File(args[0]))) {
+		try(Scanner scanner = new Scanner(new File("testStrings.txt"))) {
 			
 			String s = scanner.nextLine();
 			ArrayList<String> lines = new ArrayList<String>();
@@ -38,11 +38,10 @@ public class Driver {
 			unionize(discreteSet, lines);
 			
 			// Check if connected
-			s = scanner.nextLine();
 			lines = new ArrayList<String>();
-			while(!s.isEmpty()) {
-				lines.add(s);
+			while(scanner.hasNext()) {
 				s = scanner.nextLine();
+				lines.add(s);
 			}
 			
 			areConnected(discreteSet, lines);
@@ -81,9 +80,6 @@ public class Driver {
 				System.out.println("connected");
 			else
 				System.out.println("not connected");
-		}
-		
+		}	
 	}
-	
-	
 }
