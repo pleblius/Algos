@@ -14,7 +14,7 @@ public class Driver {
 		
 		DisjointSet<String> discreteSet = new DiscreteMap<String>();
 		
-		try(Scanner scanner = new Scanner(new File("testStrings.txt"))) {
+		try(Scanner scanner = new Scanner(new File(args[0]))) {
 			
 			String s = scanner.nextLine();
 			ArrayList<String> lines = new ArrayList<String>();
