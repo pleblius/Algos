@@ -1,6 +1,8 @@
 package comprehensive;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,33 +17,33 @@ public class Driver {
 		
 		DisjointSet<String> discreteSet = new DiscreteMap<String>();
 		
-		try(Scanner scanner = new Scanner(new File(args[0]))) {
+		try(FileReader fileReader = new FileReader(args[0]);
+            BufferedReader reader = new BufferedReader(fileReader)) {
 			
-			String s = scanner.nextLine();
+			String s = reader.readLine();
 			ArrayList<String> lines = new ArrayList<String>();
 			
 			// Extract elements
 			while(!s.isEmpty()) {
 				lines.add(s);
-				s = scanner.nextLine();
+				s = reader.readLine();
 			}
 			
 			makeSets(discreteSet, lines);
 			
 			// Extract Unions
-			s = scanner.nextLine();
+			s = reader.readLine();
 			lines = new ArrayList<String>();
 			while(!s.isEmpty()) {
 				lines.add(s);
-				s = scanner.nextLine();
+				s = reader.readLine();
 			}
 			
 			unionize(discreteSet, lines);
 			
 			// Check if connected
 			lines = new ArrayList<String>();
-			while(scanner.hasNext()) {
-				s = scanner.nextLine();
+			while((s = reader.readLine()) != null) {
 				lines.add(s);
 			}
 			
