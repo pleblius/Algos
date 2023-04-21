@@ -25,42 +25,46 @@ public class Driver {
 			throw new IllegalArgumentException("Needs a filename");
 		
 		DisjointSet<String> discreteSet = new DisjointForest<String>();
+		List<String> lines = new ArrayList<String>();
+		int firstBreak = 0;
+		int secondBreak = 0;
+		int count = 0;
 		
 		try(FileReader fileReader = new FileReader(args[0]);
             BufferedReader reader = new BufferedReader(fileReader)) {
 			
 			String s = reader.readLine();
-			ArrayList<String> lines = new ArrayList<String>();
 			
-			// Extract elements
-			while(!s.isEmpty()) {
+			// Find sections of data
+			while(s != null) {				
+				if (s.isEmpty() && firstBreak == 0) {
+					firstBreak = count;
+				}
+				else if (s.isEmpty() && secondBreak == 0) {
+					secondBreak = count;
+				}				
+				
 				lines.add(s);
 				s = reader.readLine();
+				count++;
 			}
-			
-			makeSets(discreteSet, lines);
-			
-			// Extract Unions
-			s = reader.readLine();
-			lines = new ArrayList<String>();
-			while(!s.isEmpty()) {
-				lines.add(s);
-				s = reader.readLine();
-			}
-			
-			unionize(discreteSet, lines);
-			
-			// Check if connected
-			lines = new ArrayList<String>();
-			while((s = reader.readLine()) != null) {
-				lines.add(s);
-			}
-			
-			areConnected(discreteSet, lines);
 		}
 		catch (IOException e) {
 			System.err.println(e.getMessage());
 		}
+		
+		var section1 = lines.subList(0, firstBreak);
+		var section2 = lines.subList(firstBreak + 1, secondBreak);
+		var section3 = lines.subList(secondBreak + 1, count);
+		
+		// Extract elements			
+		makeSets(discreteSet, section1);
+		
+		// Extract Unions			
+		unionize(discreteSet, section2);
+		
+		// Check if connected
+		areConnected(discreteSet, section3);
 	}
 
 	/**
@@ -79,7 +83,7 @@ public class Driver {
 	 * @param discreteSet - the discreteSet containing the sets of elements
 	 * @param lines - String array containing instructions for unions, containing two space separated elements
 	 */
-	private static void unionize(DisjointSet<String> discreteSet, ArrayList<String> lines) {
+	private static void unionize(DisjointSet<String> discreteSet, List<String> lines) {
 		
 		String[] instructions;
 		for (String line : lines) {
@@ -107,7 +111,7 @@ public class Driver {
 	 * @param discreteSet - the DiscreteSet containing the sets to be checked
 	 * @param lines - String array containing strings of space separated elements to be checked for connection
 	 */
-	private static void areConnected(DisjointSet<String> discreteSet, ArrayList<String> lines) {
+	private static void areConnected(DisjointSet<String> discreteSet, List<String> lines) {
 
 		String[] elements;
 		String rep1, rep2;
