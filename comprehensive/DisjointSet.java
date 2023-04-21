@@ -57,4 +57,11 @@ public interface DisjointSet<E> {
 	 * contained in a set.
 	 */
 	public void union(E e1, E e2) throws NoSuchElementException;
+	
+	/**
+	 * Gets the number of elements in this set.
+	 * 
+	 * @return size of the set.
+	 */
+	public int size();
 }

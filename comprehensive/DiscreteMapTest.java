@@ -9,7 +9,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class ForestTest {
+class DiscreteMapTest {
 
 	List<Integer> numberNodes;
 	List<String> fruitNodes;
@@ -26,8 +26,8 @@ class ForestTest {
 			numberNodes.add(i);
 		}
 		
-		numberSet = new DisjointForest<Integer>(numberNodes);
-		fruitSet = new DisjointForest<String>(fruitNodes);
+		numberSet = new DiscreteMap<Integer>(numberNodes);
+		fruitSet = new DiscreteMap<String>(fruitNodes);
 		
 	}
 
