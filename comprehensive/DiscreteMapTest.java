@@ -9,6 +9,13 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * This class is a JUnit test suite for our custom discrete set
+ * data structure in class DiscreteMap.
+ * 
+ * @author Tyler Wilcox && Andrew Tolton
+ * @version 20 April, 2023
+ */
 class DiscreteMapTest {
 
 	List<Integer> numberNodes;
