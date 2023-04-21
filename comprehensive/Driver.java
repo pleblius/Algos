@@ -9,8 +9,19 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+/**
+ * Driver class testing our DisjointSet implementation from a provided file input.
+ * @version April 20th, 2023
+ * @authors Andrew Tolton && Tyler Wilcox
+ */
 public class Driver {
-
+	
+	/**
+	 * Main method of driver, creating a discrete set from the elements listed in the file
+	 * found at args[0], unioning them in accordance to the file, and printing out the 
+	 * connection between the specified nodes.
+	 * @param args : String array - args[0] must be the filename of the instructions file.
+	 */
 	public static void main(String[] args) {
 		if (args.length == 0)
 			throw new IllegalArgumentException("Needs a filename");
@@ -54,12 +65,22 @@ public class Driver {
 		}
 	}
 
+	/**
+	 * Creates a set from each element in the list of strings provided.
+	 * @param discreteSet - the discreteSet to which sets are added
+	 * @param elements - List of strings containing the elements to be added, one per line
+	 */
 	private static void makeSets(DisjointSet<String> discreteSet, List<String> elements) {
 		for (String element : elements) {
 			discreteSet.makeSet(element);
 		}
 	}
 	
+	/**
+	 * Unions each element contained in each line of lines
+	 * @param discreteSet - the discreteSet containing the sets of elements
+	 * @param lines - String array containing instructions for unions, containing two space separated elements
+	 */
 	private static void unionize(DisjointSet<String> discreteSet, ArrayList<String> lines) {
 		
 		String[] instructions;
@@ -83,6 +104,11 @@ public class Driver {
 		}
 	}
 	
+	/**
+	 * Checks if two specified elements are connected and prints the result to the console.
+	 * @param discreteSet - the DiscreteSet containing the sets to be checked
+	 * @param lines - String array containing strings of space separated elements to be checked for connection
+	 */
 	private static void areConnected(DisjointSet<String> discreteSet, ArrayList<String> lines) {
 
 		String[] elements;
