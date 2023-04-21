@@ -9,6 +9,13 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * This class is a JUnit test suite for our implementation of the disjoint forest
+ * data structure in class DisjointForest.
+ * 
+ * @author Tyler Wilcox && Andrew Tolton
+ * @version 20 April, 2023
+ */
 class ForestTest {
 
 	List<Integer> numberNodes;

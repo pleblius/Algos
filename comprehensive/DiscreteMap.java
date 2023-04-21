@@ -2,28 +2,25 @@ package comprehensive;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
-import java.util.Set;
 
 
 /**
  * This class represents an implementation of the Disjoint Set ADT, using a hash-map
- * as the backing data structure. Data in this object is stored as elements in
- * abstract sets, each of which can be accessed through a representative data element
- * that is contained in that set.<br>
+ * of lists as the backing structure. Data in this object is stored as elements in
+ * arraylists.<br>
  * Data manipulation in this class is restricted to:
  * <li>the creation of new single-element sets 
  * <li>combining the sets containing specific elements
  * <li>getting the representative of a set containing a specific element.<br>
  * <br>
- * In this implementation, data is stored in key-value pairs in a hash-map, with 
- * the data elements being the key and their respective set's representative being
- * the value.<br>
+ * In this implementation, data is stored as the key of a key-value pair, with the
+ * value being an arraylist that also contains that data element. When sets are
+ * unioned, lists are combined both literally and in the map representation.<br>
  * <br>
- * @version 16 April, 2023
+ * @version 20 April, 2023
  * @author Tyler Wilcox && Andrew Tolton
  * @param <E>
  */
@@ -32,10 +29,19 @@ public class DiscreteMap<E> implements DisjointSet<E> {
 	private Map<E, List<E>> dataMap;
 	private int size;
 	
+	/**
+	 * Creates a new, empty DiscreteMap object.
+	 */
 	public DiscreteMap() {
 		dataMap = new HashMap<E, List<E>>();
 	}
 	
+	/**
+	 * Creates a new DiscreteMap object, then adds all elements in the provided
+	 * list to the discrete map, each in its own unique set.
+	 * 
+	 * @param list - The list of elements to be added to this map.
+	 */
 	public DiscreteMap(List<? extends E> list) {
 		this();
 		
@@ -135,7 +141,7 @@ public class DiscreteMap<E> implements DisjointSet<E> {
 	
 	/**
 	 * Gets the number of elements currently in the structure
-	 * @return size of the discrete map
+	 * @return the size of the discrete map
 	 */
 	public int size() {
 		return size;

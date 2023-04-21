@@ -6,23 +6,23 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 
 /**
- * This class represents an implementation of the Disjoint Set ADT, using a linked
- * disjoint forest as the backing data structure. Data in this object is stored as 
- * elements in abstract sets, each of which can be accessed through a representative 
- * data element that is contained in that set.<br>
+ * This class represents an implementation of the Disjoint Set ADT, using a HashMap
+ * as the backing data structure. Data in this object is stored as elements in 
+ * abstract sets, pointing at a representative that represents every member in that set. 
+ * <br><br>
  * Data manipulation in this class is restricted to:
  * <li>the creation of new single-element sets 
  * <li>combining the sets containing specific elements
  * <li>getting the representative of a set containing a specific element.<br>
  * <br>
- * In this implementation, data is stored in nodes that are contained in trees that
- * correspond to their respective sets, with the root element being the representative.
+ * In this implementation, data is stored as keys in the map, with the representative
+ * of each element stored as its value, using linked nodes to get the total representative
+ * of the set.
  * Trees are combined using union-by-rank, where the root of the smaller tree is
  * attached to the root of the larger tree. This class uses path compression to 
- * constantly re-assign nodes to the base root of their respective tree, adjusting
- * the tree's height to optimize run-time.<br>
+ * constantly re-assign nodes to the base root of their respective tree<br>
  * <br>
- * @version 16 April, 2023
+ * @version 20 April, 2023
  * @author Tyler Wilcox && Andrew Tolton
  * @param <E>
  */
@@ -32,11 +32,20 @@ public class DisjointForest<E> implements DisjointSet<E> {
 	private Map<E, Integer> rankMap;
 	private int size;
 
+	/**
+	 * Creates a new, empty DisjointForest object.
+	 */
 	public DisjointForest() {
 		dataMap = new HashMap<E, E>();
 		rankMap = new HashMap<E, Integer>();
 	}
 	
+	/**
+	 * Creates a new DisjointForest object, then adds all of the elements in
+	 * the provided list to the forest in their own sets.
+	 * 
+	 * @param list - The list of items to be added to the forest.
+	 */
 	public DisjointForest(List<? extends E> list) {
 		this();
 		
