@@ -1,15 +1,39 @@
-apple
-banana
-grape
-orange
-lemon
-peach
+a
+b
+c
+d
+e
+f
+g
+h
+i
+j
+k
+l
+m
+n
+o
+p
 
-apple banana
-banana grape
-orange lemon
+a c
+b d
+e f
+g h
+i j
+k l
+m n
+o p
+k p
+b f
+i o
 
-apple frampleberry
-apple grape
-lemon peach
-peach apple
+a b
+c j
+k o
+p b
+c e
+f g
+h a
+g h
+a j
+c e
