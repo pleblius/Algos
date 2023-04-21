@@ -1,7 +1,9 @@
 package comprehensive;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
@@ -27,11 +29,17 @@ import java.util.Set;
  */
 public class DiscreteMap<E> implements DisjointSet<E> {
 
-	private Map<E, Set<E>> dataMap;
+	private Map<E, List<E>> dataMap;
 	private int size;
 	
 	public DiscreteMap() {
-		dataMap = new HashMap<E, Set<E>>();
+		dataMap = new HashMap<E, List<E>>();
+	}
+	
+	public DiscreteMap(List<? extends E> list) {
+		for (E data : list) {
+			makeSet(data);
+		}
 	}
 	
 	/**
@@ -43,7 +51,10 @@ public class DiscreteMap<E> implements DisjointSet<E> {
 	 */
 	@Override
 	public void makeSet(E element) {
-		Set<E> newSet = new HashSet<E>();
+		if (dataMap.containsKey(element))
+			return;
+		
+		List<E> newSet = new ArrayList<E>();
 		newSet.add(element);
 		
 		dataMap.put(element, newSet);
@@ -69,9 +80,9 @@ public class DiscreteMap<E> implements DisjointSet<E> {
 		if (!dataMap.containsKey(element))
 			throw new NoSuchElementException("Element doesn't exist.");
 		
-		Set<E> set = dataMap.get(element);
+		List<E> list = dataMap.get(element);
 		
-		return set.iterator().next();
+		return list.get(0);
 	}
 
 	/**
@@ -94,24 +105,28 @@ public class DiscreteMap<E> implements DisjointSet<E> {
 		if (!dataMap.containsKey(e2))
 			throw new NoSuchElementException("Element 2 is not contained in this structure.");
 		
-		Set<E> set1 = dataMap.get(e1);
-		Set<E> set2 = dataMap.get(e2);
+		E rep1 = getRepresentative(e1);
+		E rep2 = getRepresentative(e2);
 		
-		int size1 = set1.size();
-		int size2 = set2.size();
+		if (rep1 == rep2)
+			return;
+		
+		List<E> list1 = dataMap.get(e1);
+		List<E> list2 = dataMap.get(e2);
+		
+		int size1 = list1.size();
+		int size2 = list2.size();
 		
 		if (size1 >= size2) {
-			set1.addAll(set2);
-			
-			for (E data : set2) {
-				dataMap.put(data, set1);
+			for (E data : list2) {
+				list1.add(data);
+				dataMap.put(data, list1);
 			}
 		}
 		else {
-			set2.addAll(set1);
-			
-			for (E data: set1) {
-				dataMap.put(data, set2);
+			for (E data: list1) {
+				list2.add(data);
+				dataMap.put(data, list2);
 			}
 		}
 	}

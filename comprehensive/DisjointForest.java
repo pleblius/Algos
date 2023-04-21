@@ -1,6 +1,7 @@
 package comprehensive;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
@@ -35,6 +36,13 @@ public class DisjointForest<E> implements DisjointSet<E> {
 		dataMap = new HashMap<E, E>();
 		rankMap = new HashMap<E, Integer>();
 	}
+	
+	public DisjointForest(List<? extends E> list) {
+		for (E data : list) {
+			makeSet(data);
+		}
+	}
+	
 	/**
 	 * Creates a new set consisting of a single element.
 	 * If there is already a set containing the given element, this method
@@ -44,6 +52,9 @@ public class DisjointForest<E> implements DisjointSet<E> {
 	 */
 	@Override
 	public void makeSet(E element) {
+		if (dataMap.containsKey(element))
+			return;
+		
 		dataMap.put(element, element);
 		rankMap.put(element, 1);
 		size++;
@@ -103,6 +114,9 @@ public class DisjointForest<E> implements DisjointSet<E> {
 		
 		E rep1 = getRepresentative(e1);
 		E rep2 = getRepresentative(e2);
+		
+		if (rep1 == rep2)
+			return;
 		
 		int rank1 = rankMap.get(rep1);
 		int rank2 = rankMap.get(rep2);
