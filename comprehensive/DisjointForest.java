@@ -38,6 +38,8 @@ public class DisjointForest<E> implements DisjointSet<E> {
 	}
 	
 	public DisjointForest(List<? extends E> list) {
+		this();
+		
 		for (E data : list) {
 			makeSet(data);
 		}

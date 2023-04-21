@@ -37,6 +37,8 @@ public class DiscreteMap<E> implements DisjointSet<E> {
 	}
 	
 	public DiscreteMap(List<? extends E> list) {
+		this();
+		
 		for (E data : list) {
 			makeSet(data);
 		}
