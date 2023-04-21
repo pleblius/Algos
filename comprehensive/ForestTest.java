@@ -29,7 +29,7 @@ class ForestTest {
 		numberNodes = new ArrayList<Integer>(1000);
 		fruitNodes = new ArrayList<String>(Arrays.asList("apple", "blueberry", "canteloupe", "durian", "eggplant", "fig", "grape", "honeydew"));
 		
-		for (int i = 0; i < 1000; i++) {
+		for (int i = 0; i < 10000; i++) {
 			numberNodes.add(i);
 		}
 		
@@ -135,8 +135,8 @@ class ForestTest {
 	
 	@Test
 	void largeConnectedTest() {
-		for (int i = 0; i < 500; i++) {
-			for (int j = 500; j > 0; j/=2) {
+		for (int i = 0; i < 5000; i++) {
+			for (int j = 5000; j > 0; j/=2) {
 				numberSet.union(i, i + j);
 			}
 		}
@@ -145,6 +145,60 @@ class ForestTest {
 			for (int f2 : numberNodes) {
 				assertTrue(numberSet.getRepresentative(f1) == numberSet.getRepresentative(f2));
 			}
+		}
+	}
+	
+	@Test
+	void largeListIntermediateListBSTest() {
+		var list = new ArrayList<Integer>();
+		
+		for (int i = 0; i < 10_000_000; i++) {
+			list.add(i);
+		}
+		
+		var forest = new DisjointForest<Integer>(list);
+		
+		for (int i = 0; i < 5000000; i++) {
+			forest.union(0, i);
+		}
+		for (int i = 5000000; i < 10000000; i++) {
+			forest.union(5000000, i);
+		}
+		
+		forest.union(1, 10000000-1);
+		
+		for (int i = 0; i < 10000000 - 1; i++) {
+			var f1 = forest.getRepresentative(i);
+			var f2 = forest.getRepresentative(i + 1);
+			
+			assertTrue(f1 == f2);
+		}
+	}
+	
+	@Test
+	void a1000setsof1000setsTest() {
+		var list = new ArrayList<Integer>();
+		var forest = new DisjointForest<Integer>();
+		
+		for (int i = 0; i < 1_000_000; i++) {
+			forest.makeSet(i);
+		}
+		
+		for (int i = 0; i < 1_000_000; i+=1000) {
+			for (int j = 0; j < 1_000; j++) {
+				forest.union(i, i + j);
+			}
+		}
+		
+		for (int i = 0; i < 998_999; i+=1000) {
+			forest.union(i, i + 1000);
+		}
+		
+		for (int i = 0; i < 999999; i++) {
+			var f1 = forest.getRepresentative(i);
+			var f2 = forest.getRepresentative(i + 1);
+			
+			assertEquals(f1,f2);
 		}
 	}
 }

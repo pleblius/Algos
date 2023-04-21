@@ -24,7 +24,7 @@ public class Driver {
 		if (args.length == 0)
 			throw new IllegalArgumentException("Needs a filename");
 		
-		DisjointSet<String> discreteSet = new DiscreteMap<String>();
+		DisjointSet<String> discreteSet = new DisjointForest<String>();
 		
 		try(FileReader fileReader = new FileReader(args[0]);
             BufferedReader reader = new BufferedReader(fileReader)) {
