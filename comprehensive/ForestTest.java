@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,6 +39,18 @@ class ForestTest {
 		
 	}
 
+	@Test
+	void emptyTest() {
+		DisjointSet<Integer> emptySet = new DisjointForest<>();
+		
+		assertThrows(NoSuchElementException.class, () -> emptySet.getRepresentative(1));
+		assertThrows(NoSuchElementException.class, () -> emptySet.union(1, 2));
+		
+		emptySet.makeSet(1);
+		
+		assertThrows(NoSuchElementException.class, () -> emptySet.union(1, 2));
+	}
+	
 	@Test
 	void notConnectedTest() {
 		for (String f1 : fruitNodes) {
@@ -213,4 +226,57 @@ class ForestTest {
 			assertEquals(f1,f2);
 		}
 	}
+	
+	@Test
+	void chainedTest() {
+		DisjointSet<String> discreteSet = new DisjointForest<>();
+        discreteSet.makeSet("A");
+        discreteSet.makeSet("B");
+        discreteSet.makeSet("C");
+        discreteSet.makeSet("D");
+
+        discreteSet.union("A", "B");
+        discreteSet.union("B", "C");
+        discreteSet.union("C", "D");
+
+        assertEquals(discreteSet.getRepresentative("A"), discreteSet.getRepresentative("D"));
+    }
+	
+	@Test
+	void circularTest() {
+		DisjointSet<String> discreteSet = new DisjointForest<>();
+        discreteSet.makeSet("A");
+        discreteSet.makeSet("B");
+        discreteSet.makeSet("C");
+
+        discreteSet.union("A", "B");
+        discreteSet.union("B", "C");
+        discreteSet.union("C", "A");
+
+        assertEquals(discreteSet.getRepresentative("A"), discreteSet.getRepresentative("C"));
+    }
+	
+	@Test
+	void randomTest() {
+        DisjointSet<String> discreteSet = new DisjointForest<>();
+        discreteSet.makeSet("A");
+        discreteSet.makeSet("B");
+        discreteSet.makeSet("C");
+        discreteSet.makeSet("D");
+
+        discreteSet.union("A", "B");
+        discreteSet.union("C", "D");
+
+        assertNotEquals(discreteSet.getRepresentative("A"), discreteSet.getRepresentative("C"));
+
+        discreteSet.makeSet("E");
+        discreteSet.union("D", "E");
+
+        assertEquals(discreteSet.getRepresentative("C"), discreteSet.getRepresentative("E"));
+
+        discreteSet.union("A", "E");
+
+        assertEquals(discreteSet.getRepresentative("A"), discreteSet.getRepresentative("E"));
+        assertEquals(discreteSet.getRepresentative("B"), discreteSet.getRepresentative("D"));
+    }
 }
