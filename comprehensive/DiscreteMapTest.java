@@ -190,6 +190,18 @@ class DiscreteMapTest {
 			}
 		}
 		
+		for (int i = 0; i < 1_000_000; i+=1000) {
+			var f1 = forest.getRepresentative(i);
+			for (int j = 0; j < 1_000_000; j++) {
+				var f2 = forest.getRepresentative(j);
+				if (i <= j && j < i + 1000) {
+					assertTrue(f1 == f2);
+				}
+				else
+					assertFalse(f1 == f2);
+			}
+		}
+		
 		for (int i = 0; i < 998_999; i+=1000) {
 			forest.union(i, i + 1000);
 		}
