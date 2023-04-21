@@ -1,0 +1,15 @@
+apple
+banana
+grape
+orange
+lemon
+peach
+
+apple banana
+banana grape
+orange lemon
+
+apple frampleberry
+apple grape
+lemon peach
+peach apple
