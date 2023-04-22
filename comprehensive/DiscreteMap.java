@@ -34,6 +34,7 @@ public class DiscreteMap<E> implements DisjointSet<E> {
 	 */
 	public DiscreteMap() {
 		dataMap = new HashMap<E, List<E>>();
+		size = 0;
 	}
 	
 	/**

@@ -38,7 +38,14 @@ class DiscreteMapTest {
 		fruitSet = new DiscreteMap<String>(fruitNodes);
 		
 	}
-
+	
+	@Test
+	void getSize() {
+		DisjointSet<Integer> set = new DiscreteMap<>();
+		
+		assertTrue(set.size() == 0);
+	}
+	
 	@Test
 	void emptyTest() {
 		DisjointSet<Integer> emptySet = new DiscreteMap<>();

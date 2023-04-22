@@ -43,8 +43,11 @@ public class Driver {
 				else if (s.isEmpty() && secondBreak == 0) {
 					secondBreak = count;
 				}				
+				else if (s.isEmpty())
+					break;
 				
 				lines.add(s);
+				
 				s = reader.readLine();
 				count++;
 			}

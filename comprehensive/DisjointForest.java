@@ -38,6 +38,7 @@ public class DisjointForest<E> implements DisjointSet<E> {
 	public DisjointForest() {
 		dataMap = new HashMap<E, E>();
 		rankMap = new HashMap<E, Integer>();
+		size = 0;
 	}
 	
 	/**
