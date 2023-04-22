@@ -34,6 +34,9 @@ public class Driver {
             BufferedReader reader = new BufferedReader(fileReader)) {
 			
 			String s = reader.readLine();
+			while(s != null && s.isEmpty()) {
+				s = reader.readLine();
+			}
 			
 			// Find sections of data
 			while(s != null) {				
@@ -56,18 +59,24 @@ public class Driver {
 			System.err.println(e.getMessage());
 		}
 		
-		var section1 = lines.subList(0, firstBreak);
-		var section2 = lines.subList(firstBreak + 1, secondBreak);
-		var section3 = lines.subList(secondBreak + 1, count);
-		
-		// Extract elements			
-		makeSets(discreteSet, section1);
-		
-		// Extract Unions			
-		unionize(discreteSet, section2);
-		
-		// Check if connected
-		areConnected(discreteSet, section3);
+		if (firstBreak != 0) {
+			var section1 = lines.subList(0, firstBreak);
+			
+			// Extract elements			
+			makeSets(discreteSet, section1);
+		}
+		if (secondBreak != firstBreak) {
+			var section2 = lines.subList(firstBreak + 1, secondBreak);
+			
+			// Extract Unions			
+			unionize(discreteSet, section2);
+		}
+		if (count != secondBreak) {
+			var section3 = lines.subList(secondBreak + 1, count);
+			
+			// Check if connected
+			areConnected(discreteSet, section3);
+		}
 	}
 
 	/**
@@ -91,6 +100,7 @@ public class Driver {
 		String[] instructions;
 		for (String line : lines) {
 			instructions = line.split(" ");
+			
 			try {
 				discreteSet.union(instructions[0], instructions[1]);
 			}
@@ -121,7 +131,7 @@ public class Driver {
 		
 		for (String line : lines) {
 			elements = line.split(" ");
-			
+
 			try {
 				rep1 = discreteSet.getRepresentative(elements[0]);
 				rep2 = discreteSet.getRepresentative(elements[1]);

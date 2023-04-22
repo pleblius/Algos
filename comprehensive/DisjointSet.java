@@ -26,8 +26,9 @@ public interface DisjointSet<E> {
 	 * has no effect.
 	 * 
 	 * @param element - The element to be added to a new set.
+	 * @throws NullPointerEception If a null element is passed to the method.
 	 */
-	public void makeSet(E element);
+	public void makeSet(E element) throws NullPointerException;
 	
 	/**
 	 * Gets the representative element for the set containing the given element.
@@ -40,8 +41,9 @@ public interface DisjointSet<E> {
 	 * @param element - The element whose representative is to be obtained.
 	 * @return the representative of the given element.
 	 * @throws NoSuchElementException If the given element is not contained in any set.
+	 * @throws NullPointerEception If a null element is passed to the method.
 	 */
-	public E getRepresentative(E element) throws NoSuchElementException;
+	public E getRepresentative(E element) throws NoSuchElementException, NullPointerException;
 	
 	/**
 	 * Combines the two sets containing the respective elements e1 and e2, placing
@@ -55,8 +57,9 @@ public interface DisjointSet<E> {
 	 * @param e2 - The second element whose set is to be combined.
 	 * @throws NoSuchElementException If either element e1 and/or e2 is not already
 	 * contained in a set.
+	 * @throws NullPointerEception If a null element is passed to the method.
 	 */
-	public void union(E e1, E e2) throws NoSuchElementException;
+	public void union(E e1, E e2) throws NoSuchElementException, NullPointerException;
 	
 	/**
 	 * Gets the number of elements in this set.

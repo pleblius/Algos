@@ -52,6 +52,15 @@ class ForestTest {
 	}
 	
 	@Test
+	void nullTest() {
+		assertThrows(NullPointerException.class, () -> numberSet.makeSet(null));
+		assertThrows(NullPointerException.class, () -> numberSet.getRepresentative(null));
+		assertThrows(NullPointerException.class, () -> numberSet.union(1, null));
+		assertThrows(NullPointerException.class, () -> numberSet.union(null, 1));
+		assertThrows(NullPointerException.class, () -> numberSet.union(null, null));
+	}
+	
+	@Test
 	void notConnectedTest() {
 		for (String f1 : fruitNodes) {
 			for (String f2 : fruitNodes) {

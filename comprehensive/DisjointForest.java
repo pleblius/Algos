@@ -58,12 +58,13 @@ public class DisjointForest<E> implements DisjointSet<E> {
 	/**
 	 * Creates a new set consisting of a single element.
 	 * If there is already a set containing the given element, this method
-	 * has no effect.
+	 * has no effect. If the element is null, this method throws an exception.
 	 * 
 	 * @param element - The element to be added to a new set.
+	 * @throws NullPointerEception If a null element is passed to the method.
 	 */
 	@Override
-	public void makeSet(E element) {
+	public void makeSet(E element) throws NullPointerException {
 		if (dataMap.containsKey(element))
 			return;
 		
@@ -83,9 +84,12 @@ public class DisjointForest<E> implements DisjointSet<E> {
 	 * @param element - The element whose representative is to be obtained.
 	 * @return the representative of the given element.
 	 * @throws NoSuchElementException If the given element is not contained in any set.
+	 * @throws NullPointerEception If a null element is passed to the method.	 
 	 */
 	@Override
-	public E getRepresentative(E element) throws NoSuchElementException {
+	public E getRepresentative(E element) throws NoSuchElementException, NullPointerException {
+		if (element == null)
+			throw new NullPointerException();
 		if (!dataMap.containsKey(element))
 			throw new NoSuchElementException("Element doesn't exist.");
 		
@@ -110,15 +114,19 @@ public class DisjointForest<E> implements DisjointSet<E> {
 	 * the elements e1 and e2 are already contained in a single set, this method has no
 	 * effect.
 	 * <br><br>
-	 * If either element is not already contained in a set, this method throws an exception.
+	 * If either element is not already contained in a set, or is null,
+	 * this method throws an exception.
 	 * 
 	 * @param e1 - The first element whose set is to be combined.
 	 * @param e2 - The second element whose set is to be combined.
 	 * @throws NoSuchElementException If either element e1 and/or e2 is not already
 	 * contained in a set.
+	 * @throws NullPointerEception If a null element is passed to the method.
 	 */
 	@Override
 	public void union(E e1, E e2) throws NoSuchElementException {
+		if (e1 == null || e2 == null)
+			throw new NullPointerException();
 		if (!dataMap.containsKey(e1))
 			throw new NoSuchElementException("Element 1 is not contained in this structure.");
 		if (!dataMap.containsKey(e2))
