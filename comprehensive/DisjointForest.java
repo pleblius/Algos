@@ -61,10 +61,12 @@ public class DisjointForest<E> implements DisjointSet<E> {
 	 * has no effect. If the element is null, this method throws an exception.
 	 * 
 	 * @param element - The element to be added to a new set.
-	 * @throws NullPointerEception If a null element is passed to the method.
+	 * @throws NullPointerException If a null element is passed to the method.
 	 */
 	@Override
 	public void makeSet(E element) throws NullPointerException {
+		if (element == null)
+			throw new NullPointerException();
 		if (dataMap.containsKey(element))
 			return;
 		
@@ -121,7 +123,7 @@ public class DisjointForest<E> implements DisjointSet<E> {
 	 * @param e2 - The second element whose set is to be combined.
 	 * @throws NoSuchElementException If either element e1 and/or e2 is not already
 	 * contained in a set.
-	 * @throws NullPointerEception If a null element is passed to the method.
+	 * @throws NullPointerException If a null element is passed to the method.
 	 */
 	@Override
 	public void union(E e1, E e2) throws NoSuchElementException {
