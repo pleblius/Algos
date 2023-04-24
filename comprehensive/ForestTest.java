@@ -24,6 +24,7 @@ class ForestTest {
 	
 	DisjointSet<Integer> numberSet;
 	DisjointSet<String> fruitSet;
+	DisjointSet<Integer> emptySet;
 	
 	@BeforeEach
 	void setUp() throws Exception {
@@ -36,20 +37,34 @@ class ForestTest {
 		
 		numberSet = new DisjointForest<Integer>(numberNodes);
 		fruitSet = new DisjointForest<String>(fruitNodes);
-		
+		emptySet = new DisjointForest<>();
 	}
 
 	@Test
 	void emptyTest() {
-		DisjointSet<Integer> emptySet = new DisjointForest<>();
-		
 		assertThrows(NoSuchElementException.class, () -> emptySet.getRepresentative(1));
 		assertThrows(NoSuchElementException.class, () -> emptySet.union(1, 2));
+		assertEquals(0, emptySet.size());
 		
 		emptySet.makeSet(1);
 		
 		assertThrows(NoSuchElementException.class, () -> emptySet.union(1, 2));
 	}
+	
+    @Test
+    public void emptyListTest() {
+        List<Integer> emptyList = new ArrayList<Integer>();
+        
+        emptySet = new DisjointForest<Integer>(emptyList);
+        
+        assertEquals(0, emptySet.size());
+    }
+    
+    @Test
+    public void duplicateListTest() {
+    	emptySet = new DiscreteMap<>(Arrays.asList(1, 2, 3, 2, 3, 1, 2, 3));
+        assertEquals(3, emptySet.size());
+    }
 	
 	@Test
 	void nullTest() {
@@ -60,6 +75,20 @@ class ForestTest {
 		assertThrows(NullPointerException.class, () -> numberSet.union(null, null));
 	}
 	
+    @Test
+    public void duplicateTest() {
+        emptySet.makeSet(1);
+        emptySet.makeSet(2);
+        emptySet.makeSet(1);
+        assertEquals(2, emptySet.size());
+    }
+    
+    @Test
+    public void unitTest() {
+        emptySet.makeSet(2);
+        assertEquals(2, emptySet.getRepresentative(2));
+    }
+	
 	@Test
 	void notConnectedTest() {
 		for (String f1 : fruitNodes) {
@@ -68,6 +97,18 @@ class ForestTest {
 					assertFalse(fruitSet.getRepresentative(f1) == fruitSet.getRepresentative(f2));
 			}
 		}
+	}
+	
+	@Test
+	void sizeAfterUnionTest() {
+		emptySet.makeSet(1);
+		emptySet.makeSet(2);
+		
+		assertEquals(2, emptySet.size());
+		
+		emptySet.union(1, 2);
+		
+		assertEquals(2, emptySet.size());
 	}
 	
 	@Test
@@ -83,6 +124,49 @@ class ForestTest {
 		}
 	}
 	
+    @Test
+    public void alreadyMergedTest() {
+    	emptySet.makeSet(1);
+    	emptySet.makeSet(2);
+    	emptySet.union(1, 2);
+
+        Integer f1 = emptySet.getRepresentative(1);
+        Integer f2 = emptySet.getRepresentative(2);
+
+        emptySet.union(2, 1);
+        Integer f3 = emptySet.getRepresentative(1);
+        Integer f4 = emptySet.getRepresentative(2);
+
+        assertEquals(f1, f3);
+        assertEquals(f2, f4);
+    }
+    
+    @Test
+    public void unionThenDuplicateTest() {
+    	emptySet.makeSet(1);
+    	emptySet.makeSet(2);
+    	
+    	var f1 = emptySet.getRepresentative(1);
+    	var f2 = emptySet.getRepresentative(2);
+    	
+    	assertFalse(f1 == f2);
+    	
+    	emptySet.union(1, 2);
+    	
+    	f1 = emptySet.getRepresentative(1);
+    	f2 = emptySet.getRepresentative(2);
+    	
+    	assertTrue(f1 == f2);
+    	
+    	emptySet.makeSet(1);
+    	emptySet.makeSet(2);
+    	
+    	f1 = emptySet.getRepresentative(1);
+    	f2 = emptySet.getRepresentative(2);
+    	
+    	assertTrue(f1 == f2);
+    }
+    
 	@Test
 	void connectedLinkTest() {
 		for (int i = 0; i < fruitNodes.size()-1; i++) {
@@ -199,7 +283,6 @@ class ForestTest {
 	
 	@Test
 	void a1000setsof1000setsTest() {
-		var list = new ArrayList<Integer>();
 		var forest = new DisjointForest<Integer>();
 		
 		for (int i = 0; i < 1_000_000; i++) {
@@ -261,8 +344,10 @@ class ForestTest {
         discreteSet.union("A", "B");
         discreteSet.union("B", "C");
         discreteSet.union("C", "A");
-
-        assertEquals(discreteSet.getRepresentative("A"), discreteSet.getRepresentative("C"));
+        
+        String f1 = discreteSet.getRepresentative("A");
+        String f2 = discreteSet.getRepresentative("C");
+        assertTrue(f1 == f2);
     }
 	
 	@Test
@@ -276,16 +361,21 @@ class ForestTest {
         discreteSet.union("A", "B");
         discreteSet.union("C", "D");
 
-        assertNotEquals(discreteSet.getRepresentative("A"), discreteSet.getRepresentative("C"));
-
+        String f1 = discreteSet.getRepresentative("A");
+        String f2 = discreteSet.getRepresentative("C");
+        assertFalse(f1 == f2);
+        
         discreteSet.makeSet("E");
         discreteSet.union("D", "E");
-
-        assertEquals(discreteSet.getRepresentative("C"), discreteSet.getRepresentative("E"));
+        
+        f2 = discreteSet.getRepresentative("C");
+        String f3 = discreteSet.getRepresentative("E");
+        
+        assertTrue(f2 == f3);
 
         discreteSet.union("A", "E");
 
-        assertEquals(discreteSet.getRepresentative("A"), discreteSet.getRepresentative("E"));
-        assertEquals(discreteSet.getRepresentative("B"), discreteSet.getRepresentative("D"));
+        assertTrue(discreteSet.getRepresentative("A") == discreteSet.getRepresentative("E"));
+        assertTrue(discreteSet.getRepresentative("B") == discreteSet.getRepresentative("D"));
     }
 }
