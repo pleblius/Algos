@@ -65,6 +65,9 @@ public class DisjointForest<E> implements DisjointSet<E> {
 	 */
 	@Override
 	public void makeSet(E element) throws NullPointerException {
+		if (element == null)
+			throw new NullPointerException();
+		
 		if (dataMap.containsKey(element))
 			return;
 		
@@ -124,7 +127,7 @@ public class DisjointForest<E> implements DisjointSet<E> {
 	 * @throws NullPointerEception If a null element is passed to the method.
 	 */
 	@Override
-	public void union(E e1, E e2) throws NoSuchElementException {
+	public void union(E e1, E e2) throws NoSuchElementException, NullPointerException {
 		if (e1 == null || e2 == null)
 			throw new NullPointerException();
 		if (!dataMap.containsKey(e1))
