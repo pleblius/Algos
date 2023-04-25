@@ -1,13 +1,7 @@
 package comprehensive;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
@@ -37,30 +31,29 @@ public class Driver {
 			String[] nodes = new String[2];
 			boolean connected;
 			
-			while(true) {
-				s = reader.nextLine();
-				if(s.isEmpty())
-					break;
-				
+			// Get Sets
+			s = reader.nextLine();
+			while(!s.isEmpty()) {
 				discreteSet.makeSet(s);
-			}
 				
-			while(true) {
 				s = reader.nextLine();
-				if(s.isEmpty())
-					break;
-				
-				nodes = s.split(" ");
-				discreteSet.union(nodes[0], nodes[1]);
 			}
 			
+			// Get unions
+			s = reader.nextLine();
+			while(!s.isEmpty()) {
+				nodes = s.split(" ");
+				discreteSet.union(nodes[0], nodes[1]);
+				
+				s = reader.nextLine();
+			}
+			
+			// Get queries
 			while(reader.hasNext()) {
 				s = reader.nextLine();
-				if(s.isEmpty() || s == null)
-					break;
 				
 				nodes = s.split(" ");
-				connected = discreteSet.getRepresentative(nodes[0]).equals(discreteSet.getRepresentative(nodes[1]));
+				connected = discreteSet.getRepresentative(nodes[0]) == discreteSet.getRepresentative(nodes[1]);
 				
 				if (connected)
 					System.out.println("connected");
