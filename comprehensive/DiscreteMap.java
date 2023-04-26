@@ -124,14 +124,11 @@ public class DiscreteMap<E> implements DisjointSet<E> {
 		if (!dataMap.containsKey(e2))
 			throw new NoSuchElementException("Element 2 is not contained in this structure.");
 		
-		E rep1 = getRepresentative(e1);
-		E rep2 = getRepresentative(e2);
-		
-		if (rep1 == rep2)
-			return;
-		
 		List<E> list1 = dataMap.get(e1);
 		List<E> list2 = dataMap.get(e2);
+		
+		if (list1 == list2)
+			return;
 		
 		int size1 = list1.size();
 		int size2 = list2.size();
